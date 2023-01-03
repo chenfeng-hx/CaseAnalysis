@@ -9,7 +9,7 @@ url:"/get_user_info"
 }
 
 //搜索案例 模糊搜索
-export function getCase(key,court_level,court_area,time){
+export function getCase(key,court_level,court_area,time,page){
     return request({
 url:"/case_like_search",
 method:'post',
@@ -18,6 +18,7 @@ data: {
     court_level: court_level,
     court_area: court_area,
     time: time,
+    page:page
   },
     })
 }

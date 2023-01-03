@@ -2,7 +2,10 @@
   <div>
     <div  class="bigBox">
       <div class="top">
-        <div class="topLeft"></div>
+        <div class="topLeft">
+          <img src="../assets/back.svg" alt="" @click="backTo">
+        <span @click="backTo">返回</span>
+        </div>
         <div
           class="topRight"
           v-show="this.currentIndex != 2 && this.currentIndex != 3"
@@ -186,6 +189,9 @@ export default {
   },
 
   methods: {
+    backTo(){
+this.$router.go (-1) 
+    },
     //  案件获取结束后要操作的步骤
     infoAfter(data) {
       this.textInfo=data
@@ -200,6 +206,7 @@ export default {
       this.$api.analysisDocx.getCaseInfo(caseId).then((res) => {
         if(res.data!="token校验失败"){
      const data = res.data;
+     
      
         this.infoAfter(data);
            // 传入知识图谱的数据
@@ -422,12 +429,26 @@ export default {
   // margin-top: 5px;
   .topLeft {
     width: 18%;
-
+display: flex;
+align-items:center ;
     margin-right: 10px;
     // border: 1px solid #ccc;
     border-radius: 0 0 10px 0;
 
     box-shadow: 3px 2px 2px rgb(232, 233, 238);
+    img{
+      margin-left: 10%;
+    }
+    img:hover{
+      cursor: pointer;
+    }
+    span{
+      font-size: 20px;
+      margin-left: 15px;
+    }
+    span:hover{
+      cursor: pointer;
+    }
   }
   .topRight {
     display: flex;

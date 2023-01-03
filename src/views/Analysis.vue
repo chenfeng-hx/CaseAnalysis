@@ -343,7 +343,6 @@ stop:true,
           false,
         ];
         this.active = 0;
-        console.log(this.active);
       } else {
         if (value == 0) {
           this.preview_01 = true;
@@ -475,7 +474,9 @@ stop:true,
           if (this.active == 4) {this.preview_05 = true;
           clearInterval(this.timer)
           }
-        }, 1500);
+       
+        }, 1000);
+           clearInterval(this.timer)
       }
     },500)
     },
@@ -528,6 +529,7 @@ stop:true,
             }
           }).catch((res)=>{
              this.$message.warning("出错啦");
+              //  this.active = 1;
           });
         }
       }
@@ -584,6 +586,7 @@ stop:true,
             }
           }).catch((res)=>{
              this.$message.warning("出错啦");
+               
           });
         }
       }

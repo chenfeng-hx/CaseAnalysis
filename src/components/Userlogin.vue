@@ -241,7 +241,7 @@ password1:'',
         this.text = "已发送";
         this.currentIndex = 1;
         axios({
-          url: "http://10.16.43.202:8002/send_verify_code",
+          url: "http://42.192.225.73:88/send_verify_code",
           method: "GET",
           params: {
             username: this.form.username,
@@ -285,7 +285,7 @@ password1:'',
 		  //  formdata.append("username", this.form.username);
 
           axios({
-            url: "http://10.16.43.202:8002/register",
+            url: "http://42.192.225.73:88/register",
             method: "POST",
            data:formdata
           }).then((res) => {
@@ -340,7 +340,7 @@ password1:'',
 		   formdata2.append("password", this.password);
           axios({
             method: "post",
-            url: "http://10.16.43.202:8002/login",
+            url: "http://42.192.225.73:88/login",
             data: formdata2
           })
           .then((res) => {
@@ -406,7 +406,7 @@ password1:'',
 		   formdata.append("email", this.form.email);
 		   formdata.append("verify", this.code2);
           axios({
-            url: "http://10.16.43.202:8002/forget_pwd",
+            url: "http://42.192.225.73:88/forget_pwd",
             method: "POST",
            data:formdata
           }).then((res) => {

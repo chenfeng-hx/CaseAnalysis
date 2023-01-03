@@ -62,28 +62,11 @@ export default {
   methods: {
      //计算民事判决书和民事调解书的数量和计算法院分布的数量
     countNum(arr) {
-      this.judgmentNum = 0;
-      this.mediationNum = 0;
-
-       this.common = 0;
-      this.high = 0;
-      this.medium = 0;
-      //计算民事判决书和民事调解书的数量
-      for (let j = 0, len = arr.length; j < len; j++) {
-        if (arr[j].typeForJudgment == "民事判决书") {
-          this.judgmentNum++;
-        } else {
-          this.mediationNum++;
-        }
- //计算法院分布的数量
-          if (arr[j].court_level == "中级人民法院") {
-          this.medium++;
-        } else if (arr[j].court_level == "最高人民法院") {
-          this.high++;
-        } else {
-          this.common++;
-        }
-      }
+      this.judgmentNum = this.allLike1.typeForJudgment.民事判决书;
+      this.mediationNum = this.allLike1.typeForJudgment.民事调解书;
+       this.common = this.allLike1.court_level.基层人民法院;
+      this.high = this.allLike1.court_level.最高人民法院;
+      this.medium = this.allLike1.court_level.中级人民法院;
       },
     //计算时间分布
  countTime(obj){

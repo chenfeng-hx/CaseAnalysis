@@ -125,7 +125,7 @@
             </div>
           </div>
         </div>
-
+ <!-- :total="this.sameCase.length" -->
         <!-- 找不到你搜索的内容 -->
       </div>
 
@@ -227,7 +227,7 @@
         <!-- 搜索关键词展示内容 -->
         <div class="right" v-if="isShow">
           <div class="rightTitle">
-            <div class="text" @click="changeEcharts(true)">检索案例（{{ this.caseArr.length }}）</div>
+            <div class="text" @click="changeEcharts(true)">检索案例（{{ this.allLike1.total }}）</div>
             <div class="text" style="margin-left:5px" @click="changeEcharts(false)">可视化</div>
             <div class="sort">
               <div class="sortText">
@@ -247,7 +247,7 @@
               :key="index"
             >
               <search-info
-                v-if="hackReset"
+                v-if="hackReset2"
                 :currentPage2="(currentPage - 1) * pagesize + 1 + index"
                 :caseArr2="item"
                  :special="second"
@@ -265,10 +265,10 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
-                :page-sizes="[2, 4, 6, 8, 10]"
+                :page-sizes="[10]"
                 :page-size="pagesize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="this.caseArr.length"
+                :total="allLike1.total"
               >
               </el-pagination>
             </div>
@@ -277,6 +277,7 @@
 
         <!-- 找不到你搜索的内容 -->
       </div>
+
     </el-main>
     <el-footer style="padding: 0px" v-if="iscase" v-show="!isShow9"><bottomBar /></el-footer>
   </div>
@@ -284,6 +285,7 @@
 </template>
 
 <script>
+
 import contentInfo from "../components/contentInfo.vue";
 import { mapState } from "vuex";
 import bottomBar from "../components/BottomBar.vue";
@@ -307,6 +309,7 @@ allLike:{},
 allLike1:{},
 //点击标签
 allLike2:{},
+
       currentIndex:0,
       //相似案例
       sameCase: [],
@@ -324,7 +327,6 @@ allLike2:{},
       timeArr2: {},
       areaArr3: {},
       loading4:false,
-
 
       caseNum: "",
       loading: false,
@@ -346,7 +348,7 @@ allLike2:{},
       //  当前页面
       currentPage: 1,
       //  分页每页数量
-      pagesize: 6,
+      pagesize: 10,
       // 数组大小
       total: null,
       // 选中的小标签
@@ -361,7 +363,6 @@ allLike2:{},
       caseArr: [],
       //存储的搜索关键字后的案例数据
       caseArr2: [],
-
       caseName: [],
       caseNumber: 10,
 
@@ -380,10 +381,11 @@ allLike2:{},
 
   created() {
     axios({
-      url: "http://10.16.43.202:8002/get_count",
+      url: "http://42.192.225.73:88/get_count",
       method: "get",
     }).then((res) => {
       this.loading5 = false;
+      
       this.caseNum = res.data;
     });
     // 所有案例搜索
@@ -409,9 +411,11 @@ this.$api.search.getCase('案','','','').then((res) => {
           if (res.data!= "token校验失败") {
             //判断是否能搜索出来
             if (res.data.res.length != 0) {
-            this.allLike = res.data.like_info
-              this.caseArr2 = res.data.res;
+              // allCase保存所有案件信息
               this.allCase = res.data.res;
+                //caseArr2保存没有加标签时的信息
+              this.caseArr2 = res.data.res;
+            this.allLike = res.data.like_info
               this.courtArr1 = res.data.like_info.court_level;
               this.areaArr1 = res.data.like_info.court_area;
               this.timeArr1 = res.data.like_info.time;
@@ -423,9 +427,7 @@ this.loginTip()
           // 返回模糊查询后的列表数据 并且记录 点击时取案件的case_number来获取详细信息
         })
         .catch(() => {
-          
         });
-        
 },
 
 
@@ -455,7 +457,7 @@ sameSearchBtn(){
     // 展示所有案例
     allCaseSearch() {
       this.isLock = true
-//每次判断有没有登录
+     //每次判断有没有登录
        this.$api.search.getUser().then((res) => {
           if(res.data!="token校验失败"){
                 this.dialogVisible = false
@@ -463,11 +465,12 @@ sameSearchBtn(){
      if(this.allCase.length!=0){
        //侧边栏数据赋值
       this.allLike1 = this.allLike  
-         this.allLike2 = this.allLike   
-        this.state1 = ''
-       this.currentIndex = 1
-       this.isShow9 = false
-     this.caseArr = this.allCase
+      this.allLike2 = this.allLike   
+      this.state1 = ''
+      this.currentIndex = 1
+      this.isShow9 = false
+      this.caseArr = this.allCase
+      this.caseArr2 = this.allCase
       this.courtArr =this.courtArr1 
       this.areaArr = this.areaArr1;
       this.timeArr = this.timeArr1;
@@ -475,7 +478,7 @@ sameSearchBtn(){
       this.issearch = false;
       this.iscase = true;
       this.isShow = true
-      this.caseArr2 = this.allCase
+ 
      }else{
        this.loading4 = true
        this.allCaseStart()
@@ -511,6 +514,7 @@ sameSearchBtn(){
         }, 2000);
 
     },
+
     handleClose2(done) {
       this.$confirm("确认关闭？")
         .then((_) => {
@@ -552,6 +556,7 @@ sameSearchBtn(){
     },
     //同案检索
     sameCaseSearch() { 
+      this.currentPage = 1
       this.sameShow2 = false
       this.isShow6 = false;
       //判断是以文件方式还是案例号
@@ -593,6 +598,7 @@ setTimeout(() => {
         formdata.append("case_number", caseId);
         // 同案检索
        this.$api.analysisDocx.getSamecaseNum(formdata).then((res) => {
+         console.log(res);
               this.loading3 = true;
 setTimeout(() => {
               const data = res.data;
@@ -664,7 +670,7 @@ setTimeout(() => {
         // let self=this;
         // 模糊搜索
         axios({
-          url: "http://10.16.43.202:8002/case_like_search",
+          url: "http://42.192.225.73:88/case_like_search",
           method: "post",
           headers: {
                     "token": localStorage.getItem("token"), //	可以是授权凭证用的参数值
@@ -674,6 +680,7 @@ setTimeout(() => {
             court_level: "",
             court_area: "",
             time: "",
+            page:1
           },
           // 用来销毁请求
           cancelToken: new axios.CancelToken((c) => {
@@ -681,7 +688,6 @@ setTimeout(() => {
           }),
         })
           .then((res) => {
-            console.log(res);
             //确定已经搜索完成
            if(res.data=="token校验失败"){
              this.loginTip()
@@ -690,8 +696,9 @@ setTimeout(() => {
            else{
              this.isLogin = true
               //判断是否能搜索出来
-              this.caseArr = res.data.res;
+             
               if (res.data.res.length != 0) {
+                 this.caseArr = res.data.res;
                 this.allLike1 = res.data.like_info
                  this.allLike2 = res.data.like_info
                 this.caseArr2 = res.data.res;
@@ -705,12 +712,14 @@ setTimeout(() => {
                     value: res.data.res[i].title,
                     ID: res.data.res[i].case_number,
                   });
+                  
                 }
                 callback(this.caseName);
-                //  this.iscase = true;
+                //  this.iscase = tr,,ue;
               } else {
                 this.iscase = false
                 this.isShow4 = true
+
                 this.changeStyle("none", ".el-autocomplete-suggestion");
               }
               this.flag2 = true;
@@ -733,14 +742,25 @@ setTimeout(() => {
     },
     //分页时销毁组件
     handleCurrentChange(val) {
+ 
       this.currentPage = val;
-      this.hackReset = false;
-      this.$nextTick(() => {
-        this.hackReset = true;
-      });
+       this.$api.search.getCase(this.state1,this.selectCourt,this.selectArea,this.selectTime,val).then((res)=>{
+         for(var i = (val*10-10), j = 0; j < 10;i++,j++){
+           this.caseArr[i] = res.data.res[j];
+         }
+       })
+       
+  
+setTimeout(() => {
+  this.hackReset2 = false;
+       this.$nextTick(() => {
+        this.hackReset2 = true;
+       })
+        }, 250);
     },
     // 关闭选中的小标签
     handleClose(id, tag) {
+       this.currentPage = 1
       // indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置
       if (id == 1) {
         this.courthierarchy.splice(this.courthierarchy.indexOf(tag), 1);
@@ -763,7 +783,7 @@ setTimeout(() => {
         this.caseArr = this.caseArr2;
         this.allLike1 = this.allLike2
       } else {
-     this.$api.search.getCase(this.state1,this.selectCourt,this.selectArea,this.selectTime).then((res) => {
+     this.$api.search.getCase(this.state1,this.selectCourt,this.selectArea,this.selectTime,1).then((res) => {
           this.allLike1 = res.data.like_info
           // this.caseNumber = res.data.res.length;
           this.caseArr = res.data.res;
@@ -788,7 +808,9 @@ setTimeout(() => {
 
     //选择标签
     chooseCourt(id, value) {
+      
       this.flag = false;
+      this.currentPage = 1
       if (
         value == this.selectCourt ||
         value == this.selectArea ||
@@ -822,9 +844,8 @@ setTimeout(() => {
             this.year.splice(0, 1, value);
           }
         }
-
         this.loading = true;
-       this.$api.search.getCase(this.state1,this.selectCourt,this.selectArea,this.selectTime).then((res) => {
+       this.$api.search.getCase(this.state1,this.selectCourt,this.selectArea,this.selectTime,1).then((res) => {
           if (res.data!="token校验失败") {
             this.caseNumber = res.data.res.length;
             this.caseArr = res.data.res;
@@ -900,6 +921,9 @@ setTimeout(() => {
 </script>
 
 <style scoped lang="scss">
+
+
+
 .blank {
   height: 800px;
   width: 100%;

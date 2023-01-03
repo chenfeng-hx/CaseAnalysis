@@ -13,18 +13,6 @@ export default {
     return {
 
       MapData: [
-        // { name: '合川区', value: -1, selected: false },
-        // { name: '江北区', value: -1, selected: false },
-        // { name: '綦江区', value: -1, selected: false },
-        // { name: '云阳县', value: -1, selected: false },
-        // { name: '酉阳县', value: -1, selected: false },
-        // { name: '渝北区', value: -1, selected: false },
-        // { name: '彭水县', value: -1, selected: false },
-        // { name: '铜梁区', value: -1, selected: false },
-        // { name: '南川区', value: -2, selected: false },
-        // { name: '璧山区', value: -2, selected: false },
-        // { name: '垫江县', value: -2, selected: false },
-        // { name: '大渡口区', value: -1, selected: false }
         ]
     }
   },
