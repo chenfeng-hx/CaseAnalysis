@@ -67,9 +67,11 @@ export default {
   created(){
         // 获取信息
         axios({ 
-          url: "http://42.192.225.73:88/get_user_info",
+          url: "http://123.249.87.210:8002/get_user_info",
+          method:"get",
             headers: {
-                    "token": localStorage.getItem("token")//	可以是授权凭证用的参数值
+                    "token": localStorage.getItem("token"),
+                    //	可以是授权凭证用的参数值
                 },
         }).then((res) => {
           if(res.data!="token校验失败"){

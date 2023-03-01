@@ -10,9 +10,8 @@
             >
               <div class="smallBox">
                 <img src="../assets/标签.svg" class="logoImg" /><span class="numLogo">{{index+1}}.</span> {{ item.title }}
-
               </div>
-              <div>相似度:{{ item.sameNum }}</div>
+              <div class="numBox">相似度:{{ item.sameNum }}</div>
             </li>
           </ul>
          </div>
@@ -63,24 +62,26 @@ methods:{
 ul {
 
     li {
-      width: 80%;
+      width: 85%;
       height: 50px;
       display: flex;
       align-items: center;
       font-size: 1.25rem;
+      justify-content: space-between;
       img {
         margin-right: 20px;
       }
       .smallBox {
         display: flex;
         align-items: center;
-        width: 80%;
+        // width: 80%;
            .logoImg{
       width: 1.25em;
       height: 1.25em;
       margin: 0;
     }
       }
+    
     }
     li:hover {
       color: rgb(84, 112, 198);

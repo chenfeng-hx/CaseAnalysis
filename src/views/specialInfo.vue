@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div  class="bigBox">
+    <div class="bigBox">
       <div class="top">
         <div class="topLeft">
-          <img src="../assets/back.svg" alt="" @click="backTo">
-        <span @click="backTo">返回</span>
+          <img src="../assets/back.svg" alt="" @click="backTo" />
+          <span @click="backTo">返回</span>
         </div>
         <div
           class="topRight"
@@ -77,28 +77,27 @@
               </div>
             </div>
           </div>
-
+          <div
+            class="loadingBox"
+            v-if="this.loading == true && (this.currentIndex == 2||this.currentIndex == 3)"
+            v-loading="loading"
+            element-loading-background="rgba(0, 0, 0, 0)"
+            element-loading-text="拼命加载中"
+          ></div>
           <!-- 要素提取 -->
-
           <info-box
             v-if="this.currentIndex == 2"
             :pictureData="pictureData"
-           :textInfo={}
-           v-loading="loading"
-           
+            :textInfo="{}"
           ></info-box>
           <info-box
             v-if="this.currentIndex == 3"
             :pictureData="pictureData2"
             :textInfo="textInfo"
-            v-loading="loading"
-          ></info-box>
-
-          <div
-            class="forth"
-            v-show="this.currentIndex == 4"
-            v-loading="loading2"
           >
+          </info-box>
+
+          <div class="forth" v-show="this.currentIndex == 4">
             <div v-if="sameCase.length != 0">
               <div class="title">检索共有{{ sameCase.length }}条相似案件:</div>
               <ul>
@@ -157,7 +156,6 @@ export default {
       reCreate: true,
       isShow8: false,
       isShow6: false,
-      loading2: true,
       currentIndex: 3,
       sameCaseLength: 0,
       sameCase: [],
@@ -165,9 +163,7 @@ export default {
       pictureData: {},
       pictureData2: {},
       isShow3: true,
-      textInfo: {
-       
-      },
+      textInfo: {},
       loading: false,
       fileName: "",
       fileName2: "",
@@ -189,75 +185,83 @@ export default {
   },
 
   methods: {
-    backTo(){
-this.$router.go (-1) 
+    backTo() {
+      this.$router.go(-1);
     },
     //  案件获取结束后要操作的步骤
     infoAfter(data) {
-      this.textInfo=data
+      this.textInfo = data;
       this.txtInfo2 = data.judgment;
       this.txtInfo = data.claim;
     },
     start() {
+      this.pictureData = {}
+      this.pictureData2 = {}
+      this.sameCase = [];
       this.loading = true;
       const caseId = this.$route.query.index.replace('"', "");
       this.currentIndex = parseInt(this.$route.query.currentIndex);
       // 点击案例时获取案例信息
       this.$api.analysisDocx.getCaseInfo(caseId).then((res) => {
-        if(res.data!="token校验失败"){
-     const data = res.data;
-     
-     
-        this.infoAfter(data);
-           // 传入知识图谱的数据
-      this.$api.analysisDocx.getJugementGeneration(caseId).then((res) => {
-        if (res.data.judgement_kg.node_list != []) {
-          this.pictureData = res.data.claim_kg;
-          this.pictureData2 = res.data.judgement_kg;
+        if (res.data != "token校验失败") {
+          const data = res.data;
+          this.infoAfter(data);
+          // 传入知识图谱的数据
+          this.$api.analysisDocx
+            .getJugementGeneration(caseId)
+            .then((res) => {
+              if (res.data.judgement_kg.node_list != []) {
+                this.pictureData = res.data.claim_kg;
+                this.pictureData2 = res.data.judgement_kg;
+                this.loading = false;
+              }
+            })
+            .catch((res) => {
+              this.loading = false;
+              this.$message.warning("出错啦");
+            });
+          // 通过案件号查询相似案例
+          let formdata = new FormData();
+          formdata.append("case_number", caseId);
+          formdata.append("token", localStorage.getItem("token"));
+          // 同案检索
+          this.$api.analysisDocx
+            .getSamecaseNum(formdata)
+            .then((res) => {
+              if (res.data != "token校验失败") {
+                this.isShow8 = false;
+                const data = res.data;
+                this.sameCaseLength = data.length;
+                if (data.length == 0) {
+                  this.isShow6 = true;
+                } else {
+                  for (let i = 0; i < data.length; i++) {
+                    const vote = {};
+                    vote.title = data[i][1];
+                    vote.case_number = data[i][0];
+                    // 判断相似度是否为1
+                    vote.sameNum =
+                      parseFloat(data[i][3] * 100).toFixed(3) + "%";
+                    this.sameCase.push(vote);
+                    if (data[i][0] == this.$route.query.index) {
+                      vote.sameNum = "100.00%";
+                      this.sameCase.pop();
+                      this.sameCase.unshift(vote);
+                    }
+                  }
+                }
+              } else {
+                this.isShow8 = true;
+              }
+            })
+            .catch((res) => {
+              this.loading = false;
+            });
+        } else {
+          this.$message.warning("未登录或者登录过期");
           this.loading = false;
         }
       });
-      // 通过案件号查询相似案例
-      let formdata = new FormData();
-      formdata.append("case_number", caseId);
-      formdata.append("token", localStorage.getItem("token"));
-      // 同案检索
-      this.$api.analysisDocx
-        .getSamecaseNum(formdata)
-        .then((res) => {
-          if (res.data != "token校验失败") {
-            this.isShow8 = false;
-            const data = res.data;
-            this.sameCaseLength = data.length;
-            if (data.length == 0) {
-              this.isShow6 = true;
-            } else {
-              for (let i = 0; i < data.length; i++) {
-                const vote = {};
-                vote.title = data[i][1];
-                vote.case_number = data[i][0];
-                // 判断相似度是否为1
-                if (data[i][3] == 1) {
-                  vote.sameNum = "100%";
-                } else {
-                  vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
-                }
-                this.sameCase.push(vote);
-              }
-            }
-            this.loading2 = false;
-          } else {
-            this.isShow8 = true;
-          }
-        })
-        .catch((res) => {});
-        }else{
-           this.$message.warning("未登录或者登录过期");
-        }
-   
-
-      });
-     
     },
 
     up(it) {
@@ -400,18 +404,19 @@ this.$router.go (-1)
   }
   ul {
     li {
-      width: 70%;
+      width: 82%;
       height: 50px;
       display: flex;
       align-items: center;
       font-size: 1.25rem;
+      justify-content: space-between;
       img {
         margin-right: 20px;
       }
       .smallBox {
         display: flex;
         align-items: center;
-        width: 77%;
+        // width: 77%;
       }
     }
     li:hover {
@@ -429,24 +434,24 @@ this.$router.go (-1)
   // margin-top: 5px;
   .topLeft {
     width: 18%;
-display: flex;
-align-items:center ;
+    display: flex;
+    align-items: center;
     margin-right: 10px;
     // border: 1px solid #ccc;
     border-radius: 0 0 10px 0;
 
     box-shadow: 3px 2px 2px rgb(232, 233, 238);
-    img{
+    img {
       margin-left: 10%;
     }
-    img:hover{
+    img:hover {
       cursor: pointer;
     }
-    span{
+    span {
       font-size: 20px;
       margin-left: 15px;
     }
-    span:hover{
+    span:hover {
       cursor: pointer;
     }
   }
@@ -468,6 +473,12 @@ align-items:center ;
 }
 .bigBox {
   user-select: text;
+}
+
+.loadingBox {
+  position: relative;
+  top: 300px;
+  // background: red;
 }
 // background-color: rgb(227, 229, 231);
 </style>

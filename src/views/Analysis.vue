@@ -22,7 +22,7 @@
         </el-select>
       </div>
       <div style="height: 480px; margin: 30px 36px">
-        <el-steps direction="vertical" :active="active" finish-status="success">
+        <el-steps direction="vertical" :active="active" finish-status="success" class="stepInfo">
           <el-step v-if="this.value == 0">
             <template slot="description">
               <!-- <div>起诉状上传成功</div> -->
@@ -150,9 +150,8 @@
             <span :fileName="fileName2" class="fileName2">{{ fileName2 }}</span>
           </div>
 
-          <div >
+          <div>
             <el-button
-            
               type="primary"
               round
               :class="{ active: this.currentIndex == 2 }"
@@ -202,11 +201,17 @@
         :pictureData="pictureData"
         :textInfo="textInfo"
       ></info-box>
-      <div class="forth" v-show="this.currentIndex == 3" v-loading="loading">
+      <div
+        class="forth"
+        v-show="this.currentIndex == 3"
+        v-loading="loading"
+        element-loading-background="rgba(0, 0, 0, 0)"
+        element-loading-text="拼命加载中"
+      >
         <img
           src="../assets/页面为空 (1).svg"
           alt=""
-          v-show="isShow9 || isShow6"
+          v-if="!sameCase.length != 0"
         />
         <div class="title title2" v-show="isShow9">请先上传起诉状!</div>
         <div v-if="sameCase.length != 0">
@@ -271,9 +276,8 @@ export default {
       //文书内容和文件名是否展示
       isShow3: true,
       isShow4: true,
-      textInfo: {
-      },
-      textInfo2:{},
+      textInfo: {},
+      textInfo2: {},
       fileName: "",
       fileName2: "",
       previewDialogVisible: false,
@@ -284,7 +288,7 @@ export default {
       //  起诉状的知识图谱
       pictureData2: {},
       // 没登陆时步骤条别动
-stop:true,
+      stop: true,
       // 步骤条
       active: 0,
       // 步骤条状态参数
@@ -320,17 +324,18 @@ stop:true,
           new: "<span>分析完成</span>",
         },
       },
-      timer:null
+      timer: null,
+      caseNum: "",
+      sameCase2: [],
     };
   },
 
   methods: {
     // 通过知识图谱列表是否为空来判断后的操作
     blankChange(obj, value) {
-   this.timer= null
+      this.timer = null;
       const arr = Object.keys(obj);
       if (arr.length == 0) {
-        console.log('kk');
         if (value == 0) {
           this.preview_01 = false;
         } else {
@@ -360,12 +365,12 @@ stop:true,
         this.active = 5;
       }
     },
-  //  判断起诉状或者判决书是否已经分析
-      // 通过知识图谱列表是否为空来判断
+    //  判断起诉状或者判决书是否已经分析
+    // 通过知识图谱列表是否为空来判断
     valChange(i) {
       this.currentIndex = i;
       if (this.value == 0) {
-        this.blankChange(this.pictureData2,0);
+        this.blankChange(this.pictureData2, 0);
       } else {
         this.blankChange(this.pictureData, 1);
       }
@@ -375,48 +380,40 @@ stop:true,
       document.documentElement.scrollTop = 0;
     },
 
-
     // 同案检索
     sameCaseSearch() {
       this.loading = true;
+      this.isShow9 = false;
       this.sameCase = [];
       let formdata3 = new FormData();
       formdata3.append("submit_file", this.FileList[0]);
       this.$api.analysisDocx
         .getSamecaseForm(formdata3)
         .then((res) => {
-          const data = res.data;
+          const data = res.data.res_list;
           this.sameCaseLength = data.length;
           if (data.length == 0) {
             this.isShow6 = true;
           } else {
-            for (let i = 0; i < data.length; i++) {
-              const vote = {};
-              vote.title = data[i][1];
-              vote.case_number = data[i][0];
-              vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
-              this.sameCase.push(vote);
-            }
+            // if(data[0][0] == )
+            this.sameCase2 = res.data.res_list;
             this.isShow9 = false;
+            this.isShow6 = false
           }
-          this.loading = false;
+        
         })
         .catch((res) => {
+          this.isShow9 = false;
+          this.isShow6 = true;
           this.loading = false;
-          this.$message({
-            message: "类案检索出错啦！请重新上传",
-            type: "success",
-            center: "true",
-            duration: 1000,
-            customClass: "press",
-          });
+          this.sameCase = [];
         });
     },
 
     //将起诉书文件内容展示到页面中且上传
     preview(e) {
-      this.textInfo2 ={}
-      this.pictureData2 = {}
+      this.textInfo2 = {};
+      this.pictureData2 = {};
       this.sameCase = [];
       this.isShow9 = true;
       // 保存文件 将内容展示到页面
@@ -439,9 +436,8 @@ stop:true,
 
     //将判决书文件内容展示到页面中且上传
     preview2(e) {
-    
-      this.textInfo ={}
-      this.pictureData = {}
+      this.textInfo = {};
+      this.pictureData = {};
       //  保存文件 将内容展示到页面
       this.FileList2 = this.$refs.file2.files;
       // 如果没上传判决书
@@ -464,25 +460,25 @@ stop:true,
     },
 
     stepChange() {
-    this.stop = true
+      this.stop = true;
       // 步骤条
-    setTimeout(()=>{
-        if(this.stop){
-     this.timer = setInterval(() => {
-          this.active++;
-          if (this.active == 3) this.preview_04 = true;
-          if (this.active == 4) {this.preview_05 = true;
-          clearInterval(this.timer)
-          }
-       
-        }, 1000);
-           clearInterval(this.timer)
-      }
-    },500)
+      setTimeout(() => {
+        if (this.stop) {
+          this.timer = setInterval(() => {
+            this.active++;
+            if (this.active == 3) this.preview_04 = true;
+            if (this.active == 4) {
+              this.preview_05 = true;
+              clearInterval(this.timer);
+            }
+          }, 1000);
+          clearInterval(this.timer);
+        }
+      }, 500);
     },
     //上传文件
     upPload() {
-       this.isLock = true;
+      this.isLock = true;
       // 先判断当前分析的文件类型
       // 上传的是起诉状
       if (this.value == 0) {
@@ -503,34 +499,85 @@ stop:true,
           this.active = 2;
           this.$message.success("正在分析中");
           this.stepChange();
-          this.$api.analysisDocx.getClaimGeneration(formdata2).then((res) => {
-            if (res.data != "token校验失败") {
-              if (res.data.claim_kg.node_list != []) {
-                this.pictureData2 = res.data.claim_kg;
-                this.textInfo2 = res.data.claim_info;
+          this.sameCaseSearch();
+          this.$api.analysisDocx
+            .getClaimGeneration(formdata2)
+            .then((res) => {
+              if (res.data != "token校验失败") {
+                if (res.data.claim_kg.node_list.length != 0) {
+                  this.pictureData2 = res.data.claim_kg;
+                  this.textInfo2 = res.data.claim_info;
+                  const data = this.sameCase2;
+                  const len = this.textInfo2.title.length;
+                  const len2 = parseInt(0.7 * len);
+                  for (let i = 0; i < data.length; i++) {
+                    const vote = {};
+                    vote.title = data[i][1];
+                    vote.case_number = data[i][0];
+                    vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
+                    this.sameCase.push(vote);
+                    if (
+                      data[i][1].substr(0, len2) == this.textInfo2.title.substr(0, len2)
+                    ) {
+                      vote.sameNum = "100.00%";
+                      this.sameCase.pop()
+                      this.sameCase.unshift(vote)
+                    }
+                      
+                  }
+                  if (this.sameCase.length!=0) {
+                    this.$message.success("分析成功");
+                    this.active = 5;
+                    this.preview_06 = true;
+                  } else {
+                    this.$message({
+                      message: "知识图谱分析成功，同案检索分析失败",
+                      type: "warning",
+                      center: "true",
+                      duration: 2000,
+                      customClass: "press",
+                    });
+                  }
+                } else {
+                  if (this.sameCase.length != 0) {
+                    this.$message({
+                      message: "知识图谱分析失败,同案检索分析成功",
+                      type: "warning",
+                      center: "true",
+                      duration: 2000,
+                    });
+                  } else {
+                    this.$message({
+                      message: "分析失败，请重新上传文件",
+                      type: "warning",
+                      duration: 2000,
+                    });
+                  }
+                }
+              } else {
+                this.$message.warning("未登录或者登录过期");
+                this.preview_up = false;
+                this.stop = false;
+                this.active = 1;
+              }
+              this.loading = false;
+            })
+            .catch((res) => {
+              this.loading = false;
+              if (this.sameCase.length != 0) {
+                this.$message({
+                  message: "同案检索分析成功,知识图谱分析失败",
+                  type: "warning",
+                  duration: 2000,
+                });
               } else {
                 this.$message({
-                  message: "出错啦，请重新上传",
+                  message: "分析失败，请重新上传文件",
                   type: "warning",
-                  center: "true",
-                  duration: 1000,
-                  customClass: "press",
+                  duration: 2000,
                 });
               }
-              this.sameCaseSearch()
-              this.$message.success("分析成功");
-               this.active = 5
-                this.preview_06 = true;
-            } else {
-              this.$message.warning("未登录或者登录过期");
-              this.preview_up = false;
-              this.stop = false
-              this.active = 1;
-            }
-          }).catch((res)=>{
-             this.$message.warning("出错啦");
-              //  this.active = 1;
-          });
+            });
         }
       }
       // 判决书
@@ -543,7 +590,7 @@ stop:true,
           });
         } else {
           this.preview_02 = true;
-           this.preview_up = true;
+          this.preview_up = true;
           this.active = 2;
           let formdata = new FormData();
           formdata.append("submit_file", this.FileList2[0]);
@@ -551,50 +598,71 @@ stop:true,
           // 后端交互部分
           //上传判决文件
           this.stepChange();
-          this.$api.analysisDocx.upJugment(formdata).then((res) => {
-            if (res.data != "token校验失败") {
-              this.$message.success("正在分析");
-              // 获取case_number
-              const caseId = res.data.replace('"', "");
-              this.$api.analysisDocx
-                .getJugementGeneration(caseId)
-                .then((res) => {
-                  if (res.data.judgement_kg.node_list != []) {
-                    this.pictureData =res.data.judgement_kg;
-                    this.$message.success('分析完成')
-                    this.active = 5
-                  } else {
+          this.$api.analysisDocx
+            .upJugment(formdata)
+            .then((res) => {
+              if (res.data != "token校验失败") {
+                this.$message.success("正在分析");
+                // 获取case_number
+                const caseId = res.data.replace('"', "");
+                //获取案件基本信息
+                this.$api.analysisDocx
+                  .getCaseInfo(caseId)
+                  .then((res) => {
+                    this.textInfo = res.data;
+                  })
+                  .catch((res) => {
                     this.$message({
-                      message: "出错啦，请重新上传",
+                      message: "基本信息分析失败，请重新上传文件",
                       type: "warning",
-                      center: "true",
-                      duration: 1000,
-                      customClass: "press",
+                      duration: 2000,
                     });
-                  }
-                });
-              //获取案件基本信息
-              this.$api.analysisDocx.getCaseInfo(caseId).then((res) => {
-                this.textInfo = res.data
+                  });
+                this.$api.analysisDocx
+                  .getJugementGeneration(caseId)
+                  .then((res) => {
+                    if (res.data.judgement_kg.node_list != []) {
+                      this.pictureData = res.data.judgement_kg;
+                      this.$message.success("分析完成");
+                      this.active = 5;
+                    } else {
+                      this.$message({
+                        message: "知识图谱分析失败，请重新上传文件",
+                        type: "warning",
+                        duration: 2000,
+                      });
+                    }
+                  })
+                  .catch((res) => {
+                    this.$message({
+                      message: "知识图谱分析失败，请重新上传文件",
+                      type: "warning",
+                      duration: 2000,
+                    });
+                  });
+              } else {
+                this.$message.warning("未登录或者登录过期");
+                this.stop = false;
+                this.preview_up = false;
+                this.active = 1;
+              }
+            })
+            .catch((res) => {
+              this.$message({
+                message: "文件上传失败",
+                type: "warning",
+                duration: 2000,
               });
-              
-            } else {
-              this.$message.warning("未登录或者登录过期");
-              this.stop = false
+              this.stop = false;
               this.preview_up = false;
               this.active = 1;
-            }
-          }).catch((res)=>{
-             this.$message.warning("出错啦");
-               
-          });
+            });
         }
       }
 
-        setTimeout(() => {
-          this.isLock = false;
-        }, 3000);
-      
+      setTimeout(() => {
+        this.isLock = false;
+      }, 3000);
     },
   },
 };
@@ -908,5 +976,11 @@ label:hover {
 }
 .active1 {
   pointer-events: none; // 禁止鼠标点击事件
+}
+/deep/ .el-steps{
+  position: relative;
+  // top: 5px;
+  // position: relative;
+  z-index: 0;
 }
 </style>

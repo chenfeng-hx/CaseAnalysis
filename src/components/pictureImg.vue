@@ -1,8 +1,8 @@
 <template>
 
   <div class="box">
-    <div id="main" style="width: 820px; height: 880px; margin: 20px auto"></div>
-
+    <div id="main" style="width: 850px;height:1000px;margin: 20px auto"></div>
+<!--   -->
   </div>
 </template>
 
@@ -114,8 +114,8 @@ this.echartsInit();
             },
             force: {
               repulsion: 800,  //jul
-              edgeLength: [20,50],
-              gravity :0.13
+              edgeLength: [70,125],
+              gravity :0.11
             },
             nodeScaleRatio : 0.6,
             layoutAnimation : true,

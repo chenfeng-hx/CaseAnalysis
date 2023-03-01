@@ -91,7 +91,7 @@ props:{
       this.reCreate = false
       setTimeout(()=>{
         this.reCreate = true
-      },200)
+      },100)
       },
       deep: true, // 深度监听父组件传过来对象变化
     },
@@ -137,9 +137,9 @@ components:{
   }
   .leftBox {
     margin-left: 10px;
-    width: 74%;
+    width: 900px;
     border: 3px solid rgb(217, 217, 222);
-    height: 780px;
+    height: 1050px;
     margin-right: 3%;
     position: relative;
 
@@ -151,7 +151,7 @@ components:{
   }
   .rightBox {
     position: relative;
-    width: 20%;
+    width: 19%;
     .logo {
       top: -58px;
       img {
