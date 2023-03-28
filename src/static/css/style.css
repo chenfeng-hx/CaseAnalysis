@@ -53,8 +53,8 @@ Version: 1.0
 /* Google Font Import 
 ======================= */
 /* @import url('../images/cc639d4575f547caa15a19e33031f46f.css'); */
-@import url('b628509602014583b544781e506412ce.css');
-@import url("9a314ae15d76437e9be0eaeb3ee10347.css");
+@import url('@/static/css/b628509602014583b544781e506412ce.css');
+@import url("@/static/css/9a314ae15d76437e9be0eaeb3ee10347.css");
 
 
 /*	Theme Main Color:#C89D66

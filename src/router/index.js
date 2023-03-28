@@ -67,7 +67,11 @@ const router = new VueRouter({
 			component:dataDisplay
 		},
 	],
-	mode: 'hash'
+	mode: 'hash',
+	scrollBehavior() {
+		//x代表横坐标，y代表纵坐标,每次经过跳转页面后可以到达页面顶端
+		return { x: 0,y: 0 };
+	}
 })
 // const originalPush = VueRouter.prototype.push
 export default router
