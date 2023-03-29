@@ -24,6 +24,9 @@
                <li>产品</li>
                <li>文书分析</li>
                <li>案例检索</li>
+               <li>文书分析</li>
+               <li>数据展示</li>
+               <li>法条推荐</li>
            </ul>
        </div>
        <div class="right">

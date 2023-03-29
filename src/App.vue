@@ -1,28 +1,28 @@
 <template>
+  <div id="App">
+    <!-- <keep-alive> -->
 
-    <div id="App">
-      <!-- <keep-alive> -->
-           
-<el-header><appBar/></el-header>
- 
-      <!-- <Home v-if="$store.state.appTab==='home'"/>
+    <el-header>
+      <appBar />
+    </el-header>
+
+    <!-- <Home v-if="$store.state.appTab==='home'"/>
     <Analysis v-if="$store.state.appTab==='analysis'"/>
     
     <Case v-if="$store.state.appTab==='case'"/> -->
     <!-- <relevant v-if="$store.state.appTab==='relevant'"/> -->
     <keep-alive exclude="specialInfo,searchInfo">
       <router-view>
-    </router-view>
+      </router-view>
     </keep-alive>
 
     <!-- <router-view></router-view> -->
 
   </div>
-
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import appBar from "./components/AppBar.vue";
 import Home from "./views/Home.vue";
 import Analysis from "./views/Analysis.vue";
@@ -42,7 +42,7 @@ export default {
       'appTab',
     ])
   },
-  components:{
+  components: {
     appBar,
     Home,
     Analysis,
@@ -51,67 +51,70 @@ export default {
     specialInfo
   },
 
-  
-  
+
+
 }
 
 </script>
 
 <style lang="scss">
-
 //设置点击屏幕不出现竖线
 body {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
   -ms-user-select: none;
- touch-action: none;
+  touch-action: none;
 }
 
 /* 整个滚动条 */
 /* 宽高分别对应纵向滚动条和横向滚动条的宽度 */
 // ::-webkit-scrollbar {
-//     width: 5px;
-//     background-color: rgb(244, 249, 252);
+//   width: 5px;
+//   background-color: rgb(244, 249, 252);
 // }
+
 // ::-webkit-scrollbar:hover {
-//     background-color: rgb(121, 124, 126);
+//   background-color: rgb(121, 124, 126);
 // }
+
 /* 整个滚动条 */
 // ::-webkit-scrollbar {
-//     width: 8px;
+//   width: 8px;
 // }
 
 /* 滚动条上的滚动滑块 */
 // ::-webkit-scrollbar-thumb:hover {
-//     background-color: #7b848a;
-//     /* 关键代码 */
-//     background-image: -webkit-linear-gradient(45deg,
-//             rgba(255, 255, 255, 0.4) 25%,
-//             transparent 25%,
-//             transparent 50%,
-//             rgba(255, 255, 255, 0.4) 50%,
-//             rgba(255, 255, 255, 0.4) 75%,
-//             transparent 75%,
-//             transparent);
-//     border-radius: 32px;
+//   background-color: #7b848a;
+//   /* 关键代码 */
+//   background-image: -webkit-linear-gradient(45deg,
+//       rgba(255, 255, 255, 0.4) 25%,
+//       transparent 25%,
+//       transparent 50%,
+//       rgba(255, 255, 255, 0.4) 50%,
+//       rgba(255, 255, 255, 0.4) 75%,
+//       transparent 75%,
+//       transparent);
+//   border-radius: 32px;
 // }
 
 /* 滚动条轨道 */
 // ::-webkit-scrollbar-track {
-//     background-color: #dbeffd;
-//     border-radius: 32px;
+//   background-color: #dbeffd;
+//   border-radius: 32px;
 // }
 
 
 
-.el-header{
+.el-header {
   padding: 0px;
 }
-li{
+
+li {
   list-style: none;
 }
-*{
+
+* {
   margin: 0;
   padding: 0;
 }

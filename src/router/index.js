@@ -8,6 +8,8 @@ const relevant =() => import ('../views/relevant.vue')
 const caseContent =() => import ('../views/caseContent.vue')
 const specialInfo =() => import ('../views/specialInfo.vue')
 const personCenter =() => import ('../views/personalCenter.vue')
+const recommendation =() => import ('../components/recommendation.vue')
+const dataDisplay =() => import ('../components/Datadisplay.vue')
 
 
 
@@ -55,6 +57,14 @@ const router = new VueRouter({
     {
       path:"/personCenter",
       component:personCenter
+    },
+    {
+      path:"/recommendation",
+      component:recommendation
+    },
+    {
+      path:"/display",
+      component:dataDisplay
     },
   ],
   mode: 'hash'

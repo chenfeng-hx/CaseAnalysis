@@ -12,7 +12,10 @@
         <div class="text" :class="{ 'tabs-active': appTab === 'analysis'}" @click="changTabName('analysis');">文书分析</div>
 
         <div class="text" :class="{ 'tabs-active': appTab === 'Case'}" @click="changTabName('Case')">案例库</div>
-        <div class="text" :class="{ 'tabs-active': appTab === 'relevant'}" @click="changTabName('relevant')">相关科普</div>
+        <div class="text" :class="{ 'tabs-active': appTab === 'relevant'}" @click="changTabName('relevant')">文书在线</div>
+        <div class="text" :class="{ 'tabs-active': appTab === 'display'}" @click="changTabName('display')">数据展示</div>
+        <div class="text" :class="{ 'tabs-active': appTab === 'recommendation'}" @click="changTabName('recommendation')">法条推荐</div>
+
         <!-- <div class="text" :class="{ 'tabs-active': appTab === 'personCenter'}" @click="changTabName('personCenter')">个人中心</div> -->
       </div>
       <div class="signBtn">
