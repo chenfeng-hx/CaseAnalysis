@@ -2,7 +2,7 @@
 
 	<div id="App">
 		<!-- <keep-alive> -->
-
+		<!--头部导航栏-->
 		<el-header><appBar/></el-header>
 
 		<!-- <Home v-if="$store.state.appTab==='home'"/>
@@ -10,6 +10,7 @@
 
 	  <Case v-if="$store.state.appTab==='case'"/> -->
 		<!-- <relevant v-if="$store.state.appTab==='relevant'"/> -->
+		<!--页面切换，路由出口-->
 		<keep-alive exclude="specialInfo,searchInfo">
 			<router-view>
 			</router-view>
@@ -28,7 +29,6 @@ import Home from "./views/Home.vue";
 import Analysis from "./views/Analysis.vue";
 import Case from "./views/Case.vue";
 import relevant from "./views/relevant.vue";
-import login from "./components/Userlogin.vue"
 import specialInfo from "./views/specialInfo.vue";
 
 export default {
@@ -50,11 +50,7 @@ export default {
 		relevant,
 		specialInfo
 	},
-
-
-
 }
-
 </script>
 
 <style lang="scss">
@@ -106,7 +102,7 @@ body {
 
 
 .el-header{
-	padding: 0px;
+	padding: 0;
 }
 li{
 	list-style: none;

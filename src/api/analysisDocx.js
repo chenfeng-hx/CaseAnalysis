@@ -10,7 +10,6 @@ export function getSamecaseForm(formdata){
 	})
 }
 
-
 //同案检索 上传索引号
 export function getSamecaseNum(formdata){
 	return request({

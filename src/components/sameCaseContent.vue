@@ -5,11 +5,10 @@
 			<li
 				v-for="(item, index) in sameCase"
 				:key="index"
-
 				@click="up(item.case_number)"
 			>
 				<div class="smallBox">
-					<img src="../assets/标签.svg" class="logoImg" /><span class="numLogo">{{index+1}}.</span> {{ item.title }}
+					<img src="../assets/标签.svg" class="logoImg" alt="" /><span class="numLogo">{{index+1}}.</span> {{ item.title }}
 				</div>
 				<div class="numBox">相似度:{{ item.sameNum }}</div>
 			</li>
@@ -32,7 +31,6 @@ export default {
 	methods:{
 		// 点击相似案例跳转
 		up(it) {
-
 			this.$router.push({
 				path: "/specialInfo",
 				query: {
@@ -46,7 +44,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .numLogo{
 	margin-left: 10px;
 	margin-right: 10px;

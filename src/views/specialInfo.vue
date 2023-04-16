@@ -8,7 +8,7 @@
 				</div>
 				<div
 					class="topRight"
-					v-show="this.currentIndex != 2 && this.currentIndex != 3"
+					v-show="this.currentIndex !== 2 && this.currentIndex !== 3"
 				>
 					{{ textInfo.title }}
 				</div>
@@ -18,14 +18,14 @@
 				<div class="left">
 					<ul>
 						<li
-							:class="{ active: this.currentIndex == 0 }"
+							:class="{ active: this.currentIndex === 0 }"
 							@click="changeIndex(0)"
 						>
 							<img src="../assets/法律文书 (1).svg" alt="" />
 							起诉状
 						</li>
 						<li
-							:class="{ active: this.currentIndex == 1 }"
+							:class="{ active: this.currentIndex === 1 }"
 							@click="changeIndex(1)"
 						>
 							<img src="../assets/判决.svg" alt="" />
@@ -33,21 +33,21 @@
 						</li>
 
 						<li
-							:class="{ active: this.currentIndex == 2 }"
+							:class="{ active: this.currentIndex === 2 }"
 							@click="changeIndex(2)"
 						>
 							<img src="../assets/特征检索 (4).svg" alt="" />
 							要素提取 (起诉状)
 						</li>
 						<li
-							:class="{ active: this.currentIndex == 3 }"
+							:class="{ active: this.currentIndex === 3 }"
 							@click="changeIndex(3)"
 						>
 							<img src="../assets/特征检索 (4).svg" alt="" />
 							要素提取 (判决书)
 						</li>
 						<li
-							:class="{ active: this.currentIndex == 4 }"
+							:class="{ active: this.currentIndex === 4 }"
 							@click="changeIndex(4)"
 						>
 							<img src="../assets/文书 (1).svg" alt="" />
@@ -57,7 +57,7 @@
 				</div>
 				<div class="right">
 					<!-- 起诉状 -->
-					<div class="first" v-show="this.currentIndex == 0">
+					<div class="first" v-show="this.currentIndex === 0">
 						<div class="bottom">
 							<div class="fileContent">
 								<div class="my-component">

@@ -11,7 +11,6 @@ let opt = require('@/utils/areaJson.json') // 引入chongqing.json地图文件
 export default {
 	data() {
 		return {
-
 			MapData: [
 			]
 		}
@@ -34,8 +33,8 @@ export default {
 
 		//计算地区
 		countArea(obj){
-			var reg = /^[\u4e00-\u9fa5]{1,4}$/
-			for(var i in obj){
+			let reg = /^[\u4e00-\u9fa5]{1,4}$/
+			for(let i in obj){
 				if(reg.test(i)){
 					const obj2={}
 					obj2.name = i
@@ -50,7 +49,6 @@ export default {
 			echart.registerMap('重庆', opt)
 			this.myChart.setOption(
 				{
-
 					title: {
 						text: '地区分布图',
 						x: 'left',

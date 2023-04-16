@@ -10,7 +10,6 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "axios": "^1.2.6",
-    "babel-plugin-component": "^1.1.1",
     "core-js": "^3.8.3",
     "docx-preview": "^0.1.15",
     "echarts": "^5.3.3",
@@ -29,6 +28,7 @@
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "babel-plugin-component": "^1.1.1",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {

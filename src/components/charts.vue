@@ -70,8 +70,8 @@ export default {
 		},
 		//计算时间分布
 		countTime(obj){
-			var reg = /^[0-9]*$/;
-			for(var i in obj){
+			let reg = /^[0-9]*$/;
+			for(let i in obj){
 				if(reg.test(i)){
 					this.timeName.push(i+'年')
 					this.timeValue.push(obj[i])
@@ -100,9 +100,7 @@ export default {
 							show: true,
 						},
 					},
-
 				},
-
 				xAxis: {
 					// 这里修改data  x轴横坐标
 					data: this.timeName,
@@ -198,7 +196,6 @@ export default {
 					{
 						name: "案件数量",
 						type: "bar",
-
 						barWidth: 15,
 						itemStyle: {
 							normal: {
@@ -298,7 +295,6 @@ export default {
 						name: "Access From",
 						type: "pie",
 						radius: ["40%", "70%"],
-
 						label: {
 							show: true,
 							formatter: function (arg) {
@@ -307,7 +303,6 @@ export default {
 							fontSize: "16",
 							fontWeight: "bold",
 						},
-
 						// 这里修改data  案件数量
 						data: [
 							{ value: this.common, name: "基层人民法院" },
@@ -324,7 +319,6 @@ export default {
 						selectedMode: 'multiple',
 						selectedOffset: 30
 					},
-
 				],
 			});
 			//多图表自适应
@@ -333,11 +327,8 @@ export default {
 			});
 		}
 	}
-
-
 };
 </script>
-
 
 <style lang="scss" scoped>
 .row {
@@ -373,14 +364,14 @@ export default {
 #Piechart {
 	width: 49%;
 	height: 300px;
-	padding: 40px 0px;
+	padding: 40px 0;
 	// border-left: 0.5px solid rgb(131, 130, 130);
 	border-bottom: 1px solid rgb(214, 213, 213);
 }
 .bottomleft {
 	width: 48%;
 	height: 300px;
-	padding: 20px 0px;
+	padding: 20px 0;
 	border-right: 0.5px solid rgb(214, 213, 213);
 	// border-bottom: 1px solid rgb(214, 213, 213);
 	.titlebottom {

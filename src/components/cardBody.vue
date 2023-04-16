@@ -1,45 +1,37 @@
 <template>
 	<div>
-
+		<!--三张卡片-->
 		<div class="background-card">
-
-
 			<el-card :body-style="{ padding: '0px' }" class="card1">
 				<img src="../assets/smile.png" class="image">
-				<div style="padding: 14px;text-align: center;">
+				<div class="inCards">
 					<span class="intro1">自动化</span>
 					<br>
 					<br>
 					<span class="intro2">文本分词、类案检索、数据分析...</span>
 				</div>
 			</el-card>
-
 			<el-card :body-style="{ padding: '0px' }" class="card2">
 				<img src="../assets/lawHall.png" class="image">
-				<div style="padding: 14px;text-align: center;">
+				<div class="inCards">
 					<span class="intro1">200+</span>
 					<br>
 					<br>
 					<span class="intro2">人工标注数据集训练与测试</span>
 				</div>
 			</el-card>
-
 			<el-card :body-style="{ padding: '0px' }" class="card3">
 				<img src="../assets/hall.png" class="image">
-				<div style="padding: 14px;text-align: center;">
+				<div class="inCards">
 					<span class="intro1">反馈学习</span>
 					<br>
 					<br>
 					<span class="intro2">根据用户标注反馈训练优化模型</span>
 				</div>
 			</el-card>
-
 		</div>
 
-		<div style="background:linear-gradient(to left,#FFFFFF,#b6b6b6,#FFFFFF);
-    height:3px;
-    position: relative;
-    margin-top: 30px"></div>
+		<div class="bg"></div>
 
 	</div>
 </template>
@@ -50,8 +42,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
 .background-card{
 	position: relative;
 	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -62,7 +53,7 @@ export default {
 	margin-left: 13%;
 }
 
-.card1{
+.card1, .card2, .card3{
 	position: absolute;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 	background-color: #FFFFFF;
@@ -72,25 +63,12 @@ export default {
 	left:2%;
 	z-index: 1;
 }
-.card2{
-	position: absolute;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-	background-color: #FFFFFF;
-	height: 73%;
-	width: 30%;
-	top:15%;
-	left:35%;
-	z-index: 1;
-}
-.card3{
-	position: absolute;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-	background-color: #FFFFFF;
-	height: 73%;
-	width: 30%;
-	top:15%;
-	left:68%;
-	z-index: 1;
+.card2 { left:35%; }
+.card3 { left:68%; }
+
+.inCards {
+	padding: 14px;
+	text-align: center;
 }
 
 .intro1{
@@ -104,6 +82,13 @@ export default {
 	font-family: "方正苏新诗柳楷简体";
 	font-size: medium;
 	color: #2C3E50;
+}
+
+.bg {
+	background:linear-gradient(to left,#FFFFFF,#b6b6b6,#FFFFFF);
+	height:3px;
+	position: relative;
+	margin-top: 30px;
 }
 
 .image {

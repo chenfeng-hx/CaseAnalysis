@@ -25,7 +25,7 @@
 				<li>产品</li>
 				<li>文书分析</li>
 				<li>案例检索</li>
-				<li>文书分析</li>
+				<li>相关科普</li>
 				<li>数据展示</li>
 				<li>法条推荐</li>
 			</ul>
@@ -70,7 +70,7 @@ export default {
 					font-size: 16px;
 				}
 				>li{
-					margin: 10px 0px;
+					margin: 10px 0;
 					font-size: 14px;
 				}
 			}
@@ -84,7 +84,7 @@ export default {
 				}
 				>li{
 					display: flex;
-					margin: 10px 0px;
+					margin: 10px 0;
 					font-size: 14px;
 					>a{
 						text-decoration:none;
@@ -106,7 +106,7 @@ export default {
 				font-size: 16px;
 			}
 			>li{
-				margin: 10px 0px;
+				margin: 10px 0;
 				font-size: 14px;
 				cursor: pointer;
 			}
@@ -120,7 +120,7 @@ export default {
 				font-size: 16px;
 			}
 			>li{
-				margin: 10px 0px;
+				margin: 10px 0;
 				font-size: 14px;
 				cursor: pointer;
 			}

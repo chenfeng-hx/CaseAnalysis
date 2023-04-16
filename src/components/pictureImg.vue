@@ -1,7 +1,7 @@
 <template>
 
-	<div className="box">
-		<div id="main" style="width: 850px;height:1000px;margin: 20px auto"></div>
+	<div class="box">
+		<div id="main" class="main"></div>
 		<!--   -->
 	</div>
 </template>
@@ -38,7 +38,7 @@ export default {
 	},
 
 	mounted() {
-		if (this.pictureData.node_list != undefined) {
+		if (this.pictureData.node_list !== undefined) {
 			this.data1 = this.pictureData.node_list;
 			this.links = this.pictureData.relation_list;
 			this.echartsInit();
@@ -49,15 +49,12 @@ export default {
 		echartsInit() {
 			const arr = []
 			for (let i = 0; i < this.data1.length; i++) {
-				var vote = {}
+				let vote = {}
 				vote.name = this.data1[i].category
 				arr.push(vote)
 			}
-
-			var myChart = echarts.init(document.getElementById("main"));
-
-			var categories = arr;
-
+			let myChart = echarts.init(document.getElementById("main"));
+			let categories = arr;
 			const option = {
 				// 图的标题
 				// title: {
@@ -114,7 +111,7 @@ export default {
 							},
 						},
 						force: {
-							repulsion: 800,  //jul
+							repulsion: 800,  //距离
 							edgeLength: [70, 125],
 							gravity: 0.11
 						},
@@ -135,7 +132,6 @@ export default {
 								formatter: function (x) {
 									return x.data.name;
 								},
-
 							},
 						},
 						label: {
@@ -149,7 +145,6 @@ export default {
 						categories: categories,
 					},
 				],
-
 			};
 			myChart.setOption(option);
 		},
@@ -167,9 +162,12 @@ export default {
 	.canvas {
 		width: 100%;
 		height: 100%;
-
-		// margin-top: -30p;
 	}
+}
+.main {
+	width: 850px;
+	height:1000px;
+	margin: 20px auto;
 }
 
 </style>

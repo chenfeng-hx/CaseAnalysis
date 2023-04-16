@@ -1,64 +1,61 @@
-
 <template>
 	<!-- 要素提取 -->
-
 	<div class="third" >
 		<!-- 没有上传起诉状和判决书 -->
-		<div class="tip" v-show="textInfo.title == ''">
+		<div class="tip" v-show="textInfo.title === ''">
 			请先上传起诉状或判决书！
 		</div>
+		<!--左侧关系图谱-->
 		<div class="leftBox">
 			<div class="logo">
 				<img src="../assets/知识图谱.svg" alt="" />
 				关系图谱
 			</div>
+			<!--关系图谱下面的动画-->
 			<div class="area">
 				<Picture
 					:pictureData="pictureData"
 					class="picture"
 					v-if="reCreate"
 				></Picture>
-
-
 			</div>
 		</div>
-		<div class="rightBox" v-show="textInfo.title!=undefined">
+		<!--右侧基本信息展示-->
+		<div class="rightBox" v-show="textInfo.title !== undefined">
 			<div class="logo">
 				<img src="../assets/基本信息 (2).svg" alt="" />
 				基本信息
 			</div>
 			<ul>
-				<li v-if="textInfo.title!=undefined">
+				<li v-if="textInfo.title !== undefined">
                   <span class="leftInfo">案名:</span
 				  ><span class="rightInfo">{{ textInfo.title }}</span>
 				</li>
-				<li v-if="textInfo.court!=undefined">
+				<li v-if="textInfo.court !== undefined">
                   <span class="leftInfo">法院名:</span
 				  ><span class="rightInfo">{{ textInfo.court }}</span>
 				</li>
-
-				<li v-if="textInfo.court_area!=undefined">
+				<li v-if="textInfo.court_area !== undefined">
                   <span class="leftInfo">法院地区:</span
 				  ><span class="rightInfo">{{ textInfo.court_area }}</span>
 				</li>
-
-				<li v-if="textInfo.typeForJudgment!=undefined">
+				<li v-if="textInfo.typeForJudgment !== undefined">
                   <span class="leftInfo">案件类型:</span
 				  ><span class="rightInfo">{{ textInfo.typeForJudgment }}</span>
 				</li>
-				<li v-if="textInfo.case_number!=undefined">
+				<li v-if="textInfo.case_number !== undefined">
                   <span class="leftInfo">案件号:</span
 				  ><span class="rightInfo">{{ textInfo.case_number }}</span>
 				</li>
-				<li v-if="textInfo.plaintiff!=undefined">
+				<li v-if="textInfo.plaintiff !== undefined">
                   <span class="leftInfo">原告:</span
 				  ><span class="rightInfo">{{ textInfo.plaintiff[0] }}</span>
 				</li>
-				<li v-if="textInfo.defendant!=undefined">
+				<li v-if="textInfo.defendant !== undefined">
                   <span class="leftInfo">被告:</span
 				  ><span class="rightInfo">{{ textInfo.defendant[0]}}</span>
 				</li>
-				<li v-if="textInfo.law!=undefined">
+				<li v-if="textInfo.law !== undefined">
                   <span class="leftInfo">法条:</span
 				  ><span class="rightInfo">{{ textInfo.law }}</span>
 				</li>
@@ -69,7 +66,6 @@
 			</ul>
 		</div>
 	</div>
-
 </template>
 
 <script>
@@ -98,13 +94,13 @@ export default {
 	},
 	data(){
 		return{
+			// 是否展示动画，true 展示
 			reCreate:true
 		}
 	},
 	components:{
 		Picture,
 	},
-
 }
 </script>
 

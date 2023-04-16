@@ -3,6 +3,7 @@
 		<!-- 侧边栏 -->
 		<div class="left">
 			<h2>功能模块区</h2>
+			<!--选择要上传的文件的类型-->
 			<div class="slectfile">
 				<span>分析的文书类型</span>
 				<el-select
@@ -21,21 +22,22 @@
 					</el-option>
 				</el-select>
 			</div>
+			<!--分析进度条-->
 			<div style="height: 480px; margin: 30px 36px">
 				<el-steps direction="vertical" :active="active" finish-status="success" class="stepInfo">
-					<el-step v-if="this.value == 0">
+					<!--选择起诉状-->
+					<el-step v-if="this.value === 0">
 						<template slot="description">
 							<!-- <div>起诉状上传成功</div> -->
 							<label
 								for="file_load"
-								:class="{ label_active: this.preview_01 == true }"
+								:class="{ label_active: this.preview_01 === true }"
 								v-html="
-                  this.preview_01 == true
+                  this.preview_01 === true
                     ? this.text_step.preview_01.new
                     : this.text_step.preview_01.old
                 "
 							></label>
-							<!-- <label for="file_load" :class="{label_active:this.preview_01 == true}">{{preview_01?text_step.old}}</label> -->
 							<input
 								id="file_load"
 								@change="preview"
@@ -46,15 +48,15 @@
 							/>
 						</template>
 					</el-step>
-
-					<el-step v-if="this.value == 1">
+					<!--选择裁判书-->
+					<el-step v-if="this.value === 1">
 						<template slot="description">
 							<!-- <div>判决书上传成功</div> -->
 							<label
 								for="file_load2"
-								:class="{ label_active: this.preview_02 == true }"
+								:class="{ label_active: this.preview_02 === true }"
 								v-html="
-                  this.preview_02 == true
+                  this.preview_02 === true
                     ? this.text_step.preview_02.new
                     : this.text_step.preview_02.old
                 "
@@ -69,51 +71,55 @@
 							/>
 						</template>
 					</el-step>
+					<!--Ai智能分析-->
 					<el-step description="">
 						<template slot="description">
 							<!-- <div>服务器已接收</div> -->
 							<label
 								@click="upPload()"
 								:class="{
-                  label_active: this.preview_up == true,
-                  active1: isLock == true,
+                  label_active: this.preview_up === true,
+                  active1: isLock === true,
                 }"
 								v-html="
-                  this.preview_up == true
+                  this.preview_up === true
                     ? this.text_step.preview_up.new
                     : this.text_step.preview_up.old
                 "
 							></label>
 						</template>
 					</el-step>
+					<!--分析模型加载中-->
 					<el-step description="">
 						<template slot="description">
 							<div
 								style="font-size: 1.1rem"
-								:class="{ label_active: this.preview_04 == true }"
+								:class="{ label_active: this.preview_04 === true }"
 								v-html="
-                  this.preview_up == true
+                  this.preview_up === true
                     ? this.text_step.preview_04.new
                     : this.text_step.preview_04.old
                 "
 							></div>
 						</template>
 					</el-step>
+					<!--模型分析中-->
 					<el-step description="">
 						<template slot="description">
 							<div
 								style="font-size: 1.1rem"
-								:class="{ label_active: this.preview_05 == true }"
+								:class="{ label_active: this.preview_05 === true }"
 							>
 								模型分析中
 							</div>
 						</template>
 					</el-step>
+					<!--分析完成-->
 					<el-step description="">
 						<template slot="description">
 							<div
 								style="font-size: 1.1rem"
-								:class="{ label_active: this.preview_06 == true }"
+								:class="{ label_active: this.preview_06 === true }"
 							>
 								分析完成
 							</div>
@@ -122,56 +128,55 @@
 				</el-steps>
 			</div>
 		</div>
-
+		<!--右侧区域-->
 		<div class="right">
+			<!--按钮区-->
 			<div>
 				<div class="topTitle">
-					<div class="firstBtn" v-if="this.value == 0">
+					<!--起诉状按钮-->
+					<div class="firstBtn" v-if="this.value === 0">
 						<el-button
 							type="primary"
 							round
-							:class="{ active: this.currentIndex == 0 }"
+							:class="{ active: this.currentIndex === 0 }"
 							@click="changeIndex(0)"
-						>起诉状</el-button
-						>
+						>起诉状</el-button>
 						<span :fileName="fileName" class="fileName" v-show="isShow3"
-						>只能上传.docx文件</span
-						>
+						>只能上传.docx文件</span>
 						<span :fileName="fileName" class="fileName">{{ fileName }}</span>
 					</div>
-					<div class="secondBtn" v-if="this.value == 1">
+					<!--判决书按钮-->
+					<div class="secondBtn" v-if="this.value === 1">
 						<el-button
 							type="primary"
 							round
-							:class="{ active: this.currentIndex == 1 }"
+							:class="{ active: this.currentIndex === 1 }"
 							@click="changeIndex(1)"
-						>判决书</el-button
-						>
+						>判决书</el-button>
 						<span :fileName="fileName2" class="fileName2">{{ fileName2 }}</span>
 					</div>
-
+					<!--争议要素按钮-->
 					<div>
 						<el-button
 							type="primary"
 							round
-							:class="{ active: this.currentIndex == 2 }"
+							:class="{ active: this.currentIndex === 2 }"
 							@click="changeIndex(2)"
-						>争议要素</el-button
-						>
+						>争议要素</el-button>
 					</div>
-					<div v-if="this.value == 0">
+					<!--同案智推按钮-->
+					<div v-if="this.value === 0">
 						<el-button
 							type="primary"
 							round
-							:class="{ active: this.currentIndex == 3 }"
+							:class="{ active: this.currentIndex === 3 }"
 							@click="changeIndex(3)"
-						>同案智推</el-button
-						>
+						>同案智推</el-button>
 					</div>
 				</div>
 			</div>
 			<!-- 起诉状 -->
-			<div class="first" v-show="this.currentIndex == 0">
+			<div class="first" v-show="this.currentIndex === 0">
 				<div class="bottom">
 					<div class="fileContent">
 						<div class="my-component" ref="preview" v-show="!isShow3"></div>
@@ -180,7 +185,7 @@
 			</div>
 
 			<!-- 判决书 -->
-			<div class="second" v-show="this.currentIndex == 1">
+			<div class="second" v-show="this.currentIndex === 1">
 				<div class="bottom">
 					<div class="fileContent">
 						<div class="my-component" ref="preview2" v-show="!isShow4"></div>
@@ -191,19 +196,20 @@
 			<!-- 要素提取 -->
 			<!-- 起诉状 -->
 			<info-box
-				v-if="this.currentIndex == 2 && this.value == 0"
+				v-if="this.currentIndex === 2 && this.value === 0"
 				:pictureData="pictureData2"
 				:textInfo="textInfo2"
 			></info-box>
 			<!-- 判决书 -->
 			<info-box
-				v-if="this.currentIndex == 2 && this.value == 1"
+				v-if="this.currentIndex === 2 && this.value === 1"
 				:pictureData="pictureData"
 				:textInfo="textInfo"
 			></info-box>
+			<!--el-loding 加载动画-->
 			<div
 				class="forth"
-				v-show="this.currentIndex == 3"
+				v-show="this.currentIndex === 3"
 				v-loading="loading"
 				element-loading-background="rgba(0, 0, 0, 0)"
 				element-loading-text="拼命加载中"
@@ -211,10 +217,10 @@
 				<img
 					src="../assets/页面为空 (1).svg"
 					alt=""
-					v-if="!sameCase.length != 0"
+					v-if="!sameCase.length !== 0"
 				/>
 				<div class="title title2" v-show="isShow9">请先上传起诉状!</div>
-				<div v-if="sameCase.length != 0">
+				<div v-if="sameCase.length !== 0">
 					<div class="tipTop">
 						根据上传的起诉状:<span>{{ fileName }}</span> 检索相似案例!
 					</div>
@@ -236,7 +242,7 @@
 import Picture from "../components/pictureImg.vue";
 import sameCaseContent from "../components/sameCaseContent.vue";
 import infoBox from "../components/infoBox.vue";
-// import  ElStep  from 'element-ui/types/step';
+
 const docx = require("docx-preview");
 window.JSZip = require("jszip");
 export default {
@@ -260,6 +266,7 @@ export default {
 					label: "判决书",
 				},
 			],
+			// 判断是展示起诉状还是展示判决书
 			value: 0,
 			// 同案检索
 			isShow9: true,
@@ -335,8 +342,9 @@ export default {
 		blankChange(obj, value) {
 			this.timer = null;
 			const arr = Object.keys(obj);
-			if (arr.length == 0) {
-				if (value == 0) {
+			// 如果只是图谱列表没有值，说明还没有上传
+			if (arr.length === 0) {
+				if (value === 0) {
 					this.preview_01 = false;
 				} else {
 					this.preview_02 = false;
@@ -349,7 +357,8 @@ export default {
 				];
 				this.active = 0;
 			} else {
-				if (value == 0) {
+				// 知识图谱有值，说明以上传文件，修改进度条状态
+				if (value === 0) {
 					this.preview_01 = true;
 				} else {
 					this.preview_02 = true;
@@ -369,7 +378,7 @@ export default {
 		// 通过知识图谱列表是否为空来判断
 		valChange(i) {
 			this.currentIndex = i;
-			if (this.value == 0) {
+			if (this.value === 0) {
 				this.blankChange(this.pictureData2, 0);
 			} else {
 				this.blankChange(this.pictureData, 1);
@@ -392,15 +401,13 @@ export default {
 				.then((res) => {
 					const data = res.data.res_list;
 					this.sameCaseLength = data.length;
-					if (data.length == 0) {
+					if (data.length === 0) {
 						this.isShow6 = true;
 					} else {
-						// if(data[0][0] == )
 						this.sameCase2 = res.data.res_list;
 						this.isShow9 = false;
 						this.isShow6 = false
 					}
-
 				})
 				.catch((res) => {
 					this.isShow9 = false;
@@ -411,22 +418,22 @@ export default {
 		},
 
 		//将起诉书文件内容展示到页面中且上传
-		preview(e) {
+		preview(event) {
 			this.textInfo2 = {};
 			this.pictureData2 = {};
 			this.sameCase = [];
 			this.isShow9 = true;
 			// 保存文件 将内容展示到页面
 			this.FileList = this.$refs.file.files;
-			if (this.FileList.length == 0) {
+			if (this.FileList.length === 0) {
 				this.preview_01 = false;
 				this.active = 0;
 				this.fileName = "";
 				this.isShow3 = true;
 			} else {
-				const last = this.$refs.file.files[0].name;
-				this.fileName = last;
+				this.fileName = this.$refs.file.files[0].name;
 				this.isShow3 = false;
+				// docx-preview 插件
 				docx.renderAsync(this.$refs.file.files[0], this.$refs.preview); // 渲染到页面预览
 				//上传起诉状成功 步骤条变色
 				this.preview_01 = true;
@@ -435,22 +442,21 @@ export default {
 		},
 
 		//将判决书文件内容展示到页面中且上传
-		preview2(e) {
+		preview2(event) {
 			this.textInfo = {};
 			this.pictureData = {};
 			//  保存文件 将内容展示到页面
 			this.FileList2 = this.$refs.file2.files;
 			// 如果没上传判决书
-			if (this.FileList2.length == 0) {
+			if (this.FileList2.length === 0) {
 				this.fileName2 = "";
 				this.isShow4 = true;
 				this.active = 0;
 				//步骤条不变色
 				this.preview_02 = false;
 			} else {
-				const last2 = this.$refs.file2.files[0].name;
 				// console.log(this.$refs.file2.files);
-				this.fileName2 = last2;
+				this.fileName2 = this.$refs.file2.files[0].name;
 				this.isShow4 = false;
 				docx.renderAsync(this.$refs.file2.files[0], this.$refs.preview2); // 渲染到页面预览
 				this.preview_02 = true;
@@ -459,6 +465,7 @@ export default {
 			}
 		},
 
+		// 将进度条的3/4/5都设置为true
 		stepChange() {
 			this.stop = true;
 			// 步骤条
@@ -466,8 +473,8 @@ export default {
 				if (this.stop) {
 					this.timer = setInterval(() => {
 						this.active++;
-						if (this.active == 3) this.preview_04 = true;
-						if (this.active == 4) {
+						if (this.active === 3) this.preview_04 = true;
+						if (this.active === 4) {
 							this.preview_05 = true;
 							clearInterval(this.timer);
 						}
@@ -476,15 +483,16 @@ export default {
 				}
 			}, 500);
 		},
-		//上传文件
+
+		//上传文件(Ai智能分析)
 		upPload() {
 			this.isLock = true;
 			// 先判断当前分析的文件类型
 			// 上传的是起诉状
-			if (this.value == 0) {
+			if (this.value === 0) {
 				this.sameCase = [];
 				let arr = Object.keys(this.FileList);
-				if (arr.length == 0) {
+				if (arr.length === 0) {
 					this.$message({
 						type: "warning",
 						message: "您还没选择诉求文件",
@@ -503,8 +511,8 @@ export default {
 					this.$api.analysisDocx
 						.getClaimGeneration(formdata2)
 						.then((res) => {
-							if (res.data != "token校验失败") {
-								if (res.data.claim_kg.node_list.length != 0) {
+							if (res.data !== "token校验失败") {
+								if (res.data.claim_kg.node_list.length !== 0) {
 									this.pictureData2 = res.data.claim_kg;
 									this.textInfo2 = res.data.claim_info;
 									const data = this.sameCase2;
@@ -516,16 +524,13 @@ export default {
 										vote.case_number = data[i][0];
 										vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
 										this.sameCase.push(vote);
-										if (
-											data[i][1].substr(0, len2) == this.textInfo2.title.substr(0, len2)
-										) {
+										if ( data[i][1].substr(0, len2) === this.textInfo2.title.substr(0, len2) ) {
 											vote.sameNum = "100.00%";
 											this.sameCase.pop()
 											this.sameCase.unshift(vote)
 										}
-
 									}
-									if (this.sameCase.length!=0) {
+									if (this.sameCase.length !== 0) {
 										this.$message.success("分析成功");
 										this.active = 5;
 										this.preview_06 = true;
@@ -538,8 +543,9 @@ export default {
 											customClass: "press",
 										});
 									}
-								} else {
-									if (this.sameCase.length != 0) {
+								}
+								else {
+									if (this.sameCase.length !== 0) {
 										this.$message({
 											message: "知识图谱分析失败,同案检索分析成功",
 											type: "warning",
@@ -564,7 +570,7 @@ export default {
 						})
 						.catch((res) => {
 							this.loading = false;
-							if (this.sameCase.length != 0) {
+							if (this.sameCase.length !== 0) {
 								this.$message({
 									message: "同案检索分析成功,知识图谱分析失败",
 									type: "warning",
@@ -583,7 +589,7 @@ export default {
 			// 判决书
 			else {
 				let arr2 = Object.keys(this.FileList2);
-				if (arr2.length == 0) {
+				if (arr2.length === 0) {
 					this.$message({
 						type: "warning",
 						message: "您还没选择判决文件",
@@ -601,7 +607,7 @@ export default {
 					this.$api.analysisDocx
 						.upJugment(formdata)
 						.then((res) => {
-							if (res.data != "token校验失败") {
+							if (res.data !== "token校验失败") {
 								this.$message.success("正在分析");
 								// 获取case_number
 								const caseId = res.data.replace('"', "");
@@ -621,7 +627,7 @@ export default {
 								this.$api.analysisDocx
 									.getJugementGeneration(caseId)
 									.then((res) => {
-										if (res.data.judgement_kg.node_list != []) {
+										if (res.data.judgement_kg.node_list !== []) {
 											this.pictureData = res.data.judgement_kg;
 											this.$message.success("分析完成");
 											this.active = 5;
@@ -705,14 +711,13 @@ export default {
 			}
 			::v-deep .el-input__inner {
 				width: 100px;
-				//  margin-left: -20px;
 			}
 			::v-deep .el-input {
 				width: 100px;
 				margin-left: -20px;
 			}
 		}
-
+		/* fixme:找不到在哪 */
 		ul {
 			width: 100%;
 			overflow: hidden;
@@ -790,16 +795,17 @@ export default {
 }
 .first,
 .second,
-.third {
-	user-select: text;
+.third { /* fixme:third多余 */
+	user-select: text;   /* 用户可以选择文本 */
 	position: relative;
 }
+/* fixme：未找到 */
 .txtTitle {
 	margin: 20px auto;
 	display: flex;
 	justify-content: center;
 }
-
+/* fixme：未找到 */
 .upDown {
 	height: 35px;
 	line-height: 5px;
@@ -812,12 +818,9 @@ export default {
 	width: 200px;
 	line-height: 35px;
 	margin-right: 20px;
-	// color:#fff;
-	// border:0px;
-	// border-radius:0px;
 	text-align: center;
 }
-
+/* fixme：未找到 */
 .top2 {
 	display: flex;
 	width: 500px;
@@ -827,7 +830,6 @@ export default {
 
 label {
 	display: block;
-
 	color: rgb(10, 10, 10);
 	width: 132px;
 	height: 40px;
@@ -845,6 +847,7 @@ label:hover {
 .label_active {
 	color: #104ab6;
 }
+/* fixme：未找到 */
 .txtDesc {
 	font-size: 16px;
 	text-indent: 2rem;
@@ -853,14 +856,13 @@ label:hover {
 	padding: 30px 50px 0 50px;
 }
 .my-component {
-	height: 100%;
-	margin: 20px auto;
+	margin: 20px auto 80px auto;
 	// overflow: scroll;
 	caret-color: auto;
-	margin-bottom: 80px;
 	height: 800px;
 	//   border: 1px solid #000;
 }
+/* fixme：未找到 */
 .top {
 	// display: flex;
 	padding-top: 10px;
@@ -871,7 +873,7 @@ label:hover {
 		justify-content: center; /*水平居中*/
 		line-height: 35px;
 		border-radius: 10px;
-		margin: 0px 5px;
+		margin: 0 5px;
 
 		.text {
 			font-size: 16px;
@@ -879,6 +881,7 @@ label:hover {
 		}
 	}
 }
+/* fixme：未找到 */
 .middle {
 	display: flex;
 	padding-top: 50px;
@@ -886,7 +889,7 @@ label:hover {
 	justify-content: center;
 
 	.btn {
-		margin: 0px 15px;
+		margin: 0 15px;
 		.el-button {
 			background: rgb(39, 37, 35) !important;
 			border-color: rgb(39, 37, 35) !important;
@@ -904,7 +907,7 @@ label:hover {
 	.fileContent {
 		width: 95%;
 		height: 700px;
-		margin: 0px auto;
+		margin: 0 auto;
 		background: rgb(252, 250, 250);
 		font-size: 50px;
 		text-align: center;
@@ -963,7 +966,7 @@ label:hover {
 }
 
 .el-step__title {
-	padding-bottom: 0px !important;
+	padding-bottom: 0 !important;
 }
 .el-step__head.is-success {
 	color: rgb(39, 37, 35);

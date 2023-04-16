@@ -12,6 +12,7 @@
 			<div :class="{ container3: isShow9 }">
 				<div class="title">
 					<div class="text">本案例库已经收录了</div>
+					<!--案例库收录数量：刚加载出来的时候 caseNum 还不知道，所以用 loding 动画替换-->
 					<div
 						v-loading="loading5"
 						class="wait"
@@ -21,7 +22,9 @@
 					</div>
 					<div class="text">个案件</div>
 				</div>
+				<!--搜索框-->
 				<div class="search">
+					<!--根据用户输入通过模糊匹配给出选项-->
 					<el-autocomplete
 						class="inline-input"
 						v-model="state1"
@@ -43,28 +46,31 @@
 				</div>
 
 				<div class="cardBox" :class="{ putActive3: !isShow9 }">
+					<!--案例搜索-->
 					<div
 						class="searchCard"
 						@click="searchHigh()"
-						:class="{ searchCardSpecial: this.currentIndex == 0 }"
+						:class="{ searchCardSpecial: this.currentIndex === 0 }"
 					>
 						案例搜索
 					</div>
+					<!--所有案件-->
 					<div
 						class="searchCard"
 						:disabled="isLock"
 						@click="allCaseSearch()"
 						:class="{
-              searchCardSpecial: this.currentIndex == 1,
-              active1: isLock == true,
+              searchCardSpecial: this.currentIndex === 1,
+              active1: isLock === true,
             }"
 					>
 						所有案件
 					</div>
+					<!--同案检索-->
 					<div
 						class="searchCard"
 						@click="sameSearchBtn()"
-						:class="{ searchCardSpecial: this.currentIndex == 2 }"
+						:class="{ searchCardSpecial: this.currentIndex === 2 }"
 					>
 						同案检索
 					</div>
@@ -113,9 +119,11 @@
 				<!-- 搜索关键词展示内容 -->
 				<div class="right">
 					<div class="rightTitle">
+						<!--fixme：去掉this-->
 						<div class="text" @click="changeEcharts(true)">
 							相似案例（{{ this.sameCase.length }}）
 						</div>
+						<!--fixme：批量下载功能未实现-->
 						<div class="sort">
 							<div class="sortText">
 								<img src="../assets/case/download.svg" alt="" width="27" />
@@ -141,7 +149,7 @@
 							></search-info>
 						</div>
 					</div>
-
+					<!--mark：需求三里的分页器内容和页码数不匹配问题，内容不变-->
 					<div class="pagination">
 						<div class="block">
 							<el-pagination
@@ -175,6 +183,7 @@
 						>
 							已选条件：
 						</div>
+						<!--todo:增加“高级人民法院”在这改-->
 						<el-tag
 							v-for="(tag1, index4) in courthierarchy"
 							:key="index4 + 'd'"
@@ -219,6 +228,7 @@
 						<div>找不到您搜索的内容<img src="../assets/哭泣.svg" alt="" /></div>
 					</div>
 				</div>
+
 				<div
 					class="caseText"
 					v-if="iscase"
@@ -234,29 +244,29 @@
 								<h3>法院层级</h3>
 							</div>
 							<ul v-for="(val, key, index1) in courtArr" :key="index1 + 'a'">
-								<li @click="chooseCourt(1, key)" v-if="key!=''">{{ key }} ({{ val }})</li>
+								<li @click="chooseCourt(1, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
 							</ul>
 						</div>
 						<el-divider></el-divider>
+
 						<div class="list">
 							<div class="title">
 								<img src="../assets/case/area.svg" alt="" width="25" />
 								<h3>地域</h3>
 							</div>
-
 							<ul v-for="(val, key, index2) in areaArr" :key="index2 + 'b'">
-								<li @click="chooseCourt(2, key)" v-if="key!=''">{{ key }} ({{ val }})</li>
+								<li @click="chooseCourt(2, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
 							</ul>
 						</div>
 						<el-divider></el-divider>
+
 						<div class="list">
 							<div class="title">
 								<img src="../assets/case/data.svg" alt="" width="25" />
 								<h3>判决年份</h3>
 							</div>
-
 							<ul v-for="(val, key, index3) in timeArr" :key="index3 + 'c'">
-								<li @click="chooseCourt(3, key)" v-if="key!=''">{{ key }} ({{ val }})</li>
+								<li @click="chooseCourt(3, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
 							</ul>
 						</div>
 					</div>
@@ -300,7 +310,7 @@
 							</div>
 						</div>
 
-						<!-- 地图部分 -->
+						<!-- 地图部分(可视化部分) -->
 						<div class="echarts" v-if="!hackReset2">
 							<charts
 								style="width: 100%"
@@ -309,6 +319,7 @@
 							></charts>
 						</div>
 						<div class="pagination" v-if="hackReset2">
+							<!--todo：在这增加翻页回到顶部-->
 							<div class="block">
 								<el-pagination
 									@size-change="handleSizeChange"
@@ -327,7 +338,7 @@
 					<!-- 找不到你搜索的内容 -->
 				</div>
 			</el-main>
-			<el-footer style="padding: 0px" v-if="iscase" v-show="!isShow9"
+			<el-footer style="padding: 0" v-if="iscase" v-show="!isShow9"
 			><bottomBar
 			/></el-footer>
 		</div>
@@ -457,9 +468,9 @@ export default {
 				.getCase("案", "", "", "")
 				.then((res) => {
 					//确定已经搜索完成
-					if (res.data != "token校验失败") {
+					if (res.data !== "token校验失败") {
 						//判断是否能搜索出来
-						if (res.data.res.length != 0) {
+						if (res.data.res.length !== 0) {
 							// allCase保存所有案件信息
 							this.allCase = res.data.res;
 							//caseArr2保存没有加标签时的信息
@@ -483,7 +494,6 @@ export default {
 			this.$message({
 				type: "warning",
 				message: "未登录或登录过期",
-				center: "true",
 				duration: 1000,
 				customClass: "press",
 				center: "true",
@@ -505,10 +515,10 @@ export default {
 			this.isLock = true;
 			//每次判断有没有登录
 			this.$api.search.getUser().then((res) => {
-				if (res.data != "token校验失败") {
+				if (res.data !== "token校验失败") {
 					this.dialogVisible = false;
 					this.sameShow2 = false;
-					if (this.allCase.length != 0) {
+					if (this.allCase.length !== 0) {
 						//侧边栏数据赋值
 						this.allLike1 = this.allLike;
 						this.allLike2 = this.allLike;
@@ -528,7 +538,7 @@ export default {
 						this.loading4 = true;
 						this.allCaseStart();
 						var timer = setInterval(() => {
-							if (this.allCase.length != 0) {
+							if (this.allCase.length !== 0) {
 								this.allLike1 = this.allLike;
 								this.allLike2 = this.allLike;
 								this.state1 = "";
@@ -579,7 +589,7 @@ export default {
 			this.loading3 =false
 			this.sameCase = [];
 			this.sameCaseLength = data.length;
-			if (status == 0) {
+			if (status === 0) {
 				const len = id.length;
 				const len2 = parseInt(0.7 * len);
 				for (let i = 0; i < data.length; i++) {
@@ -588,12 +598,11 @@ export default {
 					vote.case_number = data[i][0];
 					vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
 					this.sameCase.push(vote);
-					if (data[i][1].substr(0, len2) == id.substr(0, len2)) {
+					if (data[i][1].substr(0, len2) === id.substr(0, len2)) {
 						vote.sameNum = "100.00%";
 						this.sameCase.pop()
 						this.sameCase.unshift(vote)
 					}
-
 				}
 			} else {
 				for (let i = 0; i < data.length; i++) {
@@ -602,12 +611,11 @@ export default {
 					vote.case_number = data[i][0];
 					vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
 					this.sameCase.push(vote);
-					if (data[i][0] == id) {
+					if (data[i][0] === id) {
 						vote.sameNum = "100.00%";
 						this.sameCase.pop()
 						this.sameCase.unshift(vote)
 					}
-
 				}
 			}
 
@@ -629,7 +637,7 @@ export default {
 			this.isShow6 = false;
 			//判断是以文件方式还是案例号
 			// 文件方式
-			if (this.$refs.file.files.length != 0) {
+			if (this.$refs.file.files.length !== 0) {
 				this.sameCase = [];
 				let formdata3 = new FormData();
 				formdata3.append("submit_file", this.$refs.file.files[0]);
@@ -637,7 +645,7 @@ export default {
 					.getSamecaseForm(formdata3)
 					.then((res) => {
 						this.loading3 = false;
-						if (res.data == "token校验失败") {
+						if (res.data === "token校验失败") {
 							this.$message({
 								type: "warning",
 								message: "请先登录",
@@ -662,7 +670,7 @@ export default {
 					});
 
 				// 案例号
-			} else if (this.sameInput != "") {
+			} else if (this.sameInput !== "") {
 				const caseId = this.sameInput.replace('"', "");
 				//通过案件号查询相似案例
 				let formdata = new FormData();
@@ -679,7 +687,7 @@ export default {
 						}, 1000);
 					})
 					.catch((res) => {
-						if (res.response.status == 401) {
+						if (res.response.status === 401) {
 							this.loginTip();
 						} else {
 							this.isShow6 = true;
@@ -689,7 +697,7 @@ export default {
 			} else {
 				this.$message({
 					type: "warning",
-					message: "上传起诉状或者输入案件号",
+					message: "请上传起诉状或者输入案件号",
 					customClass: "press",
 					center: "true",
 					duration: 1500,
@@ -727,7 +735,7 @@ export default {
 			if (typeof this.cancelFun === "function") {
 				this.cancelFun();
 			}
-			if (this.state1 == "") {
+			if (this.state1 === "") {
 				this.changeStyle("none", ".el-autocomplete-suggestion");
 			} else {
 				const searchKey = queryString;
@@ -756,13 +764,13 @@ export default {
 				})
 					.then((res) => {
 						//确定已经搜索完成
-						if (res.data == "token校验失败") {
+						if (res.data === "token校验失败") {
 							this.loginTip();
 							this.isLogin = false;
 						} else {
 							this.isLogin = true;
 							//判断是否能搜索出来
-							if (res.data.res.length != 0) {
+							if (res.data.res.length !== 0) {
 								this.caseArr = res.data.res;
 								this.allLike1 = res.data.like_info;
 								this.allLike2 = res.data.like_info;
@@ -783,7 +791,6 @@ export default {
 							} else {
 								this.iscase = false;
 								this.isShow4 = true;
-
 								this.changeStyle("none", ".el-autocomplete-suggestion");
 							}
 							this.flag2 = true;
@@ -831,23 +838,23 @@ export default {
 		handleClose(id, tag) {
 			this.currentPage = 1;
 			// indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置
-			if (id == 1) {
+			if (id === 1) {
 				this.courthierarchy.splice(this.courthierarchy.indexOf(tag), 1);
 				this.selectCourt = "";
 			}
-			if (id == 2) {
+			if (id === 2) {
 				this.area.splice(this.area.indexOf(tag), 1);
 				this.selectArea = "";
 			}
-			if (id == 3) {
+			if (id === 3) {
 				this.year.splice(this.year.indexOf(tag), 1);
 				this.selectTime = "";
 			}
 
 			if (
-				this.selectCourt == "" &&
-				this.selectArea == "" &&
-				this.selectTime == ""
+				this.selectCourt === "" &&
+				this.selectArea === "" &&
+				this.selectTime === ""
 			) {
 				this.caseArr = this.caseArr2;
 				this.allLike1 = this.allLike2;
@@ -865,11 +872,10 @@ export default {
 						// this.caseNumber = res.data.res.length;
 						this.caseArr = res.data.res;
 						//判断是否能搜索出来
-						if (res.data.res.length != 0) {
+						if (res.data.res.length !== 0) {
 							// 获取模糊检索的列表
 							this.caseName = [];
 							for (let i = 0; i < res.data.res.length; i++) {
-
 								this.caseName.push({
 									value: res.data.res[i].title,
 									ID: res.data.res[i].case_number,
@@ -889,33 +895,33 @@ export default {
 			this.flag = false;
 			this.currentPage = 1;
 			if (
-				value == this.selectCourt ||
-				value == this.selectArea ||
-				value == this.selectTime
+				value === this.selectCourt ||
+				value === this.selectArea ||
+				value === this.selectTime
 			) {
 				this.flag = true;
 			}
 
-			if (this.flag == false) {
-				if (id == 1) {
+			if (this.flag === false) {
+				if (id === 1) {
 					this.selectCourt = value;
-					if (this.courthierarchy.length == 0) {
+					if (this.courthierarchy.length === 0) {
 						this.courthierarchy.push(value);
 					} else {
 						this.courthierarchy.splice(0, 1, value);
 					}
 				}
-				if (id == 2) {
+				if (id === 2) {
 					this.selectArea = value;
-					if (this.area.length == 0) {
+					if (this.area.length === 0) {
 						this.area.push(value);
 					} else {
 						this.area.splice(0, 1, value);
 					}
 				}
-				if (id == 3) {
+				if (id === 3) {
 					this.selectTime = value;
-					if (this.year.length == 0) {
+					if (this.year.length === 0) {
 						this.year.push(value);
 					} else {
 						this.year.splice(0, 1, value);
@@ -931,12 +937,12 @@ export default {
 						1
 					)
 					.then((res) => {
-						if (res.data != "token校验失败") {
+						if (res.data !== "token校验失败") {
 							this.caseNumber = res.data.res.length;
 							this.caseArr = res.data.res;
 							this.allLike1 = res.data.like_info;
 							//判断是否能搜索出来
-							if (res.data.res.length != 0) {
+							if (res.data.res.length !== 0) {
 								// 获取模糊检索的列表
 								this.caseName = [];
 								for (let i = 0; i < res.data.res.length; i++) {
@@ -959,9 +965,9 @@ export default {
 		},
 		isShowTag() {
 			if (
-				this.courthierarchy.length == 0 &&
-				this.area.length == 0 &&
-				this.year.length == 0
+				this.courthierarchy.length === 0 &&
+				this.area.length === 0 &&
+				this.year.length === 0
 			)
 				return false;
 			else return true;
@@ -971,15 +977,15 @@ export default {
 		changeIsSearch() {
 			this.sameShow2 = false;
 			this.changeStyle("none", ".el-autocomplete-suggestion");
-			if (this.state1 != "" && this.isLogin) {
+			if (this.state1 !== "" && this.isLogin) {
 				this.iscase = false;
 				this.issearch = true;
 				this.isShow9 = false;
 				// this.isShow9 = false
 				setTimeout(() => {
 					var timer = setInterval(() => {
-						if (this.flag2 == true) {
-							if (this.caseArr.length == 0) {
+						if (this.flag2 === true) {
+							if (this.caseArr.length === 0) {
 								this.isShow4 = true;
 								this.issearch = false;
 								this.isShow = false;
@@ -995,7 +1001,7 @@ export default {
 					}, 400);
 				}, 1500);
 			}
-			if (!this.isLogin && this.state1 != "") {
+			if (!this.isLogin && this.state1 !== "") {
 				this.loginTip();
 			}
 		},
@@ -1034,7 +1040,7 @@ export default {
 .title {
 	display: flex;
 	justify-content: center;
-	margin: 20px 0px;
+	margin: 20px 0;
 	color: black;
 	.text {
 		font-size: 38px;
@@ -1138,8 +1144,8 @@ export default {
 
 .right {
 	width: 62%;
-
 	margin-left: 10px;
+
 	.rightTitle {
 		background: rgb(245, 245, 245);
 		display: flex;
@@ -1217,7 +1223,7 @@ h3 {
 	margin-top: 2px;
 }
 .el-footer {
-	padding: 0px;
+	padding: 0;
 }
 
 ul {
@@ -1242,7 +1248,7 @@ ul {
 	margin-top: 2px;
 }
 .el-footer {
-	padding: 0px;
+	padding: 0;
 }
 // .container {
 //   // background-image: url("../assets/banner(2).png");
@@ -1404,7 +1410,7 @@ ul {
 		.title {
 			display: flex;
 			align-items: center;
-			margin-top: 20px;
+			//margin-top: 20px;
 			width: 100%;
 			margin-top: -100px;
 			color: rgb(51, 122, 183);

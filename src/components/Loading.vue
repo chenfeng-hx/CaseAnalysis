@@ -18,7 +18,6 @@
 			<div class="loadster__bottom">
 				<div class="bottom__foot"></div>
 			</div>
-
 		</div>
 		<!-- <div class="text">
 			<div class="text1">正在</div>

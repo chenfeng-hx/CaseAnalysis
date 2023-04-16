@@ -3,7 +3,6 @@
 		<!-- <div v-for="(item, index) in caseInfo" :key="index"> -->
 
 		<div class="caseSim" >
-
 			<div class="topTotic">
 				<div class="numberAndText">
 					<div class="numberAndText">
@@ -14,7 +13,6 @@
 					<!-- <div class="listDown">加入检索报告</div> -->
 					<el-divider direction="vertical" v-if="!this.special"></el-divider>
 					<div class="listDown" v-if="!this.special">相似度：{{item.sameNum}}</div>
-
 					<el-divider direction="vertical"></el-divider>
 					<div class="listDown" @click="up(item.case_number,4)">同案智推</div>
 					<el-divider direction="vertical"></el-divider>
@@ -34,8 +32,6 @@
 				<el-tag type="info">被告:{{item.defendant[0]}}</el-tag>
 			</div>
 		</div>
-
-
 	</div>
 	<!-- </div> -->
 </template>
@@ -56,23 +52,19 @@ export default {
 		caseArr2: {
 			type: Object,
 		},
-
 		currentPage2:{
 			type:Number
 		},
+		// <Case> 中传递一个字符串，但是却接收布尔值
 		special:{
 			type:Boolean
 		}
 	},
 	created() {
 		this.item = this.caseArr2;
-
-	},
-	mounted() {
-
 	},
 	methods: {
-
+		// 跳转至具体的文章内容
 		up(it,currentNum) {
 			this.$router.push({
 				path: "/specialInfo",
@@ -82,6 +74,7 @@ export default {
 				},
 			});
 		},
+		// fixme：无用处
 		sendNum(it){
 			this.currentIndex = it
 		}
@@ -92,9 +85,7 @@ export default {
 <style lang="scss" scoped>
 .caseSim {
 	overflow: hidden;
-
 	text-overflow: ellipsis;
-
 	// white-space: nowrap;
 	width: 90%;
 	margin: 12px auto;
@@ -118,6 +109,7 @@ export default {
 				padding: 0;
 				left: 1px;
 			}
+		  /*fixme：*没找到*/
 			.textWord {
 				color: #b3b3b3;
 				height: 20px;
@@ -125,10 +117,8 @@ export default {
 				line-height: 20px;
 				font-size: 10px;
 				text-align: center;
-				// padding: 0;
 				top: 0;
 				left: 30px;
-
 			}
 		}
 		.function {
@@ -172,6 +162,7 @@ export default {
 		}
 		margin-bottom: 20px;
 	}
+	/*fixme：*没找到*/
 	.result {
 		display: flex;
 		border-bottom: 2px solid #0b71b4;
@@ -197,6 +188,7 @@ export default {
 			color: red;
 		}
 	}
+	/*fixme：*没找到*/
 	.bottomResult {
 		font-size: 14px;
 		line-height: 24px;
@@ -205,6 +197,7 @@ export default {
 		transition: 0.3s;
 		text-align: start;
 	}
+	/*fixme：*没找到*/
 	.label {
 		display: flex;
 		// position: absolute;

@@ -2,6 +2,7 @@
 	<!-- 首页导航栏 -->
 	<el-container>
 		<el-main>
+			<!--首页文字-->
 			<div class="background">
 				<div class="text">
 					<div class="centor">
@@ -10,20 +11,25 @@
 					</div>
 				</div>
 			</div>
+			<!--“立即使用”展示卡片-->
 			<div class="content">
 				<div class="title">
 					<span class="textLeft">我们可以做</span>
 					<span class="textRight">什么</span>
 				</div>
 				<div class="exhibition">
+					<!--循环立即使用卡片-->
 					<div v-for="item in arrcard" :key="item.id" class="box" >
 						<div class="icon">
 							<img :src="item.img" alt="">
 						</div>
 						<div class="text">{{item.name}}</div>
+
+						<!--fixme：多余-->
 						<div class="describe">
 							{{item.describe}}
 						</div>
+
 						<div class="btn">
 							<el-button type="primary" @click="changTabName(item.path)">立即使用</el-button>
 						</div>
@@ -33,11 +39,13 @@
 				   <div class="box1"></div>
 				</div> -->
 			</div>
+			<!--三张展示卡片-->
 			<div style="margin-bottom:50px">
 				<card/>
 			</div>
 			<!-- <div class="demonstration"></div> -->
 		</el-main>
+		<!--尾部信息展示-->
 		<el-footer><bottomBar/></el-footer>
 	</el-container>
 
@@ -76,7 +84,6 @@ export default {
 					img:require('../assets/data.svg'),
 					path:'relevant'
 				},
-
 			]
 		}
 	},
@@ -90,10 +97,9 @@ export default {
 		card
 	},
 	methods: {
+		// 点击“立即使用”进行路由跳转
 		changTabName(name) {
-
 			this.$router.replace("/" + name);
-			// this.$store.commit('updateAppTab', name)
 		},
 	}
 }
@@ -118,8 +124,7 @@ export default {
 		/* 设置背景颜色，背景图加载过程中会显示背景色 */
 		background-color: #FFFFFF;
 
-		// background-position: center center;
-		// overflow: auto;
+		/*首页文字*/
 		.text{
 			height:100%;
 			width:100%;
@@ -150,21 +155,20 @@ export default {
 					font-size: 60px;
 				}
 			}
-
 		}
 	}
+
+	/*“立即使用”展示卡片*/
 	.content {
 		height: 520px;
 		margin-top: 60px;
 		.title{
-			// display: flex;
 			letter-spacing:2px;
 			text-align: center;
 			.textLeft{
 				font-size: 45px;
 				display: inline-block;
 				height: 100%;
-
 			}
 			.textRight{
 				font-size: 50px;
@@ -189,8 +193,7 @@ export default {
 				box-shadow: 0 5px 12px 2px #a3a2a2;
 				border-radius: 4px;
 				font-size: 28px;
-				padding: 24px;
-				padding-top: 50px;
+				padding: 50px 24px 24px 24px;
 				.text{
 					margin-top: 30px;
 					font-size: 30px;
@@ -207,10 +210,8 @@ export default {
 					padding-top: 10px;
 					font-size: 14px;
 					text-indent:1em;
-					// color: #999999;
 				}
 				.btn{
-					// width: 80%;
 					padding-top: 58px;
 					.el-button{
 						width: 100%;
@@ -221,7 +222,7 @@ export default {
 	}
 }
 ::v-deep.el-header{
-	padding: 0px 0px 0px 0px ;
+	padding: 0 0 0 0;
 }
 
 // 盒子动画效果
@@ -255,7 +256,7 @@ export default {
 }
 
 .el-footer{
-	padding: 0px;
+	padding: 0;
 	background-color: transparent;
 }
 </style>

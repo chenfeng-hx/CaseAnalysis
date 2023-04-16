@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		<div id="service-2" style="padding: 10px 0">
 			<div class="container">
 				<div class="row">
