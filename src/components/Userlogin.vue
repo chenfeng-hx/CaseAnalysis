@@ -243,7 +243,8 @@ export default {
 				this.text = "已发送";
 				this.currentIndex = 1;
 				axios({
-					url: "http://123.249.87.210:8002/send_verify_code",
+					// url: "http://123.249.87.210:8002/send_verify_code",
+					url: "send_verify_code",
 					method: "GET",
 					params: {
 						username: this.form.username,
@@ -284,7 +285,9 @@ export default {
 						formdata.append("username", this.username2);
 						//  formdata.append("username", this.form.username);
 						axios({
-							url: "http://123.249.87.210:8002/register",
+							// mark:修改
+							// url: "http://123.249.87.210:8002/register",
+							url: "/register",
 							method: "POST",
 							data:formdata
 						}).then((res) => {
@@ -338,7 +341,8 @@ export default {
 				formdata2.append("password", this.password);
 				axios({
 					method: "post",
-					url: "http://123.249.87.210:8002/login",
+					// url: "http://123.249.87.210:8002/login",
+					url: "/login",
 					data: formdata2
 				})
 					.then((res) => {
@@ -404,7 +408,8 @@ export default {
 						formdata.append("email", this.form.email);
 						formdata.append("verify", this.code2);
 						axios({
-							url: "http://123.249.87.210:8002/forget_pwd",
+							// url: "http://123.249.87.210:8002/forget_pwd",
+							url: "/forget_pwd",
 							method: "POST",
 							data:formdata
 						}).then((res) => {

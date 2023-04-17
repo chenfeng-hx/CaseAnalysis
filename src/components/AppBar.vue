@@ -70,7 +70,8 @@ export default {
 	created(){
 		// 获取信息（验证信息，失败则会传回“token校验失败”）
 		axios({
-			url: "http://123.249.87.210:8002/get_user_info",
+			// url: "http://123.249.87.210:8002/get_user_info",
+			url: "/get_user_info",
 			method:"get",
 			headers: {
 				//	可以是授权凭证用的参数值

@@ -439,7 +439,8 @@ export default {
 
 	created() {
 		axios({
-			url: "http://123.249.87.210:8002/get_count",
+			// url: "http://123.249.87.210:8002/get_count",
+			url: "/get_count",
 			method: "get",
 		}).then((res) => {
 			this.loading5 = false;
@@ -745,7 +746,8 @@ export default {
 				// let self=this;
 				// 模糊搜索
 				axios({
-					url: "http://123.249.87.210:8002/case_like_search",
+					// url: "http://123.249.87.210:8002/case_like_search",
+					url: "/case_like_search",
 					method: "post",
 					headers: {
 						token: localStorage.getItem("token"), //	可以是授权凭证用的参数值

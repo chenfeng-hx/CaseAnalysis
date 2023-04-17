@@ -4,7 +4,8 @@ import { Message } from 'element-ui';
 export function request(config) {
 	// 1.创建axios的实例
 	const instance = axios.create({
-		baseURL: 'http://123.249.87.210:8002',
+		// baseURL: 'http://123.249.87.210:8002',
+		// baseURL: 'http://localhost:8080/apis',
 		headers: {
 			"token": localStorage.getItem("token"), //	可以是授权凭证用的参数值
 		},

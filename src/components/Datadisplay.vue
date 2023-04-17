@@ -246,7 +246,7 @@ export default {
 			this.echartsPage = val;
 			let myChart = this.$echarts.init(document.getElementById("echart"));
 			this.echartsPage = val;
-			if (val == "casesClosed") {
+			if (val === "casesClosed") {
 				myChart.clear();
 				myChart.setOption({
 					title: {
@@ -288,7 +288,7 @@ export default {
 					],
 				});
 			}
-			if (val == "people") {
+			if (val === "people") {
 				myChart.clear();
 				myChart.setOption({
 					title: {
