@@ -246,7 +246,7 @@ export default {
 			this.echartsPage = val;
 			let myChart = this.$echarts.init(document.getElementById("echart"));
 			this.echartsPage = val;
-			if (val == "casesClosed") {
+			if (val === "casesClosed") {
 				myChart.clear();
 				myChart.setOption({
 					title: {
@@ -288,7 +288,7 @@ export default {
 					],
 				});
 			}
-			if (val == "people") {
+			if (val === "people") {
 				myChart.clear();
 				myChart.setOption({
 					title: {
@@ -338,7 +338,7 @@ export default {
 							type: "bar",
 							label: {
 								show: true,
-								position: "inside",
+								position: "right",
 							},
 							emphasis: {
 								focus: "series",
@@ -351,12 +351,13 @@ export default {
 							stack: "Total",
 							label: {
 								show: true,
-								position: "left",
+								position: "right",
 							},
 							emphasis: {
 								focus: "series",
 							},
-							data: [-223, -829, -78, -73560, -42292, -13877, -25428, -13944],
+							// data: [-223, -829, -78, -73560, -42292, -13877, -25428, -13944],
+							data: [223, 829, 78, 73560, 42292, 13877, 25428, 13944],
 						},
 					],
 				});

@@ -465,7 +465,8 @@ export default {
 		// 搜索所有案例
 		allCaseStart() {
 			this.$api.search
-				.getCase("案", "", "", "")
+				// .getCase("案", "", "", "")
+				.getCase("", "", "", "")
 				.then((res) => {
 					//确定已经搜索完成
 					if (res.data !== "token校验失败") {

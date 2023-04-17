@@ -21,7 +21,7 @@
 					<!--todo-->
 					<div class="forget" @click="forgetBtn()">忘记密码？邮箱找回</div>
 				</div>
-				<button class="bbutton" @click="login" @keyup.enter="login">登录</button>
+				<button class="bbutton" @click="login" @keyup.enter="enterLogin">登录</button>
 			</div>
 			<!--注册账号/修改密码-->
 			<div class="big-contain" v-if="!isLogin">
@@ -214,6 +214,9 @@ export default {
 			},
 		};
 	},
+	created() {
+		this.enterLogin();
+	},
 	methods: {
 		// 发送邮箱验证码
 		send() {
@@ -284,14 +287,16 @@ export default {
 						formdata.append("username", this.username2);
 						//  formdata.append("username", this.form.username);
 						axios({
+							// mark:修改
 							url: "http://123.249.87.210:8002/register",
+							// url: "http://10.20.25.81:8080/api/register",
 							method: "POST",
 							data:formdata
 						}).then((res) => {
 							if (res.data.detail === "success") {
 								this.$message({
 									type: "success",
-									message: "注册成功",
+									message: "注册成功,请进行登录",
 								});
 								// 切换为登录页面
 								this.changeType();
@@ -448,8 +453,21 @@ export default {
 					done();
 				})
 				.catch(_ => {});
-		}
+		},
+
+		// 回车登录
+		enterLogin() {
+			document.onkeydown = (e) => {
+				e = window.event || e;
+				if (e.code === 'Enter' || e.code === 'enter') {
+					// 调用登录事件方法
+					this.login();
+				}
+			}
+		},
 	},
+
+
 };
 </script>
 

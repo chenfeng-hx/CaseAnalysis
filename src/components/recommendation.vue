@@ -9,7 +9,6 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="row">
 					<div
 						class="col-lg-45 col-md-6 col-sm-12 wow fadeInLeft"
@@ -419,14 +418,12 @@ export default {
 			isLoader:false,
 		};
 	},
-
-
 	watch: {
 		choseLaw(newVal,oldVal){
-			if(newVal==1) this.function19();
-			if(newVal==2) this.function20();
-			if(newVal==3) this.function21();
-			if(newVal==4) this.function22();
+			if(newVal === 1) this.function19();
+			if(newVal === 2) this.function20();
+			if(newVal === 3) this.function21();
+			if(newVal === 4) this.function22();
 		}
 	},
 	beforeMount(){
@@ -444,7 +441,7 @@ export default {
 			document.getElementById("three2").classList.remove("active");
 			document.getElementById("four2").classList.remove("active");
 			document.getElementById("one2").classList.add("active");
-			var str =
+			let str =
 				`<h2>` +
 				"第五十四条" +
 				`</h2><p>` +
@@ -457,7 +454,7 @@ export default {
 			document.getElementById("three2").classList.remove("active");
 			document.getElementById("four2").classList.remove("active");
 			document.getElementById("two2").classList.add("active");
-			var str =
+			let str =
 				`<h2>` +
 				"第六十一条" +
 				`</h2><p>` +
@@ -470,7 +467,7 @@ export default {
 			document.getElementById("two2").classList.remove("active");
 			document.getElementById("four2").classList.remove("active");
 			document.getElementById("three2").classList.add("active");
-			var str =
+			let str =
 				`<h2>` +
 				"第八十九条" +
 				`</h2><p>` +
@@ -495,7 +492,7 @@ export default {
 			document.getElementById("three2").classList.remove("active");
 			document.getElementById("two2").classList.remove("active");
 			document.getElementById("four2").classList.add("active");
-			var str =
+			let str =
 				`<h2>` +
 				"第十条" +
 				`</h2><p>` +

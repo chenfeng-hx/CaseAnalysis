@@ -45,6 +45,8 @@ export default {
 			medium: 0,
 			// 最高人民法院数量
 			high: 0,
+			// 高级人民法院
+			higher: 0,
 			timeName:[],
 			timeValue:[],
 		};
@@ -67,6 +69,7 @@ export default {
 			this.common = this.allLike1.court_level.基层人民法院;
 			this.high = this.allLike1.court_level.最高人民法院;
 			this.medium = this.allLike1.court_level.中级人民法院;
+			this.higher = this.allLike1.court_level.高级人民法院;
 		},
 		//计算时间分布
 		countTime(obj){
@@ -289,7 +292,7 @@ export default {
 					orient: "vertical",
 					left: "left",
 				},
-				color: ["#11a7b7", "#2bdb82", "rgb(92, 123, 217)"],
+				color: ["#11a7b7", "#2bdb82", "rgb(92, 123, 217)","rgb(238, 102, 102)"],
 				series: [
 					{
 						name: "Access From",
@@ -308,6 +311,7 @@ export default {
 							{ value: this.common, name: "基层人民法院" },
 							{ value: this.medium, name: "中级人民法院" },
 							{ value: this.high, name: "最高人民法院" },
+							{ value: this.higher, name: "高级人民法院" },
 						],
 						emphasis: {
 							itemStyle: {
