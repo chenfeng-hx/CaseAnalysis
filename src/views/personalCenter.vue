@@ -187,4 +187,5 @@ export default {
         text-align: center;
         border-bottom: 1px solid #c0c1c2;
     }
+}
 </style>
