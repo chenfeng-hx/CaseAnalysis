@@ -5,116 +5,70 @@
       <h2>功能模块区</h2>
       <div class="slectfile">
         <span>分析的文书类型</span>
-        <el-select
-          v-model="value"
-          style="width: 20%"
-          placeholder="请选择"
-          @change="valChange(value)"
-        >
-          <el-option
-            style="width: 100%"
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
+        <el-select v-model="value" style="width: 20%" placeholder="请选择" @change="valChange(value)">
+          <el-option style="width: 100%" v-for="item in options" :key="item.value" :label="item.label"
+            :value="item.value">
           </el-option>
         </el-select>
       </div>
-      <div style="height: 480px; margin: 30px 36px">
+      <div class="left-step">
         <el-steps direction="vertical" :active="active" finish-status="success" class="stepInfo">
           <el-step v-if="this.value == 0">
             <template slot="description">
               <!-- <div>起诉状上传成功</div> -->
-              <label
-                for="file_load"
-                :class="{ label_active: this.preview_01 == true }"
-                v-html="
-                  this.preview_01 == true
-                    ? this.text_step.preview_01.new
-                    : this.text_step.preview_01.old
-                "
-              ></label>
+              <label for="file_load" :class="{ label_active: this.preview_01 == true }" v-html="
+                this.preview_01 == true
+                  ? this.text_step.preview_01.new
+                  : this.text_step.preview_01.old
+              "></label>
               <!-- <label for="file_load" :class="{label_active:this.preview_01 == true}">{{preview_01?text_step.old}}</label> -->
-              <input
-                id="file_load"
-                @change="preview"
-                type="file"
-                ref="file"
-                accept=".docx"
-                style="display: none"
-              />
+              <input id="file_load" @change="preview" type="file" ref="file" accept=".docx" style="display: none" />
             </template>
           </el-step>
 
           <el-step v-if="this.value == 1">
             <template slot="description">
               <!-- <div>判决书上传成功</div> -->
-              <label
-                for="file_load2"
-                :class="{ label_active: this.preview_02 == true }"
-                v-html="
-                  this.preview_02 == true
-                    ? this.text_step.preview_02.new
-                    : this.text_step.preview_02.old
-                "
-              ></label>
-              <input
-                id="file_load2"
-                @change="preview2"
-                type="file"
-                ref="file2"
-                accept=".docx"
-                style="display: none"
-              />
+              <label for="file_load2" :class="{ label_active: this.preview_02 == true }" v-html="
+                this.preview_02 == true
+                  ? this.text_step.preview_02.new
+                  : this.text_step.preview_02.old
+              "></label>
+              <input id="file_load2" @change="preview2" type="file" ref="file2" accept=".docx" style="display: none" />
             </template>
           </el-step>
           <el-step description="">
             <template slot="description">
               <!-- <div>服务器已接收</div> -->
-              <label
-                @click="upPload()"
-                :class="{
-                  label_active: this.preview_up == true,
-                  active1: isLock == true,
-                }"
-                v-html="
-                  this.preview_up == true
-                    ? this.text_step.preview_up.new
-                    : this.text_step.preview_up.old
-                "
-              ></label>
+              <label @click="upPload()" :class="{
+                label_active: this.preview_up == true,
+                active1: isLock == true,
+              }" v-html="
+  this.preview_up == true
+    ? this.text_step.preview_up.new
+    : this.text_step.preview_up.old
+"></label>
             </template>
           </el-step>
           <el-step description="">
             <template slot="description">
-              <div
-                style="font-size: 1.1rem"
-                :class="{ label_active: this.preview_04 == true }"
-                v-html="
-                  this.preview_up == true
-                    ? this.text_step.preview_04.new
-                    : this.text_step.preview_04.old
-                "
-              ></div>
+              <div style="font-size: 1.1rem" :class="{ label_active: this.preview_04 == true }" v-html="
+                this.preview_up == true
+                  ? this.text_step.preview_04.new
+                  : this.text_step.preview_04.old
+              "></div>
             </template>
           </el-step>
           <el-step description="">
             <template slot="description">
-              <div
-                style="font-size: 1.1rem"
-                :class="{ label_active: this.preview_05 == true }"
-              >
+              <div style="font-size: 1.1rem" :class="{ label_active: this.preview_05 == true }">
                 模型分析中
               </div>
             </template>
           </el-step>
           <el-step description="">
             <template slot="description">
-              <div
-                style="font-size: 1.1rem"
-                :class="{ label_active: this.preview_06 == true }"
-              >
+              <div style="font-size: 1.1rem" :class="{ label_active: this.preview_06 == true }">
                 分析完成
               </div>
             </template>
@@ -127,46 +81,24 @@
       <div>
         <div class="topTitle">
           <div class="firstBtn" v-if="this.value == 0">
-            <el-button
-              type="primary"
-              round
-              :class="{ active: this.currentIndex == 0 }"
-              @click="changeIndex(0)"
-              >起诉状</el-button
-            >
-            <span :fileName="fileName" class="fileName" v-show="isShow3"
-              >只能上传.docx文件</span
-            >
+            <el-button type="primary" round :class="{ active: this.currentIndex == 0 }"
+              @click="changeIndex(0)">起诉状</el-button>
+            <span :fileName="fileName" class="fileName" v-show="isShow3">只能上传.docx文件</span>
             <span :fileName="fileName" class="fileName">{{ fileName }}</span>
           </div>
           <div class="secondBtn" v-if="this.value == 1">
-            <el-button
-              type="primary"
-              round
-              :class="{ active: this.currentIndex == 1 }"
-              @click="changeIndex(1)"
-              >判决书</el-button
-            >
+            <el-button type="primary" round :class="{ active: this.currentIndex == 1 }"
+              @click="changeIndex(1)">判决书</el-button>
             <span :fileName="fileName2" class="fileName2">{{ fileName2 }}</span>
           </div>
 
           <div>
-            <el-button
-              type="primary"
-              round
-              :class="{ active: this.currentIndex == 2 }"
-              @click="changeIndex(2)"
-              >争议要素</el-button
-            >
+            <el-button type="primary" round :class="{ active: this.currentIndex == 2 }"
+              @click="changeIndex(2)">争议要素</el-button>
           </div>
           <div v-if="this.value == 0">
-            <el-button
-              type="primary"
-              round
-              :class="{ active: this.currentIndex == 3 }"
-              @click="changeIndex(3)"
-              >同案智推</el-button
-            >
+            <el-button type="primary" round :class="{ active: this.currentIndex == 3 }"
+              @click="changeIndex(3)">同案智推</el-button>
           </div>
         </div>
       </div>
@@ -190,38 +122,20 @@
 
       <!-- 要素提取 -->
       <!-- 起诉状 -->
-      <info-box
-        v-if="this.currentIndex == 2 && this.value == 0"
-        :pictureData="pictureData2"
-        :textInfo="textInfo2"
-      ></info-box>
+      <info-box v-if="this.currentIndex == 2 && this.value == 0" :pictureData="pictureData2"
+        :textInfo="textInfo2"></info-box>
       <!-- 判决书 -->
-      <info-box
-        v-if="this.currentIndex == 2 && this.value == 1"
-        :pictureData="pictureData"
-        :textInfo="textInfo"
-      ></info-box>
-      <div
-        class="forth"
-        v-show="this.currentIndex == 3"
-        v-loading="loading"
-        element-loading-background="rgba(0, 0, 0, 0)"
-        element-loading-text="拼命加载中"
-      >
-        <img
-          src="../assets/页面为空 (1).svg"
-          alt=""
-          v-if="!sameCase.length != 0"
-        />
+      <info-box v-if="this.currentIndex == 2 && this.value == 1" :pictureData="pictureData"
+        :textInfo="textInfo"></info-box>
+      <div class="forth" v-show="this.currentIndex == 3" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)"
+        element-loading-text="拼命加载中">
+        <img src="../assets/页面为空 (1).svg" alt="" v-if="!sameCase.length != 0" />
         <div class="title title2" v-show="isShow9">请先上传起诉状!</div>
         <div v-if="sameCase.length != 0">
           <div class="tipTop">
             根据上传的起诉状:<span>{{ fileName }}</span> 检索相似案例!
           </div>
-          <sameCase-content
-            :sameCase="sameCase"
-            :sameCaseLength="sameCaseLength"
-          ></sameCase-content>
+          <sameCase-content :sameCase="sameCase" :sameCaseLength="sameCaseLength"></sameCase-content>
         </div>
         <div class="title title2" v-show="isShow6">
           没有找到相似案件<img src="../assets/哭泣.svg" alt="" />
@@ -400,7 +314,7 @@ export default {
             this.isShow9 = false;
             this.isShow6 = false
           }
-        
+
         })
         .catch((res) => {
           this.isShow9 = false;
@@ -523,9 +437,9 @@ export default {
                       this.sameCase.pop()
                       this.sameCase.unshift(vote)
                     }
-                      
+
                   }
-                  if (this.sameCase.length!=0) {
+                  if (this.sameCase.length != 0) {
                     this.$message.success("分析成功");
                     this.active = 5;
                     this.preview_06 = true;
@@ -677,11 +591,14 @@ export default {
 .special {
   display: flex;
 }
+
 //侧边栏样式
 .box {
   display: flex;
+  // flex-wrap: wrap;
   margin-top: 10px;
-  position: relative;
+  // position: relative;
+
   .left {
     // position: fixed;
     background-color: rgb(255, 255, 255);
@@ -689,33 +606,44 @@ export default {
     box-shadow: 3px 2px 2px rgb(232, 233, 238);
     width: 17%;
     height: 1200px;
+
     h2 {
       text-align: center;
       margin-top: 20px;
     }
+
     .slectfile {
       margin-top: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
+
       span {
         font-size: 16px;
         font-weight: 600;
         margin-right: 30px;
       }
+
       /deep/ .el-input__inner {
         width: 100px;
         //  margin-left: -20px;
       }
+
       /deep/ .el-input {
         width: 100px;
         margin-left: -20px;
       }
     }
 
+    .left-step {
+      height: 480px;
+      margin: 30px 36px;
+    }
+
     ul {
       width: 100%;
       overflow: hidden;
+
       li {
         display: flex;
         padding-left: 20%;
@@ -729,13 +657,16 @@ export default {
         font-weight: 800;
         // color: black;
         color: #6e7079;
+
         img {
           margin-right: 10px;
         }
       }
+
       li:hover {
         cursor: pointer;
       }
+
       .active {
         background-color: rgb(243, 244, 250);
         // color: #ccc;
@@ -743,14 +674,21 @@ export default {
       }
     }
   }
+
   .right {
     // margin-left: 17%;
-    width: 84%;
+    width: 83%;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+
     .topTitle {
-      margin-left: -12%;
+      // margin-left: -12%;
       display: flex;
       justify-content: center;
       text-align: center;
+
       /deep/.el-button {
         border-radius: 25px;
         border: none;
@@ -759,7 +697,7 @@ export default {
         justify-content: center;
         align-items: center;
         width: 115px;
-        margin: 20px 50px;
+        margin: 2vh 5vw;
         height: 50px;
         font-size: 1.1rem;
       }
@@ -768,18 +706,22 @@ export default {
         background: rgb(94, 85, 85);
         // border: 1px solid rgb(94, 85, 85);
       }
+
       .firstBtn,
       .secondBtn {
         position: relative;
+
         span {
           position: absolute;
           top: 75px;
         }
       }
+
       .fileName {
         left: 30px;
         width: 150px;
       }
+
       .fileName2 {
         top: 85px;
         left: 30px;
@@ -788,12 +730,14 @@ export default {
     }
   }
 }
+
 .first,
 .second,
 .third {
   user-select: text;
   position: relative;
 }
+
 .txtTitle {
   margin: 20px auto;
   display: flex;
@@ -816,6 +760,7 @@ export default {
   // border:0px;
   // border-radius:0px;
   text-align: center;
+  // background-color: #104ab6;
 }
 
 .top2 {
@@ -836,6 +781,7 @@ label {
   text-align: center;
   border-radius: 5px;
 }
+
 label:hover {
   background: rgb(94, 85, 85);
   color: #fff;
@@ -845,6 +791,7 @@ label:hover {
 .label_active {
   color: #104ab6;
 }
+
 .txtDesc {
   font-size: 16px;
   text-indent: 2rem;
@@ -852,6 +799,7 @@ label:hover {
   text-align: left;
   padding: 30px 50px 0 50px;
 }
+
 .my-component {
   height: 100%;
   margin: 20px auto;
@@ -861,14 +809,18 @@ label:hover {
   height: 800px;
   //   border: 1px solid #000;
 }
+
 .top {
   // display: flex;
   padding-top: 10px;
   margin-left: 30px;
+
   .file {
     display: flex;
-    align-items: center; /*垂直居中*/
-    justify-content: center; /*水平居中*/
+    align-items: center;
+    /*垂直居中*/
+    justify-content: center;
+    /*水平居中*/
     line-height: 35px;
     border-radius: 10px;
     margin: 0px 5px;
@@ -879,6 +831,7 @@ label:hover {
     }
   }
 }
+
 .middle {
   display: flex;
   padding-top: 50px;
@@ -887,20 +840,24 @@ label:hover {
 
   .btn {
     margin: 0px 15px;
+
     .el-button {
       background: rgb(39, 37, 35) !important;
       border-color: rgb(39, 37, 35) !important;
     }
+
     .el-button:focus {
       background: rgb(87, 87, 250) !important;
       border-color: rgb(87, 87, 250) !important;
     }
   }
 }
+
 .bottom {
   width: 90%;
   margin: 55px auto;
   justify-content: center;
+
   .fileContent {
     width: 95%;
     height: 700px;
@@ -919,11 +876,13 @@ label:hover {
 .el-main {
   height: 2000px;
 }
+
 .forth {
   height: 1000px;
   margin-top: 20px;
   margin-left: 100px;
   position: relative;
+
   .title {
     user-select: text;
     font-size: 1.25rem;
@@ -932,28 +891,33 @@ label:hover {
     display: flex;
     align-items: center;
   }
+
   .title2 {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: -170px;
     margin-top: -80px;
+
     img {
       width: 1.25em;
       height: 1.25em;
       margin: 0;
     }
   }
+
   .tipTop {
     margin-bottom: 35px;
     color: black;
     font-size: 1.4rem;
+
     span {
       margin-left: 10px;
       margin-right: 10px;
       color: rgb(51, 122, 183);
     }
   }
+
   img {
     margin-top: 10px;
     width: 200px;
@@ -965,6 +929,7 @@ label:hover {
 .el-step__title {
   padding-bottom: 0px !important;
 }
+
 .el-step__head.is-success {
   color: rgb(39, 37, 35);
   border-color: rgb(39, 37, 35);
@@ -974,13 +939,50 @@ label:hover {
   cursor: pointer;
   color: red;
 }
+
 .active1 {
   pointer-events: none; // 禁止鼠标点击事件
 }
-/deep/ .el-steps{
+
+/deep/ .el-steps {
   position: relative;
   // top: 5px;
   // position: relative;
   z-index: 0;
+}
+
+
+@media screen and(max-width:600px) {
+  .box {
+    flex-direction: column;
+
+    .left {
+      width: 100%;
+      height: 300px;
+      // display: flex;
+
+
+      .slectfile {
+        flex-direction: column;
+      }
+
+      .left-step {
+        height: 150px;
+
+        .stepInfo {
+          display: flex;
+          flex-direction: row;
+
+
+        }
+      }
+
+
+    }
+
+    .right {
+      width: 100vw;
+    }
+  }
 }
 </style>

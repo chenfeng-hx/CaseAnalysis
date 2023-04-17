@@ -37,9 +37,9 @@
     </div>
 
     <div style="background:linear-gradient(to left,#FFFFFF,#b6b6b6,#FFFFFF);
-        height:3px;
-        position: relative;
-        margin-top: 30px"></div>
+                height:3px;
+                position: relative;
+                margin-top: 30px"></div>
 
   </div>
 </template>
@@ -56,9 +56,9 @@ export default {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   background-color: #F5F9FC;
   height: 350px;
-  width: 74%;
+  width: 84vw;
   margin-top: 30px;
-  margin-left: 13%;
+  margin-left: 7vw;
 }
 
 .card1 {

@@ -12,7 +12,7 @@ Vue.prototype.$echarts = echarts
 
 // 使用vuex
 import store from './store'
-Vue.prototype.$store = store   
+Vue.prototype.$store = store
 // 引入ElementUI组件库
 import ElementUI, { Message } from 'element-ui';
 
@@ -30,3 +30,6 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+
+

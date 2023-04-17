@@ -1,105 +1,56 @@
 <template>
   <div>
-    <div
-      class="container"
-      :class="{ containerActive: isShow9 }"
-      v-loading="loading4"
-      element-loading-background="rgba(0, 0, 0, 0)"
-      element-loading-text="拼命加载中"
-    >
+    <div class="container" :class="{ containerActive: isShow9 }" v-loading="loading4"
+      element-loading-background="rgba(0, 0, 0, 0)" element-loading-text="拼命加载中">
       <!-- class="container3" v-show="isShow9" -->
       <!-- 开始时的搜索框 -->
       <div :class="{ container3: isShow9 }">
         <div class="title">
           <div class="text">本案例库已经收录了</div>
-          <div
-            v-loading="loading5"
-            class="wait"
-            element-loading-background="rgba(0, 0, 0, 0)"
-          >
+          <div v-loading="loading5" class="wait" element-loading-background="rgba(0, 0, 0, 0)">
             <div class="text textMiddle">{{ caseNum }}</div>
           </div>
           <div class="text">个案件</div>
         </div>
         <div class="search">
-          <el-autocomplete
-            class="inline-input"
-            v-model="state1"
-            :trigger-on-focus="false"
-            :fetch-suggestions="querySearch"
-            @select="handleSelect"
-            placeholder="请输入搜索案例关键词"
+          <el-autocomplete class="inline-input" v-model="state1" :trigger-on-focus="false"
+            :fetch-suggestions="querySearch" @select="handleSelect" placeholder="请输入搜索案例关键词"
             @input="changeStyle('block', '.el-autocomplete-suggestion')"
             @keyup="changeStyle('none', '.el-autocomplete-suggestion')"
-            @keyup.enter.native="changeIsSearch"
-          ></el-autocomplete>
-          <el-button
-            type="primary"
-            style="letter-spacing: 5px; font-size: 16px"
-            @click="changeIsSearch"
-            class="searchBtn"
-            ><img src="../assets/搜索.svg" alt=""
-          /></el-button>
+            @keyup.enter.native="changeIsSearch"></el-autocomplete>
+          <el-button type="primary" style="letter-spacing: 5px; font-size: 16px" @click="changeIsSearch"
+            class="searchBtn"><img src="../assets/搜索.svg" alt="" /></el-button>
         </div>
 
         <div class="cardBox" :class="{ putActive3: !isShow9 }">
-          <div
-            class="searchCard"
-            @click="searchHigh()"
-            :class="{ searchCardSpecial: this.currentIndex == 0 }"
-          >
+          <div class="searchCard" @click="searchHigh()" :class="{ searchCardSpecial: this.currentIndex == 0 }">
             案例搜索
           </div>
-          <div
-            class="searchCard"
-            :disabled="isLock"
-            @click="allCaseSearch()"
-            :class="{
-              searchCardSpecial: this.currentIndex == 1,
-              active1: isLock == true,
-            }"
-          >
+          <div class="searchCard" :disabled="isLock" @click="allCaseSearch()" :class="{
+            searchCardSpecial: this.currentIndex == 1,
+            active1: isLock == true,
+          }">
             所有案件
           </div>
-          <div
-            class="searchCard"
-            @click="sameSearchBtn()"
-            :class="{ searchCardSpecial: this.currentIndex == 2 }"
-          >
+          <div class="searchCard" @click="sameSearchBtn()" :class="{ searchCardSpecial: this.currentIndex == 2 }">
             同案检索
           </div>
         </div>
       </div>
 
       <!-- 同案检索 -->
-      <el-dialog
-        :visible.sync="dialogVisible"
-        width="70%"
-        class="sameBox"
-        :modal="false"
-        :before-close="handleClose2"
-        v-loading="loading3"
-        element-loading-background="rgba(0, 0, 0, 0)"
-        element-loading-text="拼命加载中"
-      >
+      <el-dialog :visible.sync="dialogVisible" width="70%" class="sameBox" :modal="false" :before-close="handleClose2"
+        v-loading="loading3" element-loading-background="rgba(0, 0, 0, 0)" element-loading-text="拼命加载中">
         <h1>同案检索</h1>
         <div class="content">
           <div class="tip">以下两种方式任选一种：</div>
           <div class="first">
-            <span>上传起诉状:</span
-            ><input type="file" id="file_load" ref="file" accept=".docx" />
+            <span>上传起诉状:</span><input type="file" id="file_load" ref="file" accept=".docx" />
           </div>
           <div class="second">
-            <span>输入案例号:</span
-            ><el-input
-              placeholder="请输入内容"
-              class="caseInput"
-              v-model="sameInput"
-            ></el-input>
+            <span>输入案例号:</span><el-input placeholder="请输入内容" class="caseInput" v-model="sameInput"></el-input>
           </div>
-          <el-button type="primary" class="third" @click="sameCaseSearch()"
-            >检索</el-button
-          >
+          <el-button type="primary" class="third" @click="sameCaseSearch()">检索</el-button>
         </div>
         <!-- 找不到相似案例 -->
         <div v-show="isShow6" class="notFoundSame">
@@ -126,33 +77,20 @@
 
           <!-- 右下内容 -->
           <div class="caseContainer">
-            <div
-              v-for="(item, index) in sameCase.slice(
-                (currentPage - 1) * pagesize,
-                currentPage * pagesize
-              )"
-              :key="index"
-            >
-              <search-info
-                v-if="hackReset"
-                :currentPage2="(currentPage - 1) * pagesize + 1 + index"
-                :caseArr2="item"
-                :special="first"
-              ></search-info>
+            <div v-for="(item, index) in sameCase.slice(
+              (currentPage - 1) * pagesize,
+              currentPage * pagesize
+            )" :key="index">
+              <search-info v-if="hackReset" :currentPage2="(currentPage - 1) * pagesize + 1 + index" :caseArr2="item"
+                :special="first"></search-info>
             </div>
           </div>
 
           <div class="pagination">
             <div class="block">
-              <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[2, 4, 6, 8, 10]"
-                :page-size="pagesize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="this.sameCase.length"
-              >
+              <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                :current-page="currentPage" :page-sizes="[2, 4, 6, 8, 10]" :page-size="pagesize"
+                layout="total, sizes, prev, pager, next, jumper" :total="this.sameCase.length">
               </el-pagination>
             </div>
           </div>
@@ -164,45 +102,24 @@
       <el-main class="container2" v-show="!isShow9">
         <div v-if="iscase">
           <div class="labelsTag" v-if="isShowTag()">
-            <div
-              class=""
-              style="
-                margin-left: 37px;
-                color: #2d405e;
-                display: inline-block;
-                font-size: 14px;
-              "
-            >
+            <div class="" style="
+                                      margin-left: 37px;
+                                      color: #2d405e;
+                                      display: inline-block;
+                                      font-size: 14px;
+                                    ">
               已选条件：
             </div>
-            <el-tag
-              v-for="(tag1, index4) in courthierarchy"
-              :key="index4 + 'd'"
-              closable
-              :disable-transitions="false"
-              @close="handleClose(1, tag1)"
-              style="margin: 0 8px"
-            >
+            <el-tag v-for="(tag1, index4) in courthierarchy" :key="index4 + 'd'" closable :disable-transitions="false"
+              @close="handleClose(1, tag1)" style="margin: 0 8px">
               {{ tag1 }}
             </el-tag>
-            <el-tag
-              v-for="(tag2, index5) in area"
-              :key="index5 + 'f'"
-              closable
-              :disable-transitions="false"
-              @close="handleClose(2, tag2)"
-              style="margin: 0 8px"
-            >
+            <el-tag v-for="(tag2, index5) in area" :key="index5 + 'f'" closable :disable-transitions="false"
+              @close="handleClose(2, tag2)" style="margin: 0 8px">
               {{ tag2 }}
             </el-tag>
-            <el-tag
-              v-for="(tag3, index6) in year"
-              :key="index6 + 'x'"
-              closable
-              :disable-transitions="false"
-              @close="handleClose(3, tag3)"
-              style="margin: 0 8px"
-            >
+            <el-tag v-for="(tag3, index6) in year" :key="index6 + 'x'" closable :disable-transitions="false"
+              @close="handleClose(3, tag3)" style="margin: 0 8px">
               {{ tag3 }}
             </el-tag>
           </div>
@@ -219,13 +136,8 @@
             <div>找不到您搜索的内容<img src="../assets/哭泣.svg" alt="" /></div>
           </div>
         </div>
-        <div
-          class="caseText"
-          v-if="iscase"
-          v-loading="loading"
-          element-loading-background="rgba(0, 0, 0, 0)"
-          element-loading-text="拼命加载中"
-        >
+        <div class="caseText" v-if="iscase" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)"
+          element-loading-text="拼命加载中">
           <!-- 左边内容 -->
           <div class="left">
             <div class="list">
@@ -234,7 +146,7 @@
                 <h3>法院层级</h3>
               </div>
               <ul v-for="(val, key, index1) in courtArr" :key="index1 + 'a'">
-                <li @click="chooseCourt(1, key)" v-if="key!=''">{{ key }} ({{ val }})</li>
+                <li @click="chooseCourt(1, key)" v-if="key != ''">{{ key }} ({{ val }})</li>
               </ul>
             </div>
             <el-divider></el-divider>
@@ -245,7 +157,7 @@
               </div>
 
               <ul v-for="(val, key, index2) in areaArr" :key="index2 + 'b'">
-                <li @click="chooseCourt(2, key)" v-if="key!=''">{{ key }} ({{ val }})</li>
+                <li @click="chooseCourt(2, key)" v-if="key != ''">{{ key }} ({{ val }})</li>
               </ul>
             </div>
             <el-divider></el-divider>
@@ -256,7 +168,7 @@
               </div>
 
               <ul v-for="(val, key, index3) in timeArr" :key="index3 + 'c'">
-                <li @click="chooseCourt(3, key)" v-if="key!=''">{{ key }} ({{ val }})</li>
+                <li @click="chooseCourt(3, key)" v-if="key != ''">{{ key }} ({{ val }})</li>
               </ul>
             </div>
           </div>
@@ -267,11 +179,7 @@
               <div class="text" @click="changeEcharts(true)">
                 检索案例（{{ this.allLike1.total }}）
               </div>
-              <div
-                class="text"
-                style="margin-left: 5px"
-                @click="changeEcharts(false)"
-              >
+              <div class="text" style="margin-left: 5px" @click="changeEcharts(false)">
                 可视化
               </div>
               <div class="sort">
@@ -284,41 +192,24 @@
 
             <!-- 右下内容 -->
             <div class="caseContainer" v-if="hackReset2">
-              <div
-                v-for="(item, index) in caseArr.slice(
-                  (currentPage - 1) * pagesize,
-                  currentPage * pagesize
-                )"
-                :key="index"
-              >
-                <search-info
-                  v-if="hackReset2"
-                  :currentPage2="(currentPage - 1) * pagesize + 1 + index"
-                  :caseArr2="item"
-                  :special="second"
-                ></search-info>
+              <div v-for="(item, index) in caseArr.slice(
+                (currentPage - 1) * pagesize,
+                currentPage * pagesize
+              )" :key="index">
+                <search-info v-if="hackReset2" :currentPage2="(currentPage - 1) * pagesize + 1 + index" :caseArr2="item"
+                  :special="second"></search-info>
               </div>
             </div>
 
             <!-- 地图部分 -->
             <div class="echarts" v-if="!hackReset2">
-              <charts
-                style="width: 100%"
-                :caseArr="caseArr"
-                :allLike1="allLike1"
-              ></charts>
+              <charts style="width: 100%" :caseArr="caseArr" :allLike1="allLike1"></charts>
             </div>
             <div class="pagination" v-if="hackReset2">
               <div class="block">
-                <el-pagination
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :current-page="currentPage"
-                  :page-sizes="[10]"
-                  :page-size="pagesize"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="allLike1.total"
-                >
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                  :current-page="currentPage" :page-sizes="[10]" :page-size="pagesize"
+                  layout="total, sizes, prev, pager, next, jumper" :total="allLike1.total">
                 </el-pagination>
               </div>
             </div>
@@ -327,9 +218,9 @@
           <!-- 找不到你搜索的内容 -->
         </div>
       </el-main>
-      <el-footer style="padding: 0px" v-if="iscase" v-show="!isShow9"
-        ><bottomBar
-      /></el-footer>
+      <el-footer style="padding: 0px" v-if="iscase" v-show="!isShow9">
+        <bottomBar />
+      </el-footer>
     </div>
   </div>
 </template>
@@ -354,7 +245,7 @@ export default {
       // 搜索后更新的侧边栏数据
       //所有案例
       allLike: {},
-      //搜索后
+      //通过点击标签搜索后展现的案件数据
       allLike1: {},
       //点击标签
       allLike2: {},
@@ -376,7 +267,7 @@ export default {
       timeArr2: {},
       areaArr3: {},
       loading4: false,
-
+      // 所有案件数量
       caseNum: "",
       loading: false,
       cancelFun: null,
@@ -433,8 +324,8 @@ export default {
     }).then((res) => {
       this.loading5 = false;
       this.caseNum = res.data;
-    }).catch((res)=>{
-       this.loading5 = false;
+    }).catch((res) => {
+      this.loading5 = false;
     });
     // 所有案例搜索
     this.allCaseStart();
@@ -468,6 +359,8 @@ export default {
               this.courtArr1 = res.data.like_info.court_level;
               this.areaArr1 = res.data.like_info.court_area;
               this.timeArr1 = res.data.like_info.time;
+
+
             }
           } else {
             this.isLogin2 = false;
@@ -475,7 +368,7 @@ export default {
           }
           // 返回模糊查询后的列表数据 并且记录 点击时取案件的case_number来获取详细信息
         })
-        .catch(() => {});
+        .catch(() => { });
     },
 
     // 登录
@@ -516,8 +409,11 @@ export default {
             this.currentIndex = 1;
             this.isShow9 = false;
             this.caseArr = this.allCase;
-            this.caseArr2 = this.allCase;
+            this.caseArr2 = this.allCase; 
+            // console.log("countarr", this.courtArr);
             this.courtArr = this.courtArr1;
+            // console.log("countarr1", this.courtArr1);
+
             this.areaArr = this.areaArr1;
             this.timeArr = this.timeArr1;
             this.isShow4 = false;
@@ -563,7 +459,7 @@ export default {
           this.dialogVisible = false;
           done();
         })
-        .catch((_) => {});
+        .catch((_) => { });
     },
 
     // 点击搜索按钮
@@ -576,7 +472,7 @@ export default {
 
     // 同案检索成功后的操作
     sameChange(data, id, status) {
-      this.loading3 =false
+      this.loading3 = false
       this.sameCase = [];
       this.sameCaseLength = data.length;
       if (status == 0) {
@@ -587,13 +483,13 @@ export default {
           vote.title = data[i][1];
           vote.case_number = data[i][0];
           vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
-            this.sameCase.push(vote);
+          this.sameCase.push(vote);
           if (data[i][1].substr(0, len2) == id.substr(0, len2)) {
             vote.sameNum = "100.00%";
-             this.sameCase.pop()
+            this.sameCase.pop()
             this.sameCase.unshift(vote)
           }
-        
+
         }
       } else {
         for (let i = 0; i < data.length; i++) {
@@ -601,13 +497,13 @@ export default {
           vote.title = data[i][1];
           vote.case_number = data[i][0];
           vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
-           this.sameCase.push(vote);
+          this.sameCase.push(vote);
           if (data[i][0] == id) {
             vote.sameNum = "100.00%";
             this.sameCase.pop()
             this.sameCase.unshift(vote)
           }
-         
+
         }
       }
 
@@ -1009,20 +905,24 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+
   .special {
     margin-top: 50px;
     height: 600px;
+
     img {
       width: 250px;
       height: 250px;
       margin-top: 80px;
     }
+
     div {
       margin: 5px auto;
       display: flex;
       justify-content: center;
       color: rgb(84, 112, 198);
       font-size: 1.25em;
+
       img {
         width: 1.25em;
         height: 1.25em;
@@ -1031,30 +931,37 @@ export default {
     }
   }
 }
+
 .title {
   display: flex;
   justify-content: center;
   margin: 20px 0px;
   color: black;
+
   .text {
     font-size: 38px;
   }
+
   .wait {
     //  margin-left: 5px;
     margin-right: 20px;
   }
+
   .textMiddle {
     color: rgb(107, 156, 242);
     margin-left: 15px;
     // margin-right: 10px;
   }
 }
+
 .search {
   // height: 300px;
   // position: relative;
   display: flex;
-  align-items: center; /*垂直居中*/
+  align-items: center;
+  /*垂直居中*/
   justify-content: center;
+
   .searchBtn {
     // width: 30px;
     // height: 30px;
@@ -1063,11 +970,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
       width: 20px;
       height: 20px;
     }
   }
+
   .el-autocomplete {
     width: 70%;
     display: table;
@@ -1075,14 +984,17 @@ export default {
     position: relative;
     z-index: 0;
   }
+
   .el-button {
     width: 10%;
   }
 }
+
 .labelsTag {
   background: rgb(245, 245, 245);
   width: 80%;
-  align-items: center; /*垂直居中*/
+  align-items: center;
+  /*垂直居中*/
 
   // justify-content: center;/*水平居中*/
   margin: 0 auto;
@@ -1102,9 +1014,11 @@ export default {
   margin-bottom: 100px;
   // align-items: center;/*垂直居中*/
 
-  justify-content: center; /*水平居中*/
+  justify-content: center;
+  /*水平居中*/
   transition: 0.3s all;
 }
+
 .left {
   width: 18%;
   float: left;
@@ -1112,20 +1026,25 @@ export default {
   box-sizing: border-box;
   background: rgb(245, 245, 245);
   border-radius: 3px;
+
   // height: 700px;
   .list {
     margin-left: 5px;
+
     .title {
       justify-content: start;
       margin: 8px;
     }
+
     li:hover {
       .list {
         margin-left: 5px;
+
         .title {
           justify-content: start;
           margin: 8px;
         }
+
         li:hover {
           background-color: #d7e5f9;
           color: #165ac6;
@@ -1140,9 +1059,11 @@ export default {
   width: 62%;
 
   margin-left: 10px;
+
   .rightTitle {
     background: rgb(245, 245, 245);
     display: flex;
+
     .text {
       flex: 0 0 200px;
       background: #0b71b4;
@@ -1158,8 +1079,10 @@ export default {
       width: 100%;
       display: flex;
       text-align: end;
-      align-items: center; /*垂直居中*/
+      align-items: center;
+      /*垂直居中*/
       justify-content: end;
+
       .sortText {
         padding-right: 10px;
         margin-right: 10px;
@@ -1179,7 +1102,8 @@ export default {
 
   .caseContainer {
     background: rgb(245, 245, 245);
-    align-items: center; /*垂直居中*/
+    align-items: center;
+    /*垂直居中*/
     justify-content: center;
     padding-bottom: 28px;
     padding-top: 1px;
@@ -1188,11 +1112,13 @@ export default {
   .pagination {
     .caseContainer {
       background: rgb(245, 245, 245);
-      align-items: center; /*垂直居中*/
+      align-items: center;
+      /*垂直居中*/
       justify-content: center;
       padding-bottom: 28px;
       padding-top: 1px;
     }
+
     .echarts {
       background: rgb(245, 245, 245);
     }
@@ -1216,6 +1142,7 @@ h3 {
   height: 1.25em;
   margin-top: 2px;
 }
+
 .el-footer {
   padding: 0px;
 }
@@ -1224,6 +1151,7 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+
   li {
     padding: 6px 0;
     font-size: 14px;
@@ -1232,18 +1160,22 @@ ul {
     color: rgb(45, 64, 94);
     padding-left: 40px;
   }
+
   li:hover {
     background-color: #d7e5f9;
     color: #165ac6;
   }
 }
+
 .el-divider--vertical {
   height: 1.25em;
   margin-top: 2px;
 }
+
 .el-footer {
   padding: 0px;
 }
+
 // .container {
 //   // background-image: url("../assets/banner(2).png");
 
@@ -1265,16 +1197,19 @@ ul {
   color: white;
   margin: 0 auto;
   padding-top: 40px;
+
   .title {
     .text {
       font-size: 1.5rem;
     }
   }
 }
+
 .cardBox {
   display: flex;
   justify-content: space-evenly;
   margin-top: 40px;
+
   .searchCard {
     color: rgb(93, 172, 255);
     border-radius: 10px;
@@ -1294,10 +1229,12 @@ ul {
     padding: 0;
     border: none;
   }
+
   .searchCardSpecial {
     background-color: rgb(99, 151, 241);
     color: #fff;
   }
+
   div::before {
     content: "";
     position: absolute;
@@ -1313,6 +1250,7 @@ ul {
     box-sizing: border-box;
     color: rgb(228, 236, 250);
   }
+
   div::after {
     content: "";
     position: absolute;
@@ -1328,29 +1266,33 @@ ul {
 
     color: rgb(228, 236, 250);
   }
+
   div:hover::before {
     width: 100%;
     height: 100%;
     visibility: visible;
   }
+
   div:hover::after {
     width: 100%;
     height: 100%;
     visibility: visible;
   }
+
   div:hover {
     background-color: rgb(99, 151, 241);
     box-shadow:
-    // 2px 2px 2px 0 , 7px 7px 20px 0 rgb(0 0 0 / 10%), 4px 4px 5px 0 rgb(0 0 0 / 10%)
+      // 2px 2px 2px 0 , 7px 7px 20px 0 rgb(0 0 0 / 10%), 4px 4px 5px 0 rgb(0 0 0 / 10%)
       inset 2px 2px 2px 0 rgb(148, 147, 147), 7px 7px 30px 0 rgb(203, 201, 201),
       4px 4px 5px 0 rgb(104, 104, 104);
     color: #fff;
     border-radius: 0;
   }
+
   .active {
     background-color: rgb(99, 151, 241);
     box-shadow:
-    // 2px 2px 2px 0 , 7px 7px 20px 0 rgb(0 0 0 / 10%), 4px 4px 5px 0 rgb(0 0 0 / 10%)
+      // 2px 2px 2px 0 , 7px 7px 20px 0 rgb(0 0 0 / 10%), 4px 4px 5px 0 rgb(0 0 0 / 10%)
       inset 2px 2px 2px 0 rgb(148, 147, 147), 7px 7px 30px 0 rgb(203, 201, 201),
       4px 4px 5px 0 rgb(104, 104, 104);
     color: #fff;
@@ -1358,49 +1300,59 @@ ul {
     border: 2.5px solid rgb(228, 236, 250);
   }
 }
+
 .sameBox {
   h1 {
     display: flex;
     justify-content: center;
     // margin: 20px auto;
   }
+
   .content {
     font-size: 1.2rem;
   }
+
   .tip {
     margin-top: 40px;
     color: rgb(136, 160, 52);
     font-size: 1.25rem;
   }
+
   .first,
   .second {
     margin-top: 30px;
     margin-bottom: 40px;
     display: flex;
     align-items: center;
+
     input {
       margin-left: 30px;
     }
   }
+
   .caseInput {
     width: 50%;
     margin-left: 30px;
   }
+
   .third {
     margin-left: calc(50% - 20px);
     position: relative;
     z-index: 100;
   }
+
   .notFoundSame {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     margin-top: -80px;
+
     img {
       margin-top: 10px;
       width: 200px;
       height: 380px;
     }
+
     .title {
       display: flex;
       align-items: center;
@@ -1408,6 +1360,7 @@ ul {
       width: 100%;
       margin-top: -100px;
       color: rgb(51, 122, 183);
+
       // justify-content: center;
       img {
         width: 1.25em;
@@ -1417,6 +1370,7 @@ ul {
     }
   }
 }
+
 .containerActive {
   width: 100%;
   height: 700px;
@@ -1425,6 +1379,7 @@ ul {
   padding-top: 100px;
   opacity: 0.95;
 }
+
 .putActive3 {
   // float: right;
   // position: fixed;
@@ -1435,13 +1390,16 @@ ul {
   width: 180px;
   display: flex;
   flex-wrap: wrap;
+
   .searchCard {
     margin-bottom: 20px;
   }
 }
+
 .container2 {
   margin-top: -220px;
 }
+
 .caseText2 {
   margin-top: -200px;
 
@@ -1449,6 +1407,7 @@ ul {
     width: 75%;
   }
 }
+
 .active1 {
   pointer-events: none; // 禁止鼠标点击事件
 }
