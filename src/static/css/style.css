@@ -55,6 +55,8 @@ Version: 1.0
 /* @import url('../images/cc639d4575f547caa15a19e33031f46f.css'); */
 @import url('b628509602014583b544781e506412ce.css');
 @import url("9a314ae15d76437e9be0eaeb3ee10347.css");
+@import url('@/static/css/b628509602014583b544781e506412ce.css');
+@import url("@/static/css/9a314ae15d76437e9be0eaeb3ee10347.css");
 
 
 /*	Theme Main Color:#C89D66
@@ -144,9 +146,9 @@ a:visited {
 	text-decoration: none;
 	outline: none;
 	outline-width: 0 !important;
-} 
+}
 
- input:focus::-webkit-input-placeholder,
+input:focus::-webkit-input-placeholder,
 textarea:focus::-webkit-input-placeholder {
 	color: transparent;
 }
@@ -1199,7 +1201,7 @@ textarea::placeholder {
 	background-color: transparent;
 }
 
-#header-aside .aside-content .inner > div {
+#header-aside .aside-content .inner>div {
 	float: left;
 	display: block;
 	position: relative;
@@ -1211,7 +1213,7 @@ textarea::placeholder {
 	border-right: 2px solid #eee;
 }
 
-#header-aside .aside-content .inner > div:last-child {
+#header-aside .aside-content .inner>div:last-child {
 	border: 0;
 }
 
@@ -1251,7 +1253,7 @@ textarea::placeholder {
 	color: #C89D66;
 }
 
-.main-menu li.nav-item:hover > a {
+.main-menu li.nav-item:hover>a {
 	color: #fff;
 }
 
@@ -1316,7 +1318,7 @@ textarea::placeholder {
 	transition: .3s;
 }
 
-.main-menu .sub-menu li:hover > a {
+.main-menu .sub-menu li:hover>a {
 	color: #C89D66;
 }
 
@@ -2649,12 +2651,12 @@ p.privacy {
 	transition: all 0.3s;
 }
 
-.featured-process-area .process-grids .inner > a {
+.featured-process-area .process-grids .inner>a {
 	position: relative;
 	top: 100px;
 }
 
-.featured-process-area .process-grids .grid:hover .inner > a {
+.featured-process-area .process-grids .grid:hover .inner>a {
 	top: 0;
 }
 
@@ -3763,13 +3765,13 @@ a.reply-btn {
 	padding: 15px;
 }
 
-.frame-style{
+.frame-style {
 	border: medium none;
 }
 
 .blog-category,
 .recent-post,
-.archive{
+.archive {
 	border: 1px solid #ddd;
 	padding: 10px 30px 20px;
 	margin: 20px 0;
@@ -4020,13 +4022,13 @@ a.reply-btn {
 	margin-bottom: 30px;
 }
 
-.styled-faq .panel-default > .panel-heading {
+.styled-faq .panel-default>.panel-heading {
 	background: none;
 	padding: 0;
 	border: 1px solid #ddd;
 }
 
-.styled-faq .panel-default > .panel-heading + .panel-collapse > .panel-body {
+.styled-faq .panel-default>.panel-heading+.panel-collapse>.panel-body {
 	border-top: none;
 	padding: 10px;
 }

@@ -4,32 +4,29 @@
       <!-- 侧边栏 -->
       <div class="left">
         <ul>
-          <li :class="{ active: this.itemName == '劳动保障监察条例' }" @click="changeContent('劳动保障监察条例')">《劳动保障监察条例》</li>
-          <li :class="{ active: this.itemName == '女职工劳动保护特别规定' }" @click="changeContent('女职工劳动保护特别规定')">《女职工劳动保护特别规定》</li>
-          <li :class="{ active: this.itemName == '社会保险费征缴暂行条例' }" @click="changeContent('社会保险费征缴暂行条例')">《社会保险费征缴暂行条例》</li>
-          <li :class="{ active: this.itemName == '工伤保险条例' }" @click="changeContent('工伤保险条例')">《工伤保险条例》</li>
-          <li :class="{ active: this.itemName == '中华人民共和国劳动法' }" @click="changeContent('中华人民共和国劳动法')">《中华人民共和国劳动法》</li>
-          <li :class="{ active: this.itemName == '中华人民共和国劳动合同法' }" @click="changeContent('中华人民共和国劳动合同法')">《中华人民共和国劳动合同法》
+          <li :class="{ active: this.itemName === '劳动保障监察条例' }" @click="changeContent('劳动保障监察条例')">《劳动保障监察条例》</li>
+          <li :class="{ active: this.itemName === '女职工劳动保护特别规定' }" @click="changeContent('女职工劳动保护特别规定')">《女职工劳动保护特别规定》
           </li>
-          <li :class="{ active: this.itemName == '中华人民共和国劳动争议调解仲裁法' }" @click="changeContent('中华人民共和国劳动争议调解仲裁法')">
+          <li :class="{ active: this.itemName === '社会保险费征缴暂行条例' }" @click="changeContent('社会保险费征缴暂行条例')">《社会保险费征缴暂行条例》</li>
+          <li :class="{ active: this.itemName === '工伤保险条例' }" @click="changeContent('工伤保险条例')">《工伤保险条例》</li>
+          <li :class="{ active: this.itemName === '中华人民共和国劳动法' }" @click="changeContent('中华人民共和国劳动法')">《中华人民共和国劳动法》</li>
+          <li :class="{ active: this.itemName === '中华人民共和国劳动合同法' }" @click="changeContent('中华人民共和国劳动合同法')">《中华人民共和国劳动合同法》
+          </li>
+          <li :class="{ active: this.itemName === '中华人民共和国劳动争议调解仲裁法' }" @click="changeContent('中华人民共和国劳动争议调解仲裁法')">
             《中华人民共和国劳动争议调解仲裁法》</li>
-          <li :class="{ active: this.itemName == '中华人民共和国职业病防治法' }" @click="changeContent('中华人民共和国职业病防治法')">
-            《中华人民共和国职业病防治法》
-          </li>
+          <li :class="{ active: this.itemName === '中华人民共和国职业病防治法' }" @click="changeContent('中华人民共和国职业病防治法')">
+            《中华人民共和国职业病防治法》</li>
         </ul>
       </div>
-
+      <!--下载文书-->
       <div class="right">
-
         <div class="my-component" ref="preview"></div>
         <div class="down"> <a :href="urlChange" target="_blank" :download="itemName + '.docx'"><img src="../assets/下载.svg"
               alt="">
             <div>下载文书</div>
           </a> </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -39,9 +36,7 @@ const docx = require("docx-preview");
 window.JSZip = require("jszip");
 
 export default {
-
   name: "relevant",
-
   data() {
     return {
       itemName: '劳动保障监察条例',
@@ -69,7 +64,7 @@ export default {
   methods: {
     changeContent(item) {
       document.documentElement.scrollTop = 0;
-      if (item != this.itemName) {
+      if (item !== this.itemName) {
         this.itemName = item
         this.urlChange = '/static/' + item + '.docx'
         axios({
@@ -83,7 +78,6 @@ export default {
 
     }
   }
-
 }
 </script>
 
@@ -145,7 +139,7 @@ export default {
     margin-left: 18%;
     user-select: text;
 
-    /deep/ .docx-wrapper {
+    ::v-deep .docx-wrapper {
       width: 100%;
       // font-size: 2rem;
       background-color: white;
@@ -169,6 +163,8 @@ export default {
     margin-left: -15px;
     color: rgb(18, 150, 219);
   }
-}
-</style>
-<!-- >>>>>>> 9a62955 ([登录功能实现及规定不登录不能使用 分析页面改进 类案检索页面改进]) -->
+}</style>
+<<<<<<< HEAD
+=======
+>>>>>>> 5ee3af9 ([登录功能实现及规定不登录不能使用 分析页面改进 类案检索页面改进])
+>>>>>>> 9a62955 ([登录功能实现及规定不登录不能使用 分析页面改进 类案检索页面改进])

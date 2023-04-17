@@ -7,7 +7,7 @@ export function request(config) {
     baseURL: 'http://123.249.87.210:8002',
     headers: {
       "token": localStorage.getItem("token"), //	可以是授权凭证用的参数值
-  },
+    },
     timeout: 20000
   })
   // 2.axios的拦截器
@@ -19,7 +19,7 @@ export function request(config) {
   // })
   // // 2.2.响应拦截
   // instance.interceptors.response.use(res => {
-  
+
   //   if(res.data != "token校验失败"){
   //   return res
   //   }else{

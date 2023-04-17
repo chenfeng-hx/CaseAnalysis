@@ -37,9 +37,9 @@
     </div>
 
     <div style="background:linear-gradient(to left,#FFFFFF,#b6b6b6,#FFFFFF);
-                height:3px;
-                position: relative;
-                margin-top: 30px"></div>
+                  height:3px;
+                  position: relative;
+                  margin-top: 30px"></div>
 
   </div>
 </template>
