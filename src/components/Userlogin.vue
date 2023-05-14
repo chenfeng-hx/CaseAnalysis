@@ -334,6 +334,12 @@ export default {
 		changeType() {
 			this.isLogin = !this.isLogin;
 			this.changePass = true;
+			if (this.isLogin === false) {
+				document.removeEventListener('keydown', this.things);
+			} else {
+				document.addEventListener('keydown', this.things);
+			}
+
 		},
 		// 登录
 		login() {
@@ -457,14 +463,26 @@ export default {
 
 		// 回车登录
 		enterLogin() {
-			document.onkeydown = (e) => {
-				e = window.event || e;
-				if (e.code === 'Enter' || e.code === 'enter') {
-					// 调用登录事件方法
-					this.login();
-				}
+			// document.onkeydown = (e) => {
+			// 	e = window.event || e;
+			// 	if (e.code === 'Enter' || e.code === 'enter') {
+			// 		// 调用登录事件方法
+			// 		this.login();
+			// 	}
+			// }
+			document.addEventListener('keydown', this.things);
+		},
+
+		// 监听事件
+		things(e) {
+			e = window.event || e;
+			if (e.code === 'Enter' || e.code === 'enter') {
+				// 调用登录事件方法
+				this.login();
 			}
 		},
+
+
 	},
 
 

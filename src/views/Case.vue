@@ -243,8 +243,8 @@
 								<img src="../assets/case/court.svg" alt="" width="25" />
 								<h3>法院层级</h3>
 							</div>
-							<ul v-for="(val, key, index1) in courtArr" :key="index1 + 'a'">
-								<li @click="chooseCourt(1, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+							<ul >
+								<li v-for="(val, key, index1) in courtArr" :key="index1 + 'a'" @click="chooseCourt(1, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
 							</ul>
 						</div>
 						<el-divider></el-divider>
@@ -254,8 +254,9 @@
 								<img src="../assets/case/area.svg" alt="" width="25" />
 								<h3>地域</h3>
 							</div>
-							<ul v-for="(val, key, index2) in areaArr" :key="index2 + 'b'">
-								<li @click="chooseCourt(2, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+							<ul >
+								<li v-for="(val, key, index2) in areaArr" :key="index2 + 'b'" @click="chooseCourt(2, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+								<li v-if="others['其他']!==0">{{ '其他' }} ({{ others['其他'] }})</li>
 							</ul>
 						</div>
 						<el-divider></el-divider>
@@ -265,8 +266,8 @@
 								<img src="../assets/case/data.svg" alt="" width="25" />
 								<h3>判决年份</h3>
 							</div>
-							<ul v-for="(val, key, index3) in timeArr" :key="index3 + 'c'">
-								<li @click="chooseCourt(3, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+							<ul >
+								<li v-for="(val, key, index3) in timeArr" :key="index3 + 'c'" @click="chooseCourt(3, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
 							</ul>
 						</div>
 					</div>
@@ -358,6 +359,7 @@ export default {
 	name: "case",
 	data() {
 		return {
+			others: {其他:0},
 			// 锁所有案例按钮
 			isLock: false,
 			first: false,
@@ -478,7 +480,14 @@ export default {
 							this.caseArr2 = res.data.res;
 							this.allLike = res.data.like_info;
 							this.courtArr1 = res.data.like_info.court_level;
+							if (this.courtArr1[""]) {
+								this.courtArr1["基层人民法院"] += this.courtArr1[""];
+							}
 							this.areaArr1 = res.data.like_info.court_area;
+							this.others["其他"] = 0;
+							if (this.areaArr1[""]) {
+								this.others['其他'] += this.areaArr1[""];
+							}
 							this.timeArr1 = res.data.like_info.time;
 						}
 					} else {
@@ -592,12 +601,13 @@ export default {
 			this.sameCaseLength = data.length;
 			if (status === 0) {
 				const len = id.length;
-				const len2 = parseInt(0.7 * len);
+				// const len2 = parseInt(0.7 * len);
+				const len2 = parseInt(len);
 				for (let i = 0; i < data.length; i++) {
 					const vote = {};
 					vote.title = data[i][1];
 					vote.case_number = data[i][0];
-					vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
+					vote.sameNum = parseFloat(data[i][3] * 100).toFixed(2) + "%";
 					this.sameCase.push(vote);
 					if (data[i][1].substr(0, len2) === id.substr(0, len2)) {
 						vote.sameNum = "100.00%";
@@ -610,7 +620,7 @@ export default {
 					const vote = {};
 					vote.title = data[i][1];
 					vote.case_number = data[i][0];
-					vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
+					vote.sameNum = parseFloat(data[i][3] * 100).toFixed(2) + "%";
 					this.sameCase.push(vote);
 					if (data[i][0] === id) {
 						vote.sameNum = "100.00%";
@@ -777,7 +787,14 @@ export default {
 								this.allLike2 = res.data.like_info;
 								this.caseArr2 = res.data.res;
 								this.courtArr = res.data.like_info.court_level;
+								if (this.courtArr[""]) {
+									this.courtArr["基层人民法院"] += this.courtArr[""];
+								}
 								this.areaArr = res.data.like_info.court_area;
+								this.others["其他"] = 0;
+								if (this.areaArr[""]) {
+									this.others["其他"] += this.areaArr[""];
+								}
 								this.timeArr = res.data.like_info.time;
 								// 获取模糊检索的列表
 								this.caseName = [];
@@ -1427,7 +1444,7 @@ ul {
 .containerActive {
 	width: 100%;
 	height: 700px;
-	background-image: url("../assets/bgc3.png");
+	background-image: url("@/assets/bgc3.png");
 	background-size: 100% 100%;
 	padding-top: 100px;
 	opacity: 0.95;

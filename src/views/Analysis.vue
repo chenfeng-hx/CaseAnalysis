@@ -143,7 +143,7 @@
 						>起诉状</el-button>
 						<span :fileName="fileName" class="fileName" v-show="isShow3"
 						>只能上传.docx文件</span>
-						<span :fileName="fileName" class="fileName">{{ fileName }}</span>
+						<span :fileName="fileName" class="fileName" v-if="this.currentIndex === 0">{{ fileName }}</span>
 					</div>
 					<!--判决书按钮-->
 					<div class="secondBtn" v-if="this.value === 1">
@@ -153,7 +153,8 @@
 							:class="{ active: this.currentIndex === 1 }"
 							@click="changeIndex(1)"
 						>判决书</el-button>
-						<span :fileName="fileName2" class="fileName2">{{ fileName2 }}</span>
+						<span :fileName="fileName2" class="fileName2" v-if="this.currentIndex === 1">{{ fileName2 }}</span>
+						<!--<span :fileName="fileName2" class="fileName2">{{ fileName2 }}</span>-->
 					</div>
 					<!--争议要素按钮-->
 					<div>
@@ -217,7 +218,7 @@
 				<img
 					src="../assets/页面为空 (1).svg"
 					alt=""
-					v-if="!sameCase.length !== 0"
+					v-if="sameCase.length === 0"
 				/>
 				<div class="title title2" v-show="isShow9">请先上传起诉状!</div>
 				<div v-if="sameCase.length !== 0">
@@ -517,12 +518,13 @@ export default {
 									this.textInfo2 = res.data.claim_info;
 									const data = this.sameCase2;
 									const len = this.textInfo2.title.length;
-									const len2 = parseInt(0.7 * len);
+									// const len2 = parseInt(0.7 * len);
+									const len2 = parseInt(len);
 									for (let i = 0; i < data.length; i++) {
 										const vote = {};
 										vote.title = data[i][1];
 										vote.case_number = data[i][0];
-										vote.sameNum = parseFloat(data[i][3] * 100).toFixed(3) + "%";
+										vote.sameNum = parseFloat(data[i][3] * 100).toFixed(2) + "%";
 										this.sameCase.push(vote);
 										if ( data[i][1].substr(0, len2) === this.textInfo2.title.substr(0, len2) ) {
 											vote.sameNum = "100.00%";
@@ -778,7 +780,11 @@ export default {
 				position: relative;
 				span {
 					position: absolute;
-					top: 75px;
+					/*top: 75px;*/
+					top: 70px;
+					width: auto;
+					white-space: nowrap;
+					left: -40px;
 				}
 			}
 			.fileName {
@@ -950,7 +956,8 @@ label:hover {
 	.tipTop {
 		margin-bottom: 35px;
 		color: black;
-		font-size: 1.4rem;
+/*		font-size: 1.4rem;*/
+		font-size: 1.1rem;
 		span {
 			margin-left: 10px;
 			margin-right: 10px;

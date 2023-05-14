@@ -47,13 +47,23 @@
                   <span class="leftInfo">案件号:</span
 				  ><span class="rightInfo">{{ textInfo.case_number }}</span>
 				</li>
-				<li v-if="textInfo.plaintiff !== undefined">
+<!--				<li v-if="textInfo.plaintiff !== undefined">
                   <span class="leftInfo">原告:</span
 				  ><span class="rightInfo">{{ textInfo.plaintiff[0] }}</span>
 				</li>
 				<li v-if="textInfo.defendant !== undefined">
                   <span class="leftInfo">被告:</span
-				  ><span class="rightInfo">{{ textInfo.defendant[0]}}</span>
+				  ><span class="rightInfo">{{ textInfo.plaintiff[1]}}</span>
+				  &lt;!&ndash;&gt;<span class="rightInfo">{{ textInfo.defendant[0]}}</span>&ndash;&gt;
+				</li>-->
+
+				<li v-if="textInfo.plaintiff !== undefined">
+					<span class="leftInfo">原告:</span>
+					<span class="rightInfo" v-for="item in textInfo.plaintiff" key="item">{{ item }}</span>
+				</li>
+				<li v-if="textInfo.defendant !== undefined">
+					<span class="leftInfo">被告:</span>
+					<span class="rightInfo" v-for="item in textInfo.defendant" key="item">{{ item }}</span>
 				</li>
 				<li v-if="textInfo.law !== undefined">
                   <span class="leftInfo">法条:</span
@@ -157,12 +167,23 @@ export default {
 		}
 		ul {
 			width: 100%;
+			position: relative;
+			right: 10px;
+
 			li {
 				border: 2px solid rgb(217, 217, 222);
 				border-radius: 5px;
 				padding: 5px 5px;
 				color: rgb(68, 68, 70);
 				margin-bottom: 10px;
+
+				span.leftInfo {
+					margin-right: 5px;
+				}
+
+				span.rightInfo {
+					margin-right: 8px;
+				}
 			}
 		}
 	}
