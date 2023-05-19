@@ -10,7 +10,7 @@ import {request}  from "./request"
 export function getSamecaseForm(formdata){
 	return request({
 		method:"post",
-		url:"/get_sim_exa_from_file",
+		url:"/api/get_sim_exa_from_file",
 		data:formdata
 	})
 }
@@ -19,7 +19,7 @@ export function getSamecaseForm(formdata){
 export function getSamecaseNum(formdata){
 	return request({
 		method:"post",
-		url:"/get_sim_exa_from_case",
+		url:"/api/get_sim_exa_from_case",
 		data:formdata
 	})
 }
@@ -28,7 +28,7 @@ export function getSamecaseNum(formdata){
 export function upJugment(formdata){
 	return request({
 		method:"post",
-		url:"/upload_case_jud",
+		url:"/api/upload_case_jud",
 		data:formdata
 	})
 }
@@ -37,7 +37,7 @@ export function upJugment(formdata){
 export function upClaim(formdata){
 	return request({
 		method:"post",
-		url:"/upload_case_cla",
+		url:"/api/upload_case_cla",
 		data:formdata
 	})
 }
@@ -46,7 +46,7 @@ export function upClaim(formdata){
 export function getJugementGeneration(id){
 	return request({
 		method:"get",
-		url:"/kg_generation",
+		url:"/api/kg_generation",
 		params: {
 			case_number: id,
 		},
@@ -57,7 +57,7 @@ export function getJugementGeneration(id){
 export function getClaimGeneration(formdata){
 	return request({
 		method:"POST",
-		url:"/kg_claim",
+		url:"/api/kg_claim",
 		data:formdata
 	})
 }
@@ -67,7 +67,7 @@ export function getClaimGeneration(formdata){
 export function getCaseInfo(id){
 	return request({
 		method:"get",
-		url:"/case_info",
+		url:"/api/case_info",
 		params: {
 			case_number: id,
 		},

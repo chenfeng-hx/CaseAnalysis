@@ -1,18 +1,49 @@
-<script setup>
-import {onBeforeMount, ref} from "vue";
-import { getUser } from "@/api/search.js";
-import router from '@/router';
-
 /**
- * 当前代码编辑信息:
- *    由用户 尘封 使用 WebStorm 在 “CaseAnalysis” 中
- *    于 2023-04-22 14:37:35 编写而成！
- *    祝你食用愉快！！！
- */
-// 控制展示登录按钮还是登录用户的信息
-let isLogin = ref(false);
+* 当前代码编辑信息:
+*    由用户 尘封 使用 WebStorm 在 “CaseAnalysis” 中
+*    于 2023-04-22 14:37:35 编写而成！
+*    祝你食用愉快！！！
+*/
+<script setup>
+import {ref} from "vue";
+import { getUser } from "@/api/search.js";
+import { ElMessage } from 'element-plus'
+import router from '@/router';
+import UserLogin from "@/components/UserLogin.vue";
+
+// 因为 setup 本就代替了 created，beforeCreate 钩子，所以本来在这两个钩子中执行的函数可以直接在 setup 中执行
+// 获取信息（验证信息，失败则会传回“token校验失败”）
+getUser().then((res) => {
+		if(res.data !== "token校验失败"){
+			// 说明登录过，应该是后端比对 token，返回用户信息
+			isLogin = false;
+			username = res.data.username;
+		} else{
+			// 发送提示信息
+			ElMessage({
+				message: "未登录或者登录过期，请重新登录",
+				type: "warning",
+				center: "true",
+				duration: 2000,
+			});
+		}
+	}
+).catch(() => ElMessage.warning("出错啦") );
+
+
 // 控制模态框是否展示
 let dialogVisible = ref(false);
+
+// 登录成功
+function loginMsg(val){
+	dialogVisible = val;   // false:关闭登录框
+	isLogin = false;
+}
+
+// 获取用户名
+function nameSend(newUsername){
+	username = newUsername;
+}
 
 // 获取点击的导航标签并进行路由跳转
 let appTab = ref("home");
@@ -25,8 +56,19 @@ function changeTabName(name) {
 // 用于登录过后输出用户名
 let username = ref('user');
 
-
-
+// 控制展示登录按钮还是登录用户的信息
+let isLogin = ref(true);
+// 退出登录时展示提示消息
+function exitLogin() {
+	isLogin.value = true;
+	localStorage.removeItem("token");
+	ElMessage({
+		type: 'success',
+		message: '已退出登录',
+		center: true,
+		duration: 500,
+	})
+}
 
 </script>
 
@@ -57,9 +99,9 @@ let username = ref('user');
 				<!--未登录时显示登录按钮-->
 				<el-button type="primary" @click="dialogVisible = true" plain v-if="isLogin">注册/登录</el-button>
 				<!--否则显示用户名，并带有退出登录的下拉菜单-->
-      	<el-dropdown trigger="click">
+				<el-dropdown trigger="click">
 					<span class="el-dropdown-link">
-					 <span v-if="!isLogin">你好！ {{ username }} </span>
+						 <span v-if="!isLogin">你好！ {{ username }} </span>
 					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
@@ -68,8 +110,19 @@ let username = ref('user');
 							</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
-      	</el-dropdown>
+				</el-dropdown>
 			</div>
+			<!--弹出登录/注册模态框-->
+			<el-dialog
+				v-model="dialogVisible"
+				width="0%"
+				center
+				:append-to-body = true
+				:show-close="false"
+			>
+				<!--使用 <UserLogin> 组件-->
+				<UserLogin @loginMsg="loginMsg" @loginName="nameSend"></UserLogin>
+			</el-dialog>
 		</div>
 	</div>
 </template>

@@ -9,7 +9,7 @@ import {request}  from "./request"
 //搜索用户信息
 export function getUser(formdata){
 	return request({
-		url:"/get_user_info",
+		url:"/api/get_user_info",
 		method: "get",
 	})
 }
@@ -17,7 +17,7 @@ export function getUser(formdata){
 //搜索案例 模糊搜索
 export function getCase(key,court_level,court_area,time,page){
 	return request({
-		url:"/case_like_search",
+		url:"/api/case_like_search",
 		method:'post',
 		// 简写形式
 		data: {
