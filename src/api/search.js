@@ -29,7 +29,7 @@ export function getCase(key,court_level,court_area,time,page){
 			court_area,
 			// 案件发生时间
 			time,
-			// 所求的页码数 mark
+			// 所求的页码数
 			page
 		},
 	})

@@ -6,6 +6,8 @@ import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+// 配置在代码打包时自动去掉所有的 log 日志语句
+import babel from 'rollup-plugin-babel'
 
 export default defineConfig({
   plugins: [
@@ -17,6 +19,12 @@ export default defineConfig({
     Components({
       resolvers: [ElementPlusResolver()],
     }),
+    // 代码打包去掉 log 语句
+    babel({
+      babelrc: true,
+      runtimeHelpers: true,
+    }),
+
   ],
   // 配置将 @ 转换为 src
   resolve: {

@@ -13,61 +13,73 @@ import UserLogin from "@/components/UserLogin.vue";
 
 // 因为 setup 本就代替了 created，beforeCreate 钩子，所以本来在这两个钩子中执行的函数可以直接在 setup 中执行
 // 获取信息（验证信息，失败则会传回“token校验失败”）
+/**
+ * 用户信息验证模块
+ * 在用户首次打开页面的时候进行 token 身份校验：
+ * 		如果校验成功则不显示登录按钮
+ * 		并显示相对应的用户名称(返回值详情查看接口文档)
+ */
 getUser().then((res) => {
 		if(res.data !== "token校验失败"){
 			// 说明登录过，应该是后端比对 token，返回用户信息
-			isLogin = false;
-			username = res.data.username;
+			isLogin.value = false;
+			username.value = res.data.username;
 		} else{
 			// 发送提示信息
 			ElMessage({
 				message: "未登录或者登录过期，请重新登录",
 				type: "warning",
-				center: "true",
-				duration: 2000,
+				center: true,
+				duration: 1000,
 			});
 		}
 	}
 ).catch(() => ElMessage.warning("出错啦") );
 
+// 控制展示登录按钮还是登录用户的信息
+let isLogin = ref(true);
+
+// 用于登录过后输出用户名
+let username = ref("");
 
 // 控制模态框是否展示
 let dialogVisible = ref(false);
 
+/* 下面两个函数用于传递给 login 子组件用于控制用户名信息的传出 */
 // 登录成功
-function loginMsg(val){
-	dialogVisible = val;   // false:关闭登录框
-	isLogin = false;
+const loginMsg = flag => {
+	dialogVisible.value = flag;   // false:关闭登录框
+	isLogin.value = false;       // 显示用户名称
 }
 
 // 获取用户名
-function nameSend(newUsername){
-	username = newUsername;
+const nameSend = newUserName => {
+	username.value = newUserName;    // 返回用户名称信息
 }
 
-// 获取点击的导航标签并进行路由跳转
-let appTab = ref("home");
-// 点击导航后进行路由跳转
-function changeTabName(name) {
-	appTab.value = name;
-	router.replace("/" + name);
-}
-
-// 用于登录过后输出用户名
-let username = ref('user');
-
-// 控制展示登录按钮还是登录用户的信息
-let isLogin = ref(true);
 // 退出登录时展示提示消息
-function exitLogin() {
-	isLogin.value = true;
-	localStorage.removeItem("token");
+const exitLogin = () => {
+	isLogin.value = true;     // 重新展示登录按钮
+	localStorage.removeItem("token");    // 移除存储的 token
 	ElMessage({
 		type: 'success',
 		message: '已退出登录',
 		center: true,
 		duration: 500,
 	})
+}
+
+
+/**
+ * 路由导航跳转模块
+ * 在点击导航按钮后进行路由页面的切换
+ */
+// 获取点击的导航标签并进行路由跳转
+let appTab = ref("home");
+// 点击导航后进行路由跳转
+const changeTabName = name => {
+	appTab.value = name;
+	router.replace("/" + name);
 }
 
 </script>
@@ -99,6 +111,7 @@ function exitLogin() {
 				<!--未登录时显示登录按钮-->
 				<el-button type="primary" @click="dialogVisible = true" plain v-if="isLogin">注册/登录</el-button>
 				<!--否则显示用户名，并带有退出登录的下拉菜单-->
+				<!-- mark: 可以在此处修改 trigger 的触发方式 click/ hover -->
 				<el-dropdown trigger="click">
 					<span class="el-dropdown-link">
 						 <span v-if="!isLogin">你好！ {{ username }} </span>
@@ -121,7 +134,7 @@ function exitLogin() {
 				:show-close="false"
 			>
 				<!--使用 <UserLogin> 组件-->
-				<UserLogin @loginMsg="loginMsg" @loginName="nameSend"></UserLogin>
+				<UserLogin @loginMsg="loginMsg" @nameSend="nameSend"></UserLogin>
 			</el-dialog>
 		</div>
 	</div>
