@@ -60,10 +60,10 @@ const login = () => {
 				emit("loginMsg", false);
 				emit("nameSend", username.value);
 			})
-			.catch(err => {
+			.catch(() => {
 				ElMessage({
 					type: "error",
-					message: err.message,
+					message: "用户名或密码错误",
 					center: true,
 					duration: 1000,
 				});

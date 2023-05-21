@@ -5,6 +5,7 @@
  *    祝你食用愉快！！！
  */
 import { defineStore } from 'pinia'
+import router from "@/router/index.js";
 
 export const useTokenStore = defineStore('tokenStore', {
 	state: () => ({
@@ -19,11 +20,12 @@ export const useTokenStore = defineStore('tokenStore', {
 		globalControlFirst:{}
 	}),
 	actions: {
-		updateAppTab(value) {
-			this.appTab = value
+		// 更新路由页面的值
+		updateAppTab(path) {
+			this.appTab = path
 		},
-		updateCaseTab(value) {
-			this.caseTab = value
+		updateCaseTab(path) {
+			this.caseTab = path
 		},
 		updateGlobalControlFirst(value){
 			this.globalControlFirst = value
@@ -36,6 +38,12 @@ export const useTokenStore = defineStore('tokenStore', {
 		$_removeStorage(){  // 删除token
 			localStorage.removeItem('token');
 		},
+		// 实现路由页面跳转功能
+		changeTabName(path) {
+			// 更改 appTab 的值并改变路由路径
+			this.updateAppTab(path);
+			router.replace("/" + path);
+		}
 	},
 	getters: {
 		getStorage: state => {

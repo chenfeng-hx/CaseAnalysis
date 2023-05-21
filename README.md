@@ -7,7 +7,7 @@
    1. unplugin-vue-components 和 unplugin-auto-import：自动导入组件插件，可以在 element-plus 快速上手查看，适用于 vue3 ，不用自己手动导入组件
    2. axios：用来发送网络请求
    3. pinia 低一个版本安装，否则报错
-   4. rollup-plugin-babel + @babel/plugin-transform-runtime 代码打包时去掉所有的 log 日志文件
+   4. rollup-plugin-babel + @babel/plugin-transform-runtime 代码打包时去掉所有的 log 日志文件, 可以问 gpt
    
 
 ## 说明
@@ -16,9 +16,11 @@
 3. 
 
 # 新增需求
-1. gzip
+1. gzip --> vue3 + vite 默认开启
 2. token失效跳转登录
 3. 加载进度条
 4. 雪碧图
 5. 滚动条
 6. 路由目录
+7. 回车登录
+8. 回到顶部

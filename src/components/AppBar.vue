@@ -6,10 +6,12 @@
 */
 <script setup>
 import {ref} from "vue";
-import { getUser } from "@/api/search.js";
 import { ElMessage } from 'element-plus'
-import router from '@/router';
+import { getUser } from "@/api/search.js";
+import { useTokenStore } from "@/store/index.js";
 import UserLogin from "@/components/UserLogin.vue";
+import {storeToRefs} from "pinia";
+
 
 // 因为 setup 本就代替了 created，beforeCreate 钩子，所以本来在这两个钩子中执行的函数可以直接在 setup 中执行
 // 获取信息（验证信息，失败则会传回“token校验失败”）
@@ -75,12 +77,10 @@ const exitLogin = () => {
  * 在点击导航按钮后进行路由页面的切换
  */
 // 获取点击的导航标签并进行路由跳转
-let appTab = ref("home");
+const store = useTokenStore();
+const { appTab } = storeToRefs(store);
 // 点击导航后进行路由跳转
-const changeTabName = name => {
-	appTab.value = name;
-	router.replace("/" + name);
-}
+const { changeTabName } = store;
 
 </script>
 
@@ -92,7 +92,7 @@ const changeTabName = name => {
 			<!--左侧logo-->
 			<div class="logoImg" @click="changeTabName('home')">
 				<div class="logo">
-					<img src="../assets/logo.svg" alt="logo">
+					<img src="../assets/svg/logo.svg" alt="logo">
 				</div>
 				<div>Ai法律检索</div>
 			</div>
@@ -101,7 +101,7 @@ const changeTabName = name => {
 				<!--选中的导航块加上选中样式，并同时切换路由-->
 				<div class="text" :class="{ 'tabs-active': appTab === 'home'}" @click="changeTabName('home');" >首页</div>
 				<div class="text" :class="{ 'tabs-active': appTab === 'analysis'}" @click="changeTabName('analysis');">文书分析</div>
-				<div class="text" :class="{ 'tabs-active': appTab === 'Case'}" @click="changeTabName('Case')">案例库</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'case'}" @click="changeTabName('case')">案例库</div>
 				<div class="text" :class="{ 'tabs-active': appTab === 'relevant'}" @click="changeTabName('relevant')">相关科普</div>
 				<div class="text" :class="{ 'tabs-active': appTab === 'display'}" @click="changeTabName('display')">数据展示</div>
 				<div class="text" :class="{ 'tabs-active': appTab === 'recommendation'}" @click="changeTabName('recommendation')">法条推荐</div>
@@ -119,7 +119,7 @@ const changeTabName = name => {
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item @click="exitLogin">
-								<img src="../assets/退出登录.svg" alt="" style="width: 20px; margin-right: 3px;">退出登录
+								<img src="../assets/svg/退出登录.svg" alt="" style="width: 20px; margin-right: 3px;">退出登录
 							</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
@@ -152,6 +152,7 @@ const changeTabName = name => {
 	right: 0;
 	display: flex;
 	align-content: center;
+	z-index: 2;
 
 	.topContent {
 		width: 100%;
