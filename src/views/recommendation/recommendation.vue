@@ -419,5 +419,9 @@ a {
 	cursor: pointer;
 }
 
+body {
+	background-color: #F7F7F7;
+}
+
 
 </style>

@@ -1,5 +1,7 @@
 <script setup>
 import AppBar from "@/components/AppBar.vue";
+import BackToTop from "@/components/BackToTop.vue";
+import {useBackTopStore} from "@/store/index.js";
 </script>
 
 <template>
@@ -12,6 +14,8 @@ import AppBar from "@/components/AppBar.vue";
 				<component :is="Component" />
 			</keep-alive>
 		</router-view>
+		<!-- 回到顶部 -->
+		<BackToTop v-if="useBackTopStore().getShow" />
 	</div>
 </template>
 

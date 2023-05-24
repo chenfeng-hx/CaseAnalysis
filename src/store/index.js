@@ -7,6 +7,7 @@
 import { defineStore } from 'pinia'
 import router from "@/router/index.js";
 
+/* 用于操作用户身份验证 */
 export const useTokenStore = defineStore('tokenStore', {
 	state: () => ({
 		isLogin:'0',
@@ -52,5 +53,12 @@ export const useTokenStore = defineStore('tokenStore', {
 			}
 			return state.token
 		}
+	}
+})
+
+/* 用于操作在不同页面控制“返回顶部”组件的展示与否 */
+export const useBackTopStore = defineStore('backTopStore', {
+	getters: {
+		getShow: () => useTokenStore().appTab !== 'home'
 	}
 })
