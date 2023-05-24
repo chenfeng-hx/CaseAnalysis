@@ -319,7 +319,7 @@ const { changeTabName } = store;
 	}
 }
 
-::v-deep.el-header{
+:deep .el-header{
 	padding: 0 0 0 0;
 }
 

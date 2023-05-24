@@ -8,6 +8,7 @@
    2. axios：用来发送网络请求
    3. pinia 低一个版本安装，否则报错
    4. rollup-plugin-babel + @babel/plugin-transform-runtime 代码打包时去掉所有的 log 日志文件, 可以问 gpt
+   5. bootstrap 版本采用第四版最新版，用于 recommendation 中
    
 
 ## 说明

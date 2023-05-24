@@ -6,6 +6,8 @@
 /*	box-sizing: border-box;*/
 /*}*/
 
+/* 全局通用样式 */
+
 /* 设置点击屏幕不出现竖线 */
 body {
 	-webkit-user-select: none;
@@ -19,6 +21,8 @@ body {
 /* 宽高分别对应纵向滚动条和横向滚动条的宽度 */
 ::-webkit-scrollbar {
 	width: 5px;
+	/* 设置高度让横向滚动条消失 */
+	height: 0;
 	background-color: rgb(244, 249, 252);
 }
 

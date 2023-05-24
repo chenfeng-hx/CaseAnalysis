@@ -112,7 +112,7 @@ const { changeTabName } = store;
 				<el-button type="primary" @click="dialogVisible = true" plain v-if="isLogin">注册/登录</el-button>
 				<!--否则显示用户名，并带有退出登录的下拉菜单-->
 				<!-- mark: 可以在此处修改 trigger 的触发方式 click/ hover -->
-				<el-dropdown trigger="click">
+				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link">
 						 <span v-if="!isLogin">你好！ {{ username }} </span>
 					</span>
@@ -152,7 +152,7 @@ const { changeTabName } = store;
 	right: 0;
 	display: flex;
 	align-content: center;
-	z-index: 2;
+	z-index: 10;
 
 	.topContent {
 		width: 100%;
