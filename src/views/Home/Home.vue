@@ -32,13 +32,13 @@ const showCard = reactive([
 		id:1,
 		name:'案例展示',
 		img: exhibition,
-		path:'Case'
+		path:'case'
 	},
 	{
 		id:2,
 		name:'类案检索',
 		img: retrieval,
-		path:'Case'
+		path:'case'
 	},
 	{
 		id:3,

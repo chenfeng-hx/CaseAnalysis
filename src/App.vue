@@ -14,8 +14,8 @@ import {useBackTopStore} from "@/store/index.js";
 				<component :is="Component" />
 			</keep-alive>
 		</router-view>
-		<!-- 回到顶部 -->
-		<BackToTop v-if="useBackTopStore().getShow" />
+		<!-- 回到顶部 改用 v-show 减少开销-->
+		<BackToTop v-show="useBackTopStore().getShow" />
 	</div>
 </template>
 

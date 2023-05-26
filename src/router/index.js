@@ -9,8 +9,8 @@ import {createRouter, createWebHashHistory} from "vue-router";
 const routes = [
 	{ path: '/', redirect: '/home' },
 	{ path: '/home', component: () => import('@/views/Home/Home.vue') },
-	{ path: '/recommendation', component: () => import('@/views/recommendation/recommendation.vue') },
-
+	{ path: '/recommendation', component: () => import('@/views/Recommendation/Recommendation.vue') },
+	{ path: '/analysis', component: () => import('@/views/Analysis/Analysis.vue') },
 ]
 
 const router = new createRouter({
