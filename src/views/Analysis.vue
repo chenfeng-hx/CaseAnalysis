@@ -22,8 +22,7 @@
 					</el-option>
 				</el-select>
 			</div>
-			<!--分析进度条-->
-			<div style="height: 480px; margin: 30px 36px">
+			<div class="left-step">
 				<el-steps direction="vertical" :active="active" finish-status="success" class="stepInfo">
 					<!--选择起诉状-->
 					<el-step v-if="this.value === 0">
@@ -719,7 +718,12 @@ export default {
 				margin-left: -20px;
 			}
 		}
-		/* fixme:找不到在哪 */
+
+		.left-step {
+			height: 480px;
+			margin: 30px 36px;
+		}
+
 		ul {
 			width: 100%;
 			overflow: hidden;
@@ -752,9 +756,14 @@ export default {
 	}
 	.right {
 		// margin-left: 17%;
-		width: 84%;
+		width: 83%;
+		display: flex;
+		flex-direction: column;
+		// justify-content: center;
+		// align-items: center;
+
 		.topTitle {
-			margin-left: -12%;
+			// margin-left: -12%;
 			display: flex;
 			justify-content: center;
 			text-align: center;
@@ -766,7 +775,7 @@ export default {
 				justify-content: center;
 				align-items: center;
 				width: 115px;
-				margin: 20px 50px;
+				margin: 2vh 5vw;
 				height: 50px;
 				font-size: 1.1rem;
 			}
@@ -865,6 +874,7 @@ label:hover {
 	margin: 20px auto 80px auto;
 	// overflow: scroll;
 	caret-color: auto;
+	margin-bottom: 80px;
 	height: 800px;
 	//   border: 1px solid #000;
 }
@@ -992,5 +1002,40 @@ label:hover {
 	// top: 5px;
 	// position: relative;
 	z-index: 0;
+}
+
+
+@media screen and(max-width:600px) {
+	.box {
+		flex-direction: column;
+
+		.left {
+			width: 100%;
+			height: 300px;
+			// display: flex;
+
+
+			.slectfile {
+				flex-direction: column;
+			}
+
+			.left-step {
+				height: 150px;
+
+				.stepInfo {
+					display: flex;
+					flex-direction: row;
+
+
+				}
+			}
+
+
+		}
+
+		.right {
+			width: 100vw;
+		}
+	}
 }
 </style>

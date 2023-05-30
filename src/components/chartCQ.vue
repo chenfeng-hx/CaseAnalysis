@@ -32,11 +32,11 @@ export default {
 	methods: {
 
 		//计算地区
-		countArea(obj){
+		countArea(obj) {
 			let reg = /^[\u4e00-\u9fa5]{1,4}$/
-			for(let i in obj){
-				if(reg.test(i)){
-					const obj2={}
+			for (let i in obj) {
+				if (reg.test(i)) {
+					const obj2 = {}
 					obj2.name = i
 					obj2.value = obj[i]
 					obj2.selected = false
@@ -57,7 +57,7 @@ export default {
 						textStyle: {
 							fontWeight: 'bold',
 							fontSize: '18',
-							color:'#434343'
+							color: '#434343'
 						}
 					},
 					tooltip: {
@@ -65,12 +65,12 @@ export default {
 						trigger: 'item',
 						backgroundColor: 'rgba(3, 22, 96, 0.5)',
 						// 这里修改data  提示框的数据
-						formatter: function(params, ticket, callback) {
+						formatter: function (params, ticket, callback) {
 							let res = ''
 							if (params.value > 0) {
-								res = params.name +' '+ params.value+'件'
+								res = params.name + ' ' + params.value + '件'
 							} else {
-								res = params.name+' '+ '0'
+								res = params.name + ' ' + '0'
 							}
 							return res
 						},
@@ -126,8 +126,8 @@ export default {
 							zoom: 1.2, // 显示比例大小
 							mapType: '重庆', // 自定义扩展图表类型
 							itemStyle: {
-								normal: { label: { show: false }},
-								emphasis: { label: { show: false }}
+								normal: { label: { show: false } },
+								emphasis: { label: { show: false } }
 							},
 							label: {
 								normal: {
@@ -151,7 +151,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.map_body{height: 400px;width: 450px}
-
+.map_body {
+	height: 400px;
+	width: 450px
+}
 </style>

@@ -6,10 +6,7 @@
 					<img src="../assets/back.svg" alt="" @click="backTo" />
 					<span @click="backTo">返回</span>
 				</div>
-				<div
-					class="topRight"
-					v-show="this.currentIndex !== 2 && this.currentIndex !== 3"
-				>
+				<div class="topRight" v-show="this.currentIndex !== 2 && this.currentIndex !== 3">
 					{{ textInfo.title }}
 				</div>
 			</div>
@@ -17,39 +14,24 @@
 				<!-- 侧边栏 -->
 				<div class="left">
 					<ul>
-						<li
-							:class="{ active: this.currentIndex === 0 }"
-							@click="changeIndex(0)"
-						>
+						<li :class="{ active: this.currentIndex === 0 }" @click="changeIndex(0)">
 							<img src="../assets/法律文书 (1).svg" alt="" />
 							起诉状
 						</li>
-						<li
-							:class="{ active: this.currentIndex === 1 }"
-							@click="changeIndex(1)"
-						>
+						<li :class="{ active: this.currentIndex === 1 }" @click="changeIndex(1)">
 							<img src="../assets/判决.svg" alt="" />
 							判决书
 						</li>
 
-						<li
-							:class="{ active: this.currentIndex === 2 }"
-							@click="changeIndex(2)"
-						>
+						<li :class="{ active: this.currentIndex === 2 }" @click="changeIndex(2)">
 							<img src="../assets/特征检索 (4).svg" alt="" />
 							要素提取 (起诉状)
 						</li>
-						<li
-							:class="{ active: this.currentIndex === 3 }"
-							@click="changeIndex(3)"
-						>
+						<li :class="{ active: this.currentIndex == 3 }" @click="changeIndex(3)">
 							<img src="../assets/特征检索 (4).svg" alt="" />
 							要素提取 (判决书)
 						</li>
-						<li
-							:class="{ active: this.currentIndex === 4 }"
-							@click="changeIndex(4)"
-						>
+						<li :class="{ active: this.currentIndex === 4 }" @click="changeIndex(4)">
 							<img src="../assets/文书 (1).svg" alt="" />
 							同案智推
 						</li>
@@ -68,7 +50,7 @@
 					</div>
 
 					<!-- 判决书 -->
-					<div class="second" v-show="this.currentIndex == 1">
+					<div class="second" v-show="this.currentIndex === 1">
 						<div class="bottom">
 							<div class="fileContent">
 								<div class="my-component">
@@ -77,24 +59,12 @@
 							</div>
 						</div>
 					</div>
-					<div
-						class="loadingBox"
-						v-if="this.loading == true && (this.currentIndex == 2||this.currentIndex == 3)"
-						v-loading="loading"
-						element-loading-background="rgba(0, 0, 0, 0)"
-						element-loading-text="拼命加载中"
-					></div>
+					<div class="loadingBox" v-if="this.loading == true && (this.currentIndex == 2 || this.currentIndex == 3)"
+						v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)" element-loading-text="拼命加载中">
+					</div>
 					<!-- 要素提取 -->
-					<info-box
-						v-if="this.currentIndex == 2"
-						:pictureData="pictureData"
-						:textInfo="{}"
-					></info-box>
-					<info-box
-						v-if="this.currentIndex == 3"
-						:pictureData="pictureData2"
-						:textInfo="textInfo"
-					>
+					<info-box v-if="this.currentIndex == 2" :pictureData="pictureData" :textInfo="{}"></info-box>
+					<info-box v-if="this.currentIndex == 3" :pictureData="pictureData2" :textInfo="textInfo">
 					</info-box>
 
 					<div class="forth" v-show="this.currentIndex == 4">
@@ -108,11 +78,7 @@
 						<div v-if="sameCase.length != 0">
 							<div class="title">检索共有{{ sameCase.length }}条相似案件:</div>
 							<ul>
-								<li
-									v-for="(item, index) in sameCase"
-									:key="index"
-									@click="up(item.case_number)"
-								>
+								<li v-for="(item, index) in sameCase" :key="index" @click="up(item.case_number)">
 									<div class="smallBox">
 										<img src="../assets/标签.svg" />
 										<span class="numLogo">{{ index + 1 }}.</span>
@@ -303,6 +269,7 @@ export default {
 	display: flex;
 	margin-top: 10px;
 	position: relative;
+
 	.left {
 		position: absolute;
 		top: 0px;
@@ -312,11 +279,13 @@ export default {
 		width: 18%;
 		height: 1200px;
 		border-radius: 0 10px 0 0;
+
 		ul {
 			border-radius: 0 10px 0 0;
 
 			width: 100%;
 			overflow: hidden;
+
 			li {
 				user-select: text;
 				display: flex;
@@ -332,13 +301,16 @@ export default {
 				font-weight: 800;
 				// color: black;
 				color: #6e7079;
+
 				img {
 					margin-right: 10px;
 				}
 			}
+
 			li:hover {
 				cursor: pointer;
 			}
+
 			.active {
 				background-color: rgb(243, 244, 250);
 				// color: #ccc;
@@ -346,6 +318,7 @@ export default {
 			}
 		}
 	}
+
 	.right {
 		margin-left: 16%;
 		width: 82%;
@@ -356,17 +329,24 @@ export default {
 	border-radius: 10px 10px 10px 10px;
 	box-shadow: -3px -2px 2px rgb(232, 233, 238);
 	box-shadow: 0px 0px 3px 0px rgb(232, 233, 238);
+
 	// box-shadow: inset 5em 1em gold;
 	pre {
 		all: initial;
 		width: 100%;
 		// overflow: scroll;
-		white-space: pre-wrap; /* css-3 */
-		white-space: -moz-pre-wrap; /* Mozilla, since1999 */
-		white-space: -pre-wrap; /* Opera 4-6 */
-		white-space: -o-pre-wrap; /*Opera 7 */
-		word-wrap: break-word; /* Internet Explorer 5.5+ */
+		white-space: pre-wrap;
+		/* css-3 */
+		white-space: -moz-pre-wrap;
+		/* Mozilla, since1999 */
+		white-space: -pre-wrap;
+		/* Opera 4-6 */
+		white-space: -o-pre-wrap;
+		/*Opera 7 */
+		word-wrap: break-word;
+		/* Internet Explorer 5.5+ */
 	}
+
 	width: 90%;
 	height: 100%;
 	margin: 0 auto;
@@ -388,6 +368,7 @@ export default {
 	margin-left: 80px;
 	// justify-content: center;
 }
+
 .bottom {
 	// width: 90%;
 	margin: 0 auto;
@@ -405,14 +386,17 @@ export default {
 		// text-align: center;
 	}
 }
+
 .forth {
 	margin-top: 30px;
 	margin-left: 100px;
+
 	.title {
 		font-size: 1.25rem;
 		color: rgb(84, 112, 198);
 		margin-bottom: 10px;
 	}
+
 	ul {
 		li {
 			width: 82%;
@@ -421,15 +405,18 @@ export default {
 			align-items: center;
 			font-size: 1.25rem;
 			justify-content: space-between;
+
 			img {
 				margin-right: 20px;
 			}
+
 			.smallBox {
 				display: flex;
 				align-items: center;
 				// width: 77%;
 			}
 		}
+
 		li:hover {
 			color: rgb(84, 112, 198);
 			cursor: pointer;
@@ -442,6 +429,7 @@ export default {
 	display: flex;
 	height: 70px;
 	background-color: rgb(255, 255, 255);
+
 	// margin-top: 5px;
 	.topLeft {
 		width: 18%;
@@ -452,20 +440,25 @@ export default {
 		border-radius: 0 0 10px 0;
 
 		box-shadow: 3px 2px 2px rgb(232, 233, 238);
+
 		img {
 			margin-left: 10%;
 		}
+
 		img:hover {
 			cursor: pointer;
 		}
+
 		span {
 			font-size: 20px;
 			margin-left: 15px;
 		}
+
 		span:hover {
 			cursor: pointer;
 		}
 	}
+
 	.topRight {
 		display: flex;
 		align-items: center;
@@ -482,6 +475,7 @@ export default {
 		// box-shadow: 0 6px 10px 0 hsla(0, 0%, 55.7%, 0.25);
 	}
 }
+
 .bigBox {
 	user-select: text;
 }
@@ -491,5 +485,6 @@ export default {
 	top: 300px;
 	// background: red;
 }
+
 // background-color: rgb(227, 229, 231);
 </style>

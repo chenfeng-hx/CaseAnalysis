@@ -3,19 +3,13 @@
 		<div class="gray-bg" style="padding: 50px 0">
 			<div class="container">
 				<div class="row process-item-wrap">
-					<div
-						class="col-lg-3 col-md-6 col-12 wow fadeInLeft"
-						data-wow-delay=".2s"
-					>
+					<div class="col-lg-3 col-md-6 col-12 wow fadeInLeft" data-wow-delay=".2s">
 						<a @click="choseEchartPage('casesClosed')">
 							<div class="single-process-item mb-50">
 								<div class="process-num">
 									<p>01</p>
 								</div>
-								<div
-									class="process-icon"
-									:class="{ 'page-active': echartsPage === 'casesClosed' }"
-								>
+								<div class="process-icon" :class="{ 'page-active': echartsPage === 'casesClosed' }">
 									<img src="../static/images/law-book.png" alt="" />
 								</div>
 								<div class="process-content">
@@ -24,19 +18,13 @@
 							</div>
 						</a>
 					</div>
-					<div
-						class="col-lg-3 col-md-6 col-12 wow fadeInLeft"
-						data-wow-delay=".4s"
-					>
+					<div class="col-lg-3 col-md-6 col-12 wow fadeInLeft" data-wow-delay=".4s">
 						<a @click="choseEchartPage('people')">
 							<div class="single-process-item mb-50">
 								<div class="process-num">
 									<p>02</p>
 								</div>
-								<div
-									class="process-icon"
-									:class="{ 'page-active': echartsPage === 'people' }"
-								>
+								<div class="process-icon" :class="{ 'page-active': echartsPage === 'people' }">
 									<img src="../static/images/contract.png" alt="" />
 								</div>
 								<div class="process-content">
@@ -45,19 +33,13 @@
 							</div>
 						</a>
 					</div>
-					<div
-						class="col-lg-3 col-md-6 col-12 wow fadeInLeft"
-						data-wow-delay=".6s"
-					>
+					<div class="col-lg-3 col-md-6 col-12 wow fadeInLeft" data-wow-delay=".6s">
 						<a @click="choseEchartPage('specifiCrimes')">
 							<div class="single-process-item mb-50">
 								<div class="process-num">
 									<p>03</p>
 								</div>
-								<div
-									class="process-icon"
-									:class="{ 'page-active': echartsPage === 'specifiCrimes' }"
-								>
+								<div class="process-icon" :class="{ 'page-active': echartsPage === 'specifiCrimes' }">
 									<img src="../static/images/lawyer-2.png" alt="" />
 								</div>
 								<div class="process-content">
@@ -66,19 +48,13 @@
 							</div>
 						</a>
 					</div>
-					<div
-						class="col-lg-3 col-md-6 col-12 wow fadeInLeft"
-						data-wow-delay=".8s"
-					>
+					<div class="col-lg-3 col-md-6 col-12 wow fadeInLeft" data-wow-delay=".8s">
 						<a @click="choseEchartPage('areaText')">
 							<div class="single-process-item mb-50">
 								<div class="process-num">
 									<p>04</p>
 								</div>
-								<div
-									class="process-icon"
-									:class="{ 'page-active': echartsPage === 'areaText' }"
-								>
+								<div class="process-icon" :class="{ 'page-active': echartsPage === 'areaText' }">
 									<img src="../static/images/podium-2.png" alt="" />
 								</div>
 								<div class="process-content">
@@ -108,79 +84,49 @@
 					<div class="col-lg-6 text-right"></div>
 				</div>
 				<div class="row">
-					<div
-						class="col-lg-4 col-md-6 col-sm-12 wow fadeInLeft"
-						data-wow-delay=".4s"
-					>
+					<div class="col-lg-4 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".4s">
 						<div class="single-blog-item">
 							<div class="blog-bg">
 								<img src="../static/images/web1.png" alt="" />
 							</div>
 							<div class="blog-content">
 								<h5>
-									<a
-										href="https://wenshu.court.gov.cn/website/wenshu/181029CR4M5A62CH/index.html"
-										target="_blank"
-									>中国裁判文书网</a
-									>
+									<a href="https://wenshu.court.gov.cn/website/wenshu/181029CR4M5A62CH/index.html"
+										target="_blank">中国裁判文书网</a>
 								</h5>
-								<a
-									href="https://wenshu.court.gov.cn/website/wenshu/181029CR4M5A62CH/index.html"
-									target="_blank"
-									class="read-more"
-								>了解更多</a
-								>
+								<a href="https://wenshu.court.gov.cn/website/wenshu/181029CR4M5A62CH/index.html"
+									target="_blank" class="read-more">了解更多</a>
 							</div>
 						</div>
 					</div>
-					<div
-						class="col-lg-4 col-md-6 col-sm-12 wow fadeInLeft"
-						data-wow-delay=".6s"
-					>
+					<div class="col-lg-4 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".6s">
 						<div class="single-blog-item">
 							<div class="blog-bg">
 								<img src="../static/images/web2.png" alt="" />
 							</div>
 							<div class="blog-content">
 								<h5>
-									<a
-										href="http://gongbao.court.gov.cn/ArticleList.html?serial_no=sftj"
-										target="_blank"
-									>中华人民共和国最高人民法院公报</a
-									>
+									<a href="http://gongbao.court.gov.cn/ArticleList.html?serial_no=sftj"
+										target="_blank">中华人民共和国最高人民法院公报</a>
 								</h5>
 
-								<a
-									href="http://gongbao.court.gov.cn/ArticleList.html?serial_no=sftj"
-									target="_blank"
-									class="read-more"
-								>了解更多</a
-								>
+								<a href="http://gongbao.court.gov.cn/ArticleList.html?serial_no=sftj" target="_blank"
+									class="read-more">了解更多</a>
 							</div>
 						</div>
 					</div>
-					<div
-						class="col-lg-4 col-md-6 col-sm-12 wow fadeInLeft"
-						data-wow-delay=".8s"
-					>
+					<div class="col-lg-4 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".8s">
 						<div class="single-blog-item">
 							<div class="blog-bg">
 								<img src="../static/images/web3.png" alt="" />
 							</div>
 							<div class="blog-content">
 								<h5>
-									<a
-										href="http://www.court.gov.cn/fabu-gengduo-21.html?page=2"
-										target="_blank"
-									>中华人民共和国最高人民法院</a
-									>
+									<a href="http://www.court.gov.cn/fabu-gengduo-21.html?page=2"
+										target="_blank">中华人民共和国最高人民法院</a>
 								</h5>
-								<a
-									href="http://www.court.gov.cn/fabu-gengduo-21.html?page=2"
-									target="_blank"
-									class="read-more"
-								>了解更多</a
-								>
+								<a href="http://www.court.gov.cn/fabu-gengduo-21.html?page=2" target="_blank"
+									class="read-more">了解更多</a>
 							</div>
 						</div>
 					</div>
@@ -201,7 +147,7 @@ export default {
 			startIndex: 0,
 			startName: "",
 			startCut: "",
-			option:{},
+			option: {},
 			newArr: [
 				{
 					cdate: "2017",
@@ -577,18 +523,22 @@ export default {
 @import "@/static/css/flaticon.css";
 @import "@/static/css/owl.carousel.css";
 @import "@/static/css/responsive.css";
+
 .echartContainer {
 	width: 100%;
 	height: 500px;
 }
+
 .page-active {
 	border-color: #c79c65;
 	opacity: 0.8;
 }
+
 .echartContainer {
 	margin: 20px auto;
 	padding: 0 50px;
 }
+
 .contain_echart {
 	width: 100%;
 	min-width: 900px;

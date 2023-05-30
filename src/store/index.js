@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
 
 
 const state = {     // 全局管理的数据存储
-	isLogin:'0',
-	ser:null,
-	token:localStorage.getItem('token') ? localStorage.getItem('token'):'',   // token
+	isLogin: '0',
+	ser: null,
+	token: localStorage.getItem('token') ? localStorage.getItem('token') : '',   // token
 };
 
 export default new Vuex.Store({
@@ -16,20 +15,20 @@ export default new Vuex.Store({
 		// 默认导航栏选中
 		appTab: 'home',
 		// 默认case案例结果标签页面选中
-		caseTab:{},
-		globalControlFirst:{}
+		caseTab: {},
+		globalControlFirst: {}
 		// 默认case页面左侧选中
 
 	},
 	// 同步方法
 	mutations: {
-		updateAppTab(state,value) {
+		updateAppTab(state, value) {
 			state.appTab = value
 		},
-		updateCaseTab(state,value) {
+		updateCaseTab(state, value) {
 			state.caseTab = value
 		},
-		updateGlobalControlFirst(state,value){
+		updateGlobalControlFirst(state, value) {
 			state.globalControlFirst = value
 
 		},
@@ -39,17 +38,17 @@ export default new Vuex.Store({
 			state.token = value;
 			localStorage.setItem('token', value);
 		},
-		$_removeStorage(state, value){  // 删除token
+		$_removeStorage(state, value) {  // 删除token
 			localStorage.removeItem('token');
 		},
 	},
 
 
 
-	getters:{    // 监听数据变化的
-		getStorage(state){   // 获取本地存储的登录信息
-			if(!state.token){
-				state.token =JSON.parse(localStorage.getItem(key))
+	getters: {    // 监听数据变化的
+		getStorage(state) {   // 获取本地存储的登录信息
+			if (!state.token) {
+				state.token = JSON.parse(localStorage.getItem(key))
 			}
 			return state.token
 		}

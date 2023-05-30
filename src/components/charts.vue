@@ -338,11 +338,14 @@ export default {
 .row {
 	padding: 30px 15px;
 	height: 1110px;
+
 	.one {
 		display: flex;
 	}
+
 	.title {
 		display: flex;
+
 		.text {
 			width: 50%;
 			text-align: left;
@@ -351,6 +354,7 @@ export default {
 			color: #434343;
 		}
 	}
+
 	.titlebottom {
 		text-align: left;
 		font-weight: bold;
@@ -358,6 +362,7 @@ export default {
 		color: #434343;
 	}
 }
+
 #LBChart {
 	width: 48%;
 	height: 300px;
@@ -365,6 +370,7 @@ export default {
 	border-right: 0.5px solid rgb(214, 213, 213);
 	border-bottom: 1px solid rgb(214, 213, 213);
 }
+
 #Piechart {
 	width: 49%;
 	height: 300px;
@@ -372,11 +378,13 @@ export default {
 	// border-left: 0.5px solid rgb(131, 130, 130);
 	border-bottom: 1px solid rgb(214, 213, 213);
 }
+
 .bottomleft {
 	width: 48%;
 	height: 300px;
 	padding: 20px 0;
 	border-right: 0.5px solid rgb(214, 213, 213);
+
 	// border-bottom: 1px solid rgb(214, 213, 213);
 	.titlebottom {
 		text-align: left;
@@ -384,12 +392,14 @@ export default {
 		font-size: 18px;
 		color: #434343;
 	}
+
 	#Piechart2 {
 		width: 100%;
 		height: 100%;
 		padding: 10px 0;
 	}
 }
+
 #areaChart {
 	width: 48%;
 	height: 300px;

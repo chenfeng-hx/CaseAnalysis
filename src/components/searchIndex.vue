@@ -3,7 +3,7 @@
 
 		<div class="contentBox">
 			<div class="fileContent">
-				{{txtInfo}}
+				{{ txtInfo }}
 			</div>
 		</div>
 	</div>
@@ -11,22 +11,23 @@
 
 <script>
 export default {
-	name:"searchIndex",
-	props:{
-		txtInfo:{
-			type:String
+	name: "searchIndex",
+	props: {
+		txtInfo: {
+			type: String
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-.contentBox{
+.contentBox {
 
 	width: 90%;
-	margin-top:30px;
+	margin-top: 30px;
 	margin-left: 20px;
 	justify-content: center;
+
 	//   height: 500px;
 	.fileContent {
 		width: 95%;

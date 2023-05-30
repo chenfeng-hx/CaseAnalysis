@@ -2,14 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const home = () => import('../views/Home.vue')
-const Case = () => import ("../views/Case.vue")
-const analysis =() => import ('../views/Analysis.vue')
-const relevant =() => import ('../views/relevant.vue')
-const caseContent =() => import ('../views/caseContent.vue')
-const specialInfo =() => import ('../views/specialInfo.vue')
-const personCenter =() => import ('../views/personalCenter.vue')
-const recommendation =() => import ('../components/recommendation.vue')
-const dataDisplay =() => import ('../components/Datadisplay.vue')
+const Case = () => import("../views/Case.vue")
+const analysis = () => import('../views/Analysis.vue')
+const relevant = () => import('../views/relevant.vue')
+const caseContent = () => import('../views/caseContent.vue')
+const specialInfo = () => import('../views/specialInfo.vue')
+const personCenter = () => import('../views/personalCenter.vue')
+const recommendation = () => import('../components/recommendation.vue')
+const dataDisplay = () => import('../components/Datadisplay.vue')
 
 
 
@@ -37,38 +37,38 @@ const router = new VueRouter({
 			component: Case
 		},
 		{
-			path:"/analysis",
-			component:analysis
+			path: "/analysis",
+			component: analysis
 		},
 		{
-			path:"/specialInfo",
-			component:specialInfo
+			path: "/specialInfo",
+			component: specialInfo
 		},
 		{
 			path: '/relevant',
 			component: relevant
 		},
 		{
-			path:"/caseContent",
-			component:caseContent
+			path: "/caseContent",
+			component: caseContent
 		},
 		{
-			path:"/personCenter",
-			component:personCenter
+			path: "/personCenter",
+			component: personCenter
 		},
 		{
-			path:"/recommendation",
-			component:recommendation
+			path: "/recommendation",
+			component: recommendation
 		},
 		{
-			path:"/display",
-			component:dataDisplay
+			path: "/display",
+			component: dataDisplay
 		},
 	],
 	mode: 'hash',
 	scrollBehavior() {
 		//x代表横坐标，y代表纵坐标,每次经过跳转页面后可以到达页面顶端
-		return { x: 0,y: 0 };
+		return { x: 0, y: 0 };
 	}
 })
 // const originalPush = VueRouter.prototype.push

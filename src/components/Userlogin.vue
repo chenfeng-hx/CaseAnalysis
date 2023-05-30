@@ -67,69 +67,46 @@
 							></el-input>
 						</el-form-item>
 
-						<el-form-item v-show="changePass"
-									  prop="email"
-									  label="邮箱"
-									  :rules="[
-                {  message: '请输入邮箱地址', trigger: 'blur' },
-                {
-                  type: 'email',
-                  message: '请输入正确的邮箱地址',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
-						>
-							<el-input v-model="form.email"></el-input>
-						</el-form-item>
+            <el-form-item v-show="changePass" prop="email" label="邮箱" :rules="[
+              { message: '请输入邮箱地址', trigger: 'blur' },
+              {
+                type: 'email',
+                message: '请输入正确的邮箱地址',
+                trigger: ['blur', 'change'],
+              },
+            ]">
+              <el-input v-model="form.email"></el-input>
+            </el-form-item>
 
-						<el-form-item v-show="!changePass"
-									  prop="email"
-									  :rules="[
-                {  message: '请输入邮箱地址', trigger: 'blur' },
-                {
-                  type: 'email',
-                  message: '请输入正确的邮箱地址',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
-						>
-							<label slot="label" class="emailTip">旧密码绑定的邮箱</label>
-							<el-input v-model="form.email"></el-input>
-						</el-form-item>
+            <el-form-item v-show="!changePass" prop="email" :rules="[
+              { message: '请输入邮箱地址', trigger: 'blur' },
+              {
+                type: 'email',
+                message: '请输入正确的邮箱地址',
+                trigger: ['blur', 'change'],
+              },
+            ]">
+              <label slot="label" class="emailTip">旧密码绑定的邮箱</label>
+              <el-input v-model="form.email"></el-input>
+            </el-form-item>
 
-						<el-form-item class="shut" v-show="changePass">
-							<el-input
-								v-model="code"
-								class="emailBox"
-								placeholder="输入验证码"
-							>
-							</el-input>
-							<el-button
-								class="remove"
-								@click="send()"
-								:class="{ active1: 1 === currentIndex }"
-							>{{ this.text }}
-							</el-button>
-						</el-form-item>
+            <el-form-item class="shut" v-show="changePass">
+              <el-input v-model="code" class="emailBox" placeholder="输入验证码">
+              </el-input>
+              <el-button class="remove" @click="send()" :class="{ active1: 1 === currentIndex }">{{ this.text }}
+              </el-button>
+            </el-form-item>
 
-						<el-form-item class="shut" v-show="!changePass">
-							<el-input
-								v-model="code2"
-								class="emailBox"
-								placeholder="输入验证码"
-							>
-							</el-input>
-							<el-button
-								class="remove"
-								@click="send()"
-								:class="{ active1: 1 === currentIndex }"
-							>{{ this.text }}
-							</el-button>
-						</el-form-item>
-					</el-form>
-				</div>
-				<button class="bbutton" @click="submitForm('form')" v-show="changePass">注册</button>
-				<button class="bbutton" @click="submitForm2('form')" v-show="!changePass">提交</button>
+            <el-form-item class="shut" v-show="!changePass">
+              <el-input v-model="code2" class="emailBox" placeholder="输入验证码">
+              </el-input>
+              <el-button class="remove" @click="send()" :class="{ active1: 1 === currentIndex }">{{ this.text }}
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <button class="bbutton" @click="submitForm('form')" v-show="changePass">注册</button>
+        <button class="bbutton" @click="submitForm2('form')" v-show="!changePass">提交</button>
 
 			</div>
 		</div>
@@ -498,13 +475,22 @@ export default {
 
 };
 </script>
-
-<style scoped lang="scss">
-.emailTip{
-	display: block;
-	margin-left: -80px;
-	width: 150px;
+<style scoped="scoped" lang="scss">
+.login {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
+
+
+.emailTip {
+  display: block;
+  margin-left: -80px;
+  width: 150px;
+}
+
 // 登录页面
 .box1,
 .box2 {
@@ -526,9 +512,10 @@ export default {
 	cursor: pointer;
 	margin-bottom: 20px;
 }
-.forget:hover{
-	//cursor: pointer;
-	color: rgb(143, 143, 225);
+
+.forget:hover {
+  cursor: pointer;
+  color: rgb(143, 143, 225);
 }
 /*fixme :无用 */
 .close {
@@ -541,25 +528,26 @@ export default {
 	height: 1500px;
 }
 .contain {
-	width: 700px;
-	height: 500px;
-	position: relative;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, 0);
-	background-color: #fff;
-	border-radius: 5px;
-	box-shadow: 0 0 3px #f0f0f0, 0 0 6px #f0f0f0;
-	z-index: -1000;
+  width: 50vw;
+  height: 500px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #f0f0f0, 0 0 6px #f0f0f0;
+  z-index: -1000;
 }
+
 .big-box {
-	width: 70%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 30%;
-	transform: translateX(0%);
-	transition: all 1s;
+  width: 70%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 30%;
+  transform: translateX(0%);
+  transition: all 1s;
 }
 .big-contain {
 	// display: flex;
@@ -635,6 +623,8 @@ export default {
 	left: 0;
 	transition: all 0.5s;
 }
+
+
 .small-box.active {
 	left: 100%;
 	border-top-left-radius: 0;
@@ -674,4 +664,52 @@ export default {
 	color: rgb(54, 171, 152);
 }
 
+@media screen and (max-width:600px) {
+  .contain {
+    width: 88vw;
+    height: 84vh;
+
+
+  }
+
+  .big-box {
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    top: 30%;
+    left: 0;
+    transform: none;
+    transition: all 1s;
+  }
+
+  .small-box {
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(135deg, rgb(57, 167, 176), rgb(56, 183, 145));
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+    transition: all 1s;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+  }
+
+  .big-box.active {
+    left: 0;
+    transition: all 0.5s;
+  }
+
+
+  .small-box.active {
+    left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+    transform: none;
+    transition: all 1s;
+  }
+
+}
 </style>

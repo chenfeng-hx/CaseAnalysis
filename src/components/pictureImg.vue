@@ -1,5 +1,4 @@
 <template>
-
 	<div class="box">
 		<div id="main" class="main"></div>
 		<!--   -->
@@ -164,10 +163,10 @@ export default {
 		height: 100%;
 	}
 }
+
 .main {
 	width: 850px;
-	height:1000px;
+	height: 1000px;
 	margin: 20px auto;
 }
-
 </style>

@@ -3,7 +3,7 @@
 		<div class="topTotic">
 			<div class="numberAndText">
 				<div class="numberAndText">
-					<div class="number">{{parseInt(numIndex)+1}}</div>
+					<div class="number">{{ parseInt(numIndex) + 1 }}</div>
 					<div class="textWord">全文共4586字</div>
 				</div>
 
@@ -36,10 +36,10 @@
 			<div class="bip" @click="changCaseName(item.id,'second');" :class="{'focus':(caseTab.name == 'second')&&(caseTab.index==parseInt(item.id))}" >裁判理由</div>
 			<div class="bip" @click="changCaseName(item.id,'third');" :class="{'focus':(caseTab.name == 'third')&&(caseTab.index==parseInt(item.id))}">文章摘要</div>
 			<div class="bip" @click="changCaseName(item.id,'fourth');" :class="{'focus':(caseTab.name == 'fourth')&&(caseTab.index==parseInt(item.id))}" >引用法条</div> -->
-			<div class="bip" @click="changCaseName('first');" :class="{'focus':(caseTab.name == 'first')}" >裁判结果</div>
-			<div class="bip" @click="changCaseName('second');" :class="{'focus':(caseTab.name == 'second')}" >裁判理由</div>
-			<div class="bip" @click="changCaseName('third');" :class="{'focus':(caseTab.name == 'third')}">文章摘要</div>
-			<div class="bip" @click="changCaseName('fourth');" :class="{'focus':(caseTab.name == 'fourth')}" >引用法条</div>
+			<div class="bip" @click="changCaseName('first');" :class="{ 'focus': (caseTab.name == 'first') }">裁判结果</div>
+			<div class="bip" @click="changCaseName('second');" :class="{ 'focus': (caseTab.name == 'second') }">裁判理由</div>
+			<div class="bip" @click="changCaseName('third');" :class="{ 'focus': (caseTab.name == 'third') }">文章摘要</div>
+			<div class="bip" @click="changCaseName('fourth');" :class="{ 'focus': (caseTab.name == 'fourth') }">引用法条</div>
 		</div>
 		<div class="bottomResult" v-if="(caseTab.name == 'first')" style="margin:0 20px">
 			驳回梁某2的再审申请。
@@ -48,7 +48,8 @@
 			本院认为,《中华人民共和国侵权责任法》第二十条规定:“侵害他人人身权益造成财产损失的,按照被侵权人因此受到的损失赔偿;被侵权人的损失难以确定,侵权人因此获得利益的,按照其获得的利益赔偿;侵权人因此获得的利益难以确定,被侵权人和侵权人就赔偿数额协商不一致,向人民法院提起诉讼的,由人民法院根据实际情况确定赔偿数额。”在本案中,首先,被侵权人的损失难以确定,也无法证明侵权人获得的利益,且双方就赔偿数额不
 		</div>
 		<div class="bottomResult" v-if="(caseTab.name == 'third')" style="margin:0 20px">
-			一、撤销本院民事判决及XXXXXX人民法院民事判决; 二、被申请人明山区沐风宜和瑜伽会馆经营者向再审申请人刘某某直接口头赔礼道歉; 三、驳回再审申请人刘某某的其他诉讼请求。 一审案件受理费250元,二审案件受理费250元,均由被申请人明山区沐风宜和瑜伽会馆负担。 本判决为终审判决
+			一、撤销本院民事判决及XXXXXX人民法院民事判决; 二、被申请人明山区沐风宜和瑜伽会馆经营者向再审申请人刘某某直接口头赔礼道歉; 三、驳回再审申请人刘某某的其他诉讼请求。
+			一审案件受理费250元,二审案件受理费250元,均由被申请人明山区沐风宜和瑜伽会馆负担。 本判决为终审判决
 		</div>
 		<div class="bottomResult" v-if="(caseTab.name == 'fourth')" style="margin:0 20px">
 			<div>《中华人民共和国民事诉讼法》第一百七十条</div>
@@ -69,11 +70,11 @@
 
 <script>
 export default {
-	name:"contentInfo",
-	data(){
-		return{
-			caseTab:{
-				name:"first",
+	name: "contentInfo",
+	data() {
+		return {
+			caseTab: {
+				name: "first",
 			}
 		}
 	},
@@ -81,16 +82,16 @@ export default {
 		numIndex: {
 			type: Number,
 		},
-		caseTab1:{
-			type:String
+		caseTab1: {
+			type: String
 		}
 	},
-	created(){
+	created() {
 		this.caseTab.name = this.caseTab1
 	},
 	methods: {
 
-		changCaseName (name) {
+		changCaseName(name) {
 			this.caseTab.name = name
 
 		},
@@ -99,19 +100,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.caseSim{
+.caseSim {
 	width: 90%;
 	margin: 12px auto;
 	// height: 350px;
-	border:1px solid rgb(199, 205, 207) ;
+	border: 1px solid rgb(199, 205, 207);
 	position: relative;
-	.topTotic{
+
+	.topTotic {
 		display: flex;
-		.numberAndText{
+
+		.numberAndText {
 			display: flex;
 			flex: 1;
-			.number{
+
+			.number {
 				color: #b3b3b9;
 				background-color: #f7f8f7;
 				height: 20px;
@@ -122,7 +125,8 @@ export default {
 				padding: 0;
 				left: 1px;
 			}
-			.textWord{
+
+			.textWord {
 				color: #b3b3b3;
 				height: 20px;
 				min-width: 20px;
@@ -134,10 +138,12 @@ export default {
 				left: 30px;
 			}
 		}
-		.function{
+
+		.function {
 			display: flex;
 			line-height: 26px;
-			.listDown{
+
+			.listDown {
 				font-size: 13px;
 				color: #0b71b4;
 				cursor: pointer;
@@ -146,7 +152,8 @@ export default {
 			}
 		}
 	}
-	.articleTopic{
+
+	.articleTopic {
 		cursor: pointer;
 		font-weight: normal;
 		font-size: 20px;
@@ -154,22 +161,27 @@ export default {
 		text-align: start;
 		margin: 15px 30px;
 	}
-	.articleTopic:hover{
+
+	.articleTopic:hover {
 		color: #6094cc;
 	}
-	.keyWord{
+
+	.keyWord {
 		width: 90%;
 		text-align: justify;
 		margin-left: 20px;
-		.el-tag{
+
+		.el-tag {
 			margin-top: 5px;
 		}
 	}
-	.result{
+
+	.result {
 		display: flex;
-		border-bottom:2px solid #0b71b4;
-		margin:15px 20px;
-		.bip{
+		border-bottom: 2px solid #0b71b4;
+		margin: 15px 20px;
+
+		.bip {
 			width: 100px;
 			height: 30px;
 			line-height: 30px;
@@ -182,15 +194,18 @@ export default {
 			transition: 0.5s;
 			display: inline-block;
 		}
-		.focus{
+
+		.focus {
 			background: #0b71b4;
 			color: #fff;
 		}
-		.test{
+
+		.test {
 			color: red;
 		}
 	}
-	.bottomResult{
+
+	.bottomResult {
 		font-size: 14px;
 		line-height: 24px;
 		text-indent: 2em;
@@ -198,25 +213,28 @@ export default {
 		transition: 0.3s;
 		text-align: start;
 	}
-	.label{
+
+	.label {
 		display: flex;
 		// position: absolute;
 		bottom: 0;
 		left: 0;
 		right: 0;
-		margin:10px 15px;
-		.labelText{
+		margin: 10px 15px;
+
+		.labelText {
 			margin-right: 30px;
 			color: #666;
 			font-size: 14px;
 		}
-		.labelText:first-child{
+
+		.labelText:first-child {
 			font-weight: bold;
 			color: red;
 		}
 	}
 }
-.caseSim:hover{
-	border:1px solid rgb(96, 148, 205) ;
-}
-</style>
+
+.caseSim:hover {
+	border: 1px solid rgb(96, 148, 205);
+}</style>

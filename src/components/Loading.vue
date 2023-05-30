@@ -24,7 +24,6 @@
 			<div class="text2" style="">加载中</div>
 		</div> -->
 	</div>
-
 </template>
 
 <style scoped>
@@ -34,6 +33,7 @@
 	width: 308px;
 	height: 308px;
 }
+
 .loadster__body {
 	position: absolute;
 	width: 300px;
@@ -42,6 +42,7 @@
 	border-radius: 50%;
 	background-color: #89b793;
 }
+
 .loadster__body::before {
 	content: "";
 	position: absolute;
@@ -53,6 +54,7 @@
 	border-radius: 50%;
 	background-color: #fff;
 }
+
 .loadster__body::after {
 	content: "";
 	position: absolute;
@@ -63,6 +65,7 @@
 	border: 24px solid #99CCA4;
 	border-radius: 50%;
 }
+
 .loadster__mask {
 	position: absolute;
 	width: 50%;
@@ -71,6 +74,7 @@
 	-webkit-transform-origin: right bottom;
 	transform-origin: right bottom;
 }
+
 .loadster__mask::before {
 	content: "";
 	position: absolute;
@@ -81,6 +85,7 @@
 	-webkit-transform-origin: left bottom;
 	transform-origin: left bottom;
 }
+
 .loadster__mask::after {
 	content: "";
 	position: absolute;
@@ -91,6 +96,7 @@
 	-webkit-transform-origin: right top;
 	transform-origin: right top;
 }
+
 .loadster__head {
 	position: absolute;
 	top: 0;
@@ -101,6 +107,7 @@
 	-webkit-transform-origin: left bottom;
 	transform-origin: left bottom;
 }
+
 .loadster__bottom {
 	position: absolute;
 	left: 0;
@@ -136,6 +143,7 @@
 	border-top: 0;
 	border-right: 0;
 }
+
 .head__ear::before {
 	content: "";
 	position: absolute;
@@ -159,6 +167,7 @@
 	border: 4px solid #373D46;
 	border-left: 0;
 }
+
 .head__horn::before {
 	content: "";
 	position: absolute;
@@ -180,6 +189,7 @@
 	border: 4px solid #373D46;
 	border-radius: 50%;
 }
+
 .horn__circle::before {
 	content: "";
 	position: absolute;
@@ -202,6 +212,7 @@
 	border: 4px solid #373D46;
 	border-radius: 50%;
 }
+
 .head__eye::before {
 	content: "";
 	position: absolute;
@@ -238,6 +249,7 @@
 	-webkit-transform: rotate(10deg);
 	transform: rotate(10deg);
 }
+
 .head__hand::before {
 	content: "";
 	position: absolute;
@@ -261,6 +273,7 @@
 	border-right: 0;
 	border-radius: 100% 0 0 0;
 }
+
 .bottom__foot::before {
 	content: "";
 	position: absolute;
@@ -273,6 +286,7 @@
 	border-right: 0;
 	border-radius: 0 0 0 100%;
 }
+
 .bottom__foot::after {
 	content: "";
 	position: absolute;
@@ -290,10 +304,12 @@
 	-webkit-animation: mask-circle 2s 1s infinite;
 	animation: mask-circle 2s 1s infinite;
 }
+
 .loadster__mask::before {
 	-webkit-animation: mask-circle-right 2s 1s infinite;
 	animation: mask-circle-right 2s 1s infinite;
 }
+
 .loadster__mask::after {
 	-webkit-animation: mask-circle-left 2s 1s infinite;
 	animation: mask-circle-left 2s 1s infinite;
@@ -320,6 +336,7 @@
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(-720deg);
 		transform: rotate(-720deg);
@@ -331,129 +348,151 @@
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(-720deg);
 		transform: rotate(-720deg);
 	}
 }
+
 @-webkit-keyframes mask-circle-right {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	50% {
 		-webkit-transform: rotate(-90deg);
 		transform: rotate(-90deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 }
+
 @keyframes mask-circle-right {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	50% {
 		-webkit-transform: rotate(-90deg);
 		transform: rotate(-90deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 }
+
 @-webkit-keyframes mask-circle-left {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	50% {
 		-webkit-transform: rotate(90deg);
 		transform: rotate(90deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 }
+
 @keyframes mask-circle-left {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	50% {
 		-webkit-transform: rotate(90deg);
 		transform: rotate(90deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
 }
+
 @-webkit-keyframes head-circle {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(-720deg);
 		transform: rotate(-720deg);
 	}
 }
+
 @keyframes head-circle {
 	0% {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(-720deg);
 		transform: rotate(-720deg);
 	}
 }
+
 @-webkit-keyframes bottom-circle {
 	0% {
 		-webkit-transform: rotate(-10deg);
 		transform: rotate(-10deg);
 	}
-	100% {
-		-webkit-transform: rotate(-730deg);
-		transform: rotate(-730deg);
-	}
-}
-@keyframes bottom-circle {
-	0% {
-		-webkit-transform: rotate(-10deg);
-		transform: rotate(-10deg);
-	}
+
 	100% {
 		-webkit-transform: rotate(-730deg);
 		transform: rotate(-730deg);
 	}
 }
 
-.text{
-	position:absolute;
+@keyframes bottom-circle {
+	0% {
+		-webkit-transform: rotate(-10deg);
+		transform: rotate(-10deg);
+	}
+
+	100% {
+		-webkit-transform: rotate(-730deg);
+		transform: rotate(-730deg);
+	}
+}
+
+.text {
+	position: absolute;
 	z-index: 10;
 	/* width: 708px;
 	 height: 208px; */
 	top: 50%;
 	font-size: 78px;
-	color:  -webkit-linear-gradient(#063053, #395873, #5c7c99);
+	color: -webkit-linear-gradient(#063053, #395873, #5c7c99);
 	display: flex;
-	background-image: linear-gradient(#06812b,#370d6e);
+	background-image: linear-gradient(#06812b, #370d6e);
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: transparent;
 	width: 100%;
 }
-.text1{
+
+.text1 {
 	width: 50%;
 	text-align: center;
 }
-.text2{
+
+.text2 {
 	width: 50%;
 	text-align: center;
-}
-</style>
+}</style>

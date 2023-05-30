@@ -134,13 +134,9 @@
 
 					<!-- 右下内容 -->
 					<div class="caseContainer">
-						<div
-							v-for="(item, index) in sameCase.slice(
-                (currentPage - 1) * pagesize,
-                currentPage * pagesize
-              )"
-							:key="index"
-						>
+						<div v-for="(item, index) in sameCase.slice(
+                			(currentPage - 1) * pagesize,
+                			currentPage * pagesize)" :key="index">
 							<search-info
 								v-if="hackReset"
 								:currentPage2="(currentPage - 1) * pagesize + 1 + index"
@@ -179,8 +175,7 @@
                 color: #2d405e;
                 display: inline-block;
                 font-size: 14px;
-              "
-						>
+              ">
 							已选条件：
 						</div>
 						<!--todo:增加“高级人民法院”在这改-->
@@ -295,13 +290,9 @@
 
 						<!-- 右下内容 -->
 						<div class="caseContainer" v-if="hackReset2">
-							<div
-								v-for="(item, index) in caseArr.slice(
-                  (currentPage - 1) * pagesize,
-                  currentPage * pagesize
-                )"
-								:key="index"
-							>
+							<div v-for="(item, index) in caseArr.slice(
+                 				(currentPage - 1) * pagesize,
+                  				currentPage * pagesize)" :key="index">
 								<search-info
 									v-if="hackReset2"
 									:currentPage2="(currentPage - 1) * pagesize + 1 + index"
@@ -446,7 +437,7 @@ export default {
 		}).then((res) => {
 			this.loading5 = false;
 			this.caseNum = res.data;
-		}).catch((res)=>{
+		}).catch((res) => {
 			this.loading5 = false;
 		});
 		// 所有案例搜索
@@ -583,7 +574,7 @@ export default {
 					this.dialogVisible = false;
 					done();
 				})
-				.catch((_) => {});
+				.catch((_) => { });
 		},
 
 		// 点击搜索按钮
@@ -596,7 +587,7 @@ export default {
 
 		// 同案检索成功后的操作
 		sameChange(data, id, status) {
-			this.loading3 =false
+			this.loading3 = false
 			this.sameCase = [];
 			this.sameCaseLength = data.length;
 			if (status === 0) {
@@ -1033,20 +1024,24 @@ export default {
 	width: 100%;
 	display: flex;
 	justify-content: center;
+
 	.special {
 		margin-top: 50px;
 		height: 600px;
+
 		img {
 			width: 250px;
 			height: 250px;
 			margin-top: 80px;
 		}
+
 		div {
 			margin: 5px auto;
 			display: flex;
 			justify-content: center;
 			color: rgb(84, 112, 198);
 			font-size: 1.25em;
+
 			img {
 				width: 1.25em;
 				height: 1.25em;
@@ -1055,30 +1050,36 @@ export default {
 		}
 	}
 }
+
 .title {
 	display: flex;
 	justify-content: center;
 	margin: 20px 0;
 	color: black;
+
 	.text {
 		font-size: 38px;
 	}
+
 	.wait {
 		//  margin-left: 5px;
 		margin-right: 20px;
 	}
+
 	.textMiddle {
 		color: rgb(107, 156, 242);
 		margin-left: 15px;
 		// margin-right: 10px;
 	}
 }
+
 .search {
 	// height: 300px;
 	// position: relative;
 	display: flex;
 	align-items: center; /*垂直居中*/
 	justify-content: center;
+
 	.searchBtn {
 		// width: 30px;
 		// height: 30px;
@@ -1087,11 +1088,13 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+
 		img {
 			width: 20px;
 			height: 20px;
 		}
 	}
+
 	.el-autocomplete {
 		width: 70%;
 		display: table;
@@ -1099,10 +1102,12 @@ export default {
 		position: relative;
 		z-index: 0;
 	}
+
 	.el-button {
 		width: 10%;
 	}
 }
+
 .labelsTag {
 	background: rgb(245, 245, 245);
 	width: 80%;
@@ -1129,6 +1134,7 @@ export default {
 	justify-content: center; /*水平居中*/
 	transition: 0.3s all;
 }
+
 .left {
 	width: 18%;
 	float: left;
@@ -1136,20 +1142,25 @@ export default {
 	box-sizing: border-box;
 	background: rgb(245, 245, 245);
 	border-radius: 3px;
+
 	// height: 700px;
 	.list {
 		margin-left: 5px;
+
 		.title {
 			justify-content: start;
 			margin: 8px;
 		}
+
 		li:hover {
 			.list {
 				margin-left: 5px;
+
 				.title {
 					justify-content: start;
 					margin: 8px;
 				}
+
 				li:hover {
 					background-color: #d7e5f9;
 					color: #165ac6;
@@ -1167,6 +1178,7 @@ export default {
 	.rightTitle {
 		background: rgb(245, 245, 245);
 		display: flex;
+
 		.text {
 			flex: 0 0 200px;
 			background: #0b71b4;
@@ -1184,6 +1196,7 @@ export default {
 			text-align: end;
 			align-items: center; /*垂直居中*/
 			justify-content: end;
+
 			.sortText {
 				padding-right: 10px;
 				margin-right: 10px;
@@ -1217,6 +1230,7 @@ export default {
 			padding-bottom: 28px;
 			padding-top: 1px;
 		}
+
 		.echarts {
 			background: rgb(245, 245, 245);
 		}
@@ -1240,6 +1254,7 @@ h3 {
 	height: 1.25em;
 	margin-top: 2px;
 }
+
 .el-footer {
 	padding: 0;
 }
@@ -1248,6 +1263,7 @@ ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+
 	li {
 		padding: 6px 0;
 		font-size: 14px;
@@ -1256,18 +1272,22 @@ ul {
 		color: rgb(45, 64, 94);
 		padding-left: 40px;
 	}
+
 	li:hover {
 		background-color: #d7e5f9;
 		color: #165ac6;
 	}
 }
+
 .el-divider--vertical {
 	height: 1.25em;
 	margin-top: 2px;
 }
+
 .el-footer {
 	padding: 0;
 }
+
 // .container {
 //   // background-image: url("../assets/banner(2).png");
 
@@ -1289,16 +1309,19 @@ ul {
 	color: white;
 	margin: 0 auto;
 	padding-top: 40px;
+
 	.title {
 		.text {
 			font-size: 1.5rem;
 		}
 	}
 }
+
 .cardBox {
 	display: flex;
 	justify-content: space-evenly;
 	margin-top: 40px;
+
 	.searchCard {
 		color: rgb(93, 172, 255);
 		border-radius: 10px;
@@ -1318,10 +1341,12 @@ ul {
 		padding: 0;
 		border: none;
 	}
+
 	.searchCardSpecial {
 		background-color: rgb(99, 151, 241);
 		color: #fff;
 	}
+
 	div::before {
 		content: "";
 		position: absolute;
@@ -1337,6 +1362,7 @@ ul {
 		box-sizing: border-box;
 		color: rgb(228, 236, 250);
 	}
+
 	div::after {
 		content: "";
 		position: absolute;
@@ -1352,16 +1378,19 @@ ul {
 
 		color: rgb(228, 236, 250);
 	}
+
 	div:hover::before {
 		width: 100%;
 		height: 100%;
 		visibility: visible;
 	}
+
 	div:hover::after {
 		width: 100%;
 		height: 100%;
 		visibility: visible;
 	}
+
 	div:hover {
 		background-color: rgb(99, 151, 241);
 		box-shadow:
@@ -1371,6 +1400,7 @@ ul {
 		color: #fff;
 		border-radius: 0;
 	}
+
 	.active {
 		background-color: rgb(99, 151, 241);
 		box-shadow:
@@ -1382,49 +1412,59 @@ ul {
 		border: 2.5px solid rgb(228, 236, 250);
 	}
 }
+
 .sameBox {
 	h1 {
 		display: flex;
 		justify-content: center;
 		// margin: 20px auto;
 	}
+
 	.content {
 		font-size: 1.2rem;
 	}
+
 	.tip {
 		margin-top: 40px;
 		color: rgb(136, 160, 52);
 		font-size: 1.25rem;
 	}
+
 	.first,
 	.second {
 		margin-top: 30px;
 		margin-bottom: 40px;
 		display: flex;
 		align-items: center;
+
 		input {
 			margin-left: 30px;
 		}
 	}
+
 	.caseInput {
 		width: 50%;
 		margin-left: 30px;
 	}
+
 	.third {
 		margin-left: calc(50% - 20px);
 		position: relative;
 		z-index: 100;
 	}
+
 	.notFoundSame {
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
 		margin-top: -80px;
+
 		img {
 			margin-top: 10px;
 			width: 200px;
 			height: 380px;
 		}
+
 		.title {
 			display: flex;
 			align-items: center;
@@ -1432,6 +1472,7 @@ ul {
 			width: 100%;
 			margin-top: -100px;
 			color: rgb(51, 122, 183);
+
 			// justify-content: center;
 			img {
 				width: 1.25em;
@@ -1441,6 +1482,7 @@ ul {
 		}
 	}
 }
+
 .containerActive {
 	width: 100%;
 	height: 700px;
@@ -1449,6 +1491,7 @@ ul {
 	padding-top: 100px;
 	opacity: 0.95;
 }
+
 .putActive3 {
 	// float: right;
 	// position: fixed;
@@ -1459,13 +1502,16 @@ ul {
 	width: 180px;
 	display: flex;
 	flex-wrap: wrap;
+
 	.searchCard {
 		margin-bottom: 20px;
 	}
 }
+
 .container2 {
 	margin-top: -220px;
 }
+
 .caseText2 {
 	margin-top: -200px;
 
@@ -1473,6 +1519,7 @@ ul {
 		width: 75%;
 	}
 }
+
 .active1 {
 	pointer-events: none; // 禁止鼠标点击事件
 }
