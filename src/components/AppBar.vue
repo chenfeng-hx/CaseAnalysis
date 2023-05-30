@@ -20,7 +20,7 @@
 			</div>
 			<!--登录/注册-->
 			<div class="signBtn">
-				<el-button type="primary" @click="dialogVisible = true" plain v-if="isShow18">注册/登录</el-button>
+				<el-button type="primary" @click="dialogVisible = true; flag = true" plain v-if="isShow18">注册/登录</el-button>
 				<span v-if="!isShow18">你好！{{username}} <span class="exit" @click="exitS()">退出登录</span></span>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 			:show-close="false"
 		>
 			<!--使用 <Userlogin> 组件-->
-			<login @loginMsg="loginMsg1" @loginName="nameSend"></login>
+			<login @loginMsg="loginMsg1" @loginName="nameSend" :flag="flag" v-if="!username"></login>
 		</el-dialog>
 	</div>
 </template>
@@ -50,10 +50,11 @@ export default {
 			// 获取点击的导航标签并进行路由跳转
 			appTab: "home",
 			// 用于登录过后输出用户名
-			username:"user",
+			username:"",
 			// 用于控制“登录”按钮和用户名的切换展示
 			isShow18:true,
-			sameInput:"(2019)渝0118民初17号"
+			sameInput:"(2019)渝0118民初17号",
+			flag: false,
 		};
 	},
 	watch: {
@@ -104,6 +105,7 @@ export default {
 		loginMsg1(val){
 			this.dialogVisible = val   // false:关闭登录框
 			this.isShow18 = false
+			this.flag = false;
 			// console.log(val);
 		},
 		// 获取用户名
@@ -114,6 +116,7 @@ export default {
 		exitS(){
 			this.isShow18 = true
 			localStorage.removeItem("token");
+			this.username = "";
 			//  this.$router.go(0)
 			// fixme
 			this.$message({

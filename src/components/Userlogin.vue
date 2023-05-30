@@ -21,7 +21,7 @@
 					<!--todo-->
 					<div class="forget" @click="forgetBtn()">忘记密码？邮箱找回</div>
 				</div>
-				<button class="bbutton" @click="login" @keyup.enter="enterLogin">登录</button>
+				<button class="bbutton" @click="login" @keyup.enter="login">登录</button>
 			</div>
 			<!--注册账号/修改密码-->
 			<div class="big-contain" v-if="!isLogin">
@@ -214,6 +214,15 @@ export default {
 			},
 		};
 	},
+	props: {
+		flag: Boolean
+	},
+	watch: {
+		flag: newValue => {
+			newValue? document.addEventListener('keydown', this.things)
+				: document.removeEventListener('keydown', this.things);
+		}
+	},
 	created() {
 		this.enterLogin();
 	},
@@ -364,6 +373,7 @@ export default {
 						// 修改 <AppBar> 的登录状态
 						this.$emit("loginMsg",false)
 						this.$emit("loginName",this.username)
+						document.removeEventListener('keydown', this.things)  // mark
 					})
 					.catch((err) => {
 						this.$message({
@@ -476,7 +486,7 @@ export default {
 		// 监听事件
 		things(e) {
 			e = window.event || e;
-			if (e.code === 'Enter' || e.code === 'enter') {
+			if (e.code === 'Enter' || e.code === 'NumpadEnter' || e.key === 'Enter' || e.key === 'NumpadEnter' || e.keyCode === 13 || e.keyCode === 108) {
 				// 调用登录事件方法
 				this.login();
 			}
