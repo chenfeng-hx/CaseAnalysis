@@ -80,7 +80,7 @@ export default {
 			// 获取点击的导航标签并进行路由跳转
 			appTab: "home",
 			// 用于登录过后输出用户名
-			username: "user",
+			username: "",
 			// 用于控制“登录”按钮和用户名的切换展示
 			isShow18: true,
 			sameInput: "(2019)渝0118民初17号",

@@ -1005,7 +1005,7 @@ label:hover {
 }
 
 
-@media screen and(max-width:600px) {
+@media screen and (max-width:600px) {
 	.box {
 		flex-direction: column;
 
@@ -1013,7 +1013,6 @@ label:hover {
 			width: 100%;
 			height: 300px;
 			// display: flex;
-
 
 			.slectfile {
 				flex-direction: column;
@@ -1025,12 +1024,8 @@ label:hover {
 				.stepInfo {
 					display: flex;
 					flex-direction: row;
-
-
 				}
 			}
-
-
 		}
 
 		.right {
