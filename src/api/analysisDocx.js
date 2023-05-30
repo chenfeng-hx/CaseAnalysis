@@ -7,7 +7,7 @@
 import {request}  from "./request"
 
 //同案检索 上传文件
-export function getSamecaseForm(formdata){
+export function getSameCaseForm(formdata){
 	return request({
 		method:"post",
 		url:"/api/get_sim_exa_from_file",
@@ -16,7 +16,7 @@ export function getSamecaseForm(formdata){
 }
 
 //同案检索 上传索引号
-export function getSamecaseNum(formdata){
+export function getSameCaseNum(formdata){
 	return request({
 		method:"post",
 		url:"/api/get_sim_exa_from_case",
@@ -25,7 +25,7 @@ export function getSamecaseNum(formdata){
 }
 
 // 上传判决书
-export function upJugment(formdata){
+export function upJudgment(formdata){
 	return request({
 		method:"post",
 		url:"/api/upload_case_jud",
@@ -43,7 +43,7 @@ export function upClaim(formdata){
 }
 
 //根据判决书获取知识图谱
-export function getJugementGeneration(id){
+export function getJudgementGeneration(id){
 	return request({
 		method:"get",
 		url:"/api/kg_generation",

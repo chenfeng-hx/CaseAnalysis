@@ -1,9 +1,11 @@
 # 开发指南
 
 ## 代码规范
-1. 尽量做到每行代码或每个功能点都有注释, 每个变量名都见名知义, 而不是使用 show 1-18 ...
+1. 尽量做到每行代码或每个功能点都有注释, 每个变量名都见名知义, 而不是使用 show 1-18 ..., 还有最开头的文档注释
 2. views 中的每一个页面都作为一个单独的目录存放, 如将 Home.vue 放在 views/Home 中
 3. src/components 中只存放全局通用组件, views/xxx/components 存放的是当前页面所用到的独立组件
+4. setup 语法糖中的所有的函数都使用箭头函数的形式, 联系语法 + 没有 this
+5. 
 
 ## 项目结构
 
@@ -15,6 +17,7 @@
    3. pinia 低一个版本安装，否则报错
    4. rollup-plugin-babel + @babel/plugin-transform-runtime 代码打包时去掉所有的 log 日志文件, 可以问 gpt
    5. bootstrap 版本采用第四版最新版，用于 recommendation 中
+   6. @element-plus/icons-vue: 自动按需引入 element-plus 中的字体图标
    
 
 ## 说明 test
@@ -42,4 +45,4 @@
 ## 待修复 fixme
 1. recommendation 页面中文字鼠标经过会有下滑线的问题
 2. 滚动条在鼠标不经过的时候不显示的问题
-3. 
+3. 回车登录记得改一下发送请求的函数m, 节流函数, 避免发送大量的请求
