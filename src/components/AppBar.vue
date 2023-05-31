@@ -63,6 +63,7 @@ const nameSend = newUserName => {
 const exitLogin = () => {
 	isLogin.value = true;     // 重新展示登录按钮
 	localStorage.removeItem("token");    // 移除存储的 token
+	username.value = "";   // 将 username 的值初始化
 	ElMessage({
 		type: 'success',
 		message: '已退出登录',
@@ -85,7 +86,7 @@ const { changeTabName } = store;
 </script>
 
 <template>
-	<!-- 注释 -->
+	<!-- 顶部 -->
 	<div class="topBar">
 		<!--布局-->
 		<div class="topContent">
@@ -134,7 +135,9 @@ const { changeTabName } = store;
 				:show-close="false"
 			>
 				<!--使用 <UserLogin> 组件-->
-				<UserLogin @loginMsg="loginMsg" @nameSend="nameSend"></UserLogin>
+				<!-- 通过 v-if 让登录组件每次展示时都是初始化(input框没有值)即重新生成组件实例的状态 -->
+				<!-- 为了保证安全的同时方便做回车登录, 考虑用户使用填充密码的行为 -->
+				<UserLogin @loginMsg="loginMsg" @nameSend="nameSend" v-if="!username"></UserLogin>
 			</el-dialog>
 		</div>
 	</div>

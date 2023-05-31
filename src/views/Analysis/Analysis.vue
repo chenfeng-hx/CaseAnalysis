@@ -5,7 +5,7 @@
 *    祝你食用愉快！！！
 */
 <script setup>
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {Finished, Pointer, Promotion, Upload, UploadFilled} from '@element-plus/icons-vue';
 // 引入 VueOfficeDocx 组件(渲染预览文件内容)
 import VueOfficeDocx from "@vue-office/docx";
@@ -13,6 +13,8 @@ import VueOfficeDocx from "@vue-office/docx";
 import '@vue-office/docx/lib/index.css';
 import {ElMessage} from "element-plus";
 import {getClaimGeneration, getSameCaseForm, upJudgment, getCaseInfo} from "@/api/analysisDocx.js";
+import MapKnowledge from "@/components/MapKnowledge.vue";
+import MouseLoding from "@/components/MouseLoding.vue";
 
 /**
  * 左侧步骤条区域逻辑
@@ -104,16 +106,16 @@ const reSetStatus = () => {
 }
 
 /* 上传文件逻辑 */
-// 保存返回的分析出来的案件信息
-const caseInfo = ref();
-// 保存返回的"知识图谱"的绘画信息
-const mapKnowledgeInfo = ref();
-// 上传文件并进行分析
+// 保存返回的分析出来的案件信息(传递给子组件)
+const caseInfo = reactive({});
+// 保存返回的"知识图谱"的绘画信息(传递给子组件)
+const mapKnowledgeInfo = reactive({});
+// 上传文件并进行分析(在不同的发送请求的过程中对步骤条的状态进行改变)
 const analysisFile = () => {
 	// 先判断上传的文件类型
 	// 起诉状
 	if (!fileType.value) {
-		// 没有上传文件时发送消息并结束
+		// 先判断是否上传了文件, 没有上传文件时发送消息并结束
 		if (file_load_pleadings.value.files.length === 0) {
 			ElMessage({
 				type: 'warning',
@@ -127,10 +129,15 @@ const analysisFile = () => {
 		pleadingsFileFormData.append("submit_file", file_load_pleadings.value.files[0]);
 		// 改变步骤条状态
 		active_step.value = 2;
-		ElMessage.success('正在分析中...');
+		ElMessage({
+			type: 'success',
+			message: '正在分析中...',
+			duration: 1000,
+		});
 		// 发送请求
 		getClaimGeneration(pleadingsFileFormData)
 			.then(res => {
+				console.log(res);
 				if (res.data !== 'token校验失败') {
 					// 蹭一下"用户认证", "同案智推"没有设置
 					searchSameCases();
@@ -138,9 +145,9 @@ const analysisFile = () => {
 					// 请求"知识图谱"成功
 					if (res.data.claim_kg.node_list.length !== 0) {
 						// 保存"原告""被告""案件题目"等信息
-						caseInfo.value = res.data.claim_info;
+						Object.assign(caseInfo, res.data.claim_info);
 						// 保存绘画"知识图谱"的数据信息
-						mapKnowledgeInfo.value = res.data.claim_kg;
+						Object.assign(mapKnowledgeInfo, res.data.claim_kg);
 						// 开始判断发送"同案智推"和当前的请求是否都成功并发送用户提示消息
 						if (sameCases.value.length !== 0) {
 							active_step.value = 4;
@@ -192,7 +199,7 @@ const analysisFile = () => {
 			.catch(res => console.log(res))
 	} else {
 		// 判决书(和上面的步骤几乎是一样的, 但因为接口不同所以要写两遍)
-		// 没有上传文件时发送消息并结束
+		// 先判断是否上传了文件, 没有上传文件时发送消息并结束~~(也可以把 === 0 去掉, 然后换成 || , 没试不知道 !err 不 !err)~~
 		if (file_load_judgment.value.files.length === 0) {
 			ElMessage({
 				type: 'warning',
@@ -206,11 +213,14 @@ const analysisFile = () => {
 		judgmentFileFormData.append('flag', 0);
 		// 改变步骤条状态
 		active_step.value = 2;
-		ElMessage.success('正在分析中...');
+		ElMessage({
+			type: 'success',
+			message: '正在分析中...',
+			duration: 1000,
+		});
 		// 发送请求
 		upJudgment(judgmentFileFormData)
 			.then(res => {
-				console.log(res);
 				if (res.data !== 'token校验失败') {
 
 				}
@@ -254,6 +264,13 @@ const searchSameCases = () => {
  */
 // 判断当前点击的是哪一个按钮
 let tabIndex = ref(0);
+// 改变点击的按钮, 并进行右侧展示页面的切换
+const changeTabIndex = value => {
+	// 改变当前有"按下状态样式"的按钮
+	tabIndex.value = value;
+	// 回到顶部
+	document.documentElement.scrollTop = 0;
+}
 
 </script>
 
@@ -335,16 +352,20 @@ let tabIndex = ref(0);
 			<!-- 右上面的展示标签 -->
 			<div class="tabs">
 				<div class="filename">{{ fileName }}</div>
-				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 1 }">{{ fileTypeName }}</button>
-				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 2 }">争议要素</button>
-				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 3 }">同案智推</button>
+				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 1 }" @click="changeTabIndex(1)">{{ fileTypeName }}</button>
+				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 2 }" @click="changeTabIndex(2)">争议要素</button>
+				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 3 }" @click="changeTabIndex(3)">同案智推</button>
 			</div>
 			<!-- 右下的展示盒子: 文件内容、知识图谱或是同案智推 -->
 			<div class="box">
 				<!-- 文件预览盒子 -->
 				<vue-office-docx :src="preview_file"  v-show="tabIndex === 1" />
-				<div class="mapKnowledge" v-show="tabIndex === 2" ></div>
-				<div class="sameCase" v-show="tabIndex === 3" ></div>
+				<div class="mapKnowledge" v-show="tabIndex === 2">
+					<MapKnowledge :map-knowledge-info="mapKnowledgeInfo" :case-info="caseInfo" />
+				</div>
+				<div class="sameCase" v-show="tabIndex === 3">
+					<MouseLoding />
+				</div>
 			</div>
 		</div>
 		<div style="height: 1500px"></div>

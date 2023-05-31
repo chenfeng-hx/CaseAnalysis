@@ -5,7 +5,8 @@
 2. views 中的每一个页面都作为一个单独的目录存放, 如将 Home.vue 放在 views/Home 中
 3. src/components 中只存放全局通用组件, views/xxx/components 存放的是当前页面所用到的独立组件
 4. setup 语法糖中的所有的函数都使用箭头函数的形式, 联系语法 + 没有 this
-5. 
+5. Tab 键尽量使用 4 个空格
+6. 
 
 ## 项目结构
 
@@ -18,12 +19,15 @@
    4. rollup-plugin-babel + @babel/plugin-transform-runtime 代码打包时去掉所有的 log 日志文件, 可以问 gpt
    5. bootstrap 版本采用第四版最新版，用于 recommendation 中
    6. @element-plus/icons-vue: 自动按需引入 element-plus 中的字体图标
+   7. @vue-office/docx + vue-demi 做上传文件的文件预览(docx文件)
+   8. echarts 做各种数据图表展示
    
 
 ## 说明 test
 1. 整体项目使用 vue3 + vite 搭建，路由使用 vue-router，状态管理使用 pinia
 2. element-plus 采用按需引入的方式，减少包的体积
-3. 
+3. 包管理器使用 yarn `yarn` `yarn add` `yarn remove`
+4. 
 
 ## 项目更新点 update
 1. Recommendation 页面 css 采用手写的方式, 将之前的引入的大量的重复CSS效果优化, 并使用 v-for 优化重复文档结构,保证文档的结构清晰明了
@@ -37,7 +41,7 @@
 4. 雪碧图
 5. 滚动条 ==> 已经解决，简略修改了以前学长留下的代码
 6. 路由目录 ==> 把一些零散的路由规整到了 loginOrNot.js 里面，封装了方法并暴露
-7. 回车登录
+7. 回车登录/注册 ==> 更改了方式, 改为在 input 框中添加回车事件
 8. 回到顶部  ==> 完成功能：在滑动页面一定距离后展示，并通过在 store 中创建全局变量控制在哪个页面展示与否
 9. 分享按钮, 位置在 BackToTop 下面, 点击后有"截屏分享"和"链接分享"两种, 和后端商量看能不能给链接做一个标记"id", 通过特定的 id 可以访问到和要分享的人同一个页面, 是不通过上传文件的
 
