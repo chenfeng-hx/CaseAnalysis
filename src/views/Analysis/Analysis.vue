@@ -139,9 +139,9 @@ const analysisFile = () => {
 			.then(res => {
 				console.log(res);
 				if (res.data !== 'token校验失败') {
+					active_step.value = 3;
 					// 蹭一下"用户认证", "同案智推"没有设置
 					searchSameCases();
-					active_step.value = 3;
 					// 请求"知识图谱"成功
 					if (res.data.claim_kg.node_list.length !== 0) {
 						// 保存"原告""被告""案件题目"等信息
@@ -222,6 +222,7 @@ const analysisFile = () => {
 		upJudgment(judgmentFileFormData)
 			.then(res => {
 				if (res.data !== 'token校验失败') {
+					active_step.value = 3;
 
 				}
 			})
@@ -354,7 +355,7 @@ const changeTabIndex = value => {
 				<div class="filename">{{ fileName }}</div>
 				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 1 }" @click="changeTabIndex(1)">{{ fileTypeName }}</button>
 				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 2 }" @click="changeTabIndex(2)">争议要素</button>
-				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 3 }" @click="changeTabIndex(3)">同案智推</button>
+				<button role="button" class="button-name" :class="{ 'active' : tabIndex === 3 }" @click="changeTabIndex(3)" v-show="fileType === 0">同案智推</button>
 			</div>
 			<!-- 右下的展示盒子: 文件内容、知识图谱或是同案智推 -->
 			<div class="box">
@@ -548,7 +549,7 @@ const changeTabIndex = value => {
 			min-height: 700px;
 
 			/* 文件预览盒子 */
-			:deep .docx-wrapper {
+			:deep(.docx-wrapper) {
 				background: none;
 				padding: 15px;
 			}

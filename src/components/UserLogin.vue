@@ -570,7 +570,7 @@ const chooseFunc = () => {
 		width: 150px;
 		margin-top: 20px;
 		/* 调整 el-input 的宽高，验证码的 width 应该小一些 */
-		&:deep .el-input__inner {
+		&:deep(.el-input__inner) {
 			width: 135px;
 		}
 	}
@@ -588,7 +588,7 @@ const chooseFunc = () => {
 }
 
 /* 调整 el-input 的宽高 */
-:deep .el-input__inner {
+:deep(.el-input__inner) {
 	width: 200px;
 	--el-input-inner-height: 32px;
 }

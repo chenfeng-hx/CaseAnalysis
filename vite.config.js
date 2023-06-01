@@ -24,7 +24,6 @@ export default defineConfig({
 			babelrc: true,
 			runtimeHelpers: true,
 		}),
-
 	],
 	// 配置将 @ 转换为 src
 	resolve: {

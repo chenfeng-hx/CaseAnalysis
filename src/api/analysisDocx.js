@@ -5,6 +5,9 @@
  *    祝你食用愉快！！！
  */
 import {request}  from "./request"
+import axios from "axios";
+
+let cancel;
 
 //同案检索 上传文件
 export function getSameCaseForm(formdata){
@@ -14,6 +17,7 @@ export function getSameCaseForm(formdata){
 		data:formdata
 	})
 }
+
 
 //同案检索 上传索引号
 export function getSameCaseNum(formdata){
@@ -54,13 +58,30 @@ export function getJudgementGeneration(id){
 }
 
 //根据起诉状获取知识图谱
-export function getClaimGeneration(formdata){
+// export function getClaimGeneration(formdata){
+// 	return request({
+// 		method:"POST",
+// 		url:"/api/kg_claim",
+// 		data:formdata
+// 	})
+// }
+
+// 修改以可以在变量发生改变时取消请求
+export const getClaimGeneration = (formData, fileType) => {
+	if (cancel && fileType !== 0) {
+		console.log('取消上次请求');
+		cancel('取消上次请求');
+	}
 	return request({
 		method:"POST",
 		url:"/api/kg_claim",
-		data:formdata
+		data:formData,
+		cancelToken: new axios.CancelToken(function executor(c) {
+			cancel = c;
+		}),
 	})
 }
+
 
 
 //获取案件基本信息

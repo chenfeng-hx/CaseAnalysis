@@ -21,6 +21,10 @@
    6. @element-plus/icons-vue: 自动按需引入 element-plus 中的字体图标
    7. @vue-office/docx + vue-demi 做上传文件的文件预览(docx文件)
    8. echarts 做各种数据图表展示
+   9. 
+2. 文件内容：
+   1. api 目录中的导出函数, 对用到的部分函数进行了修改使其可以在发生某些变化的时候取消请求
+   2. 
    
 
 ## 说明 test
@@ -50,3 +54,5 @@
 1. recommendation 页面中文字鼠标经过会有下滑线的问题
 2. 滚动条在鼠标不经过的时候不显示的问题
 3. 回车登录记得改一下发送请求的函数m, 节流函数, 避免发送大量的请求
+4. 路由和 store 内部的 appTab 不匹配的问题, 比如刷新后路由在 recommendation, 但是 AppBar 的高亮在 home, store 中的 apptab 也在 home
+5. 
