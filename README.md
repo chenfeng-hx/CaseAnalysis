@@ -28,7 +28,7 @@
    
 
 ## 说明 test
-1. 整体项目使用 vue3 + vite 搭建，路由使用 vue-router，状态管理使用 pinia
+1. 整体项目使用 vue3 + vite4 搭建，路由使用 vue-router4，状态管理使用 pinia2
 2. element-plus 采用按需引入的方式，减少包的体积
 3. 包管理器使用 yarn `yarn` `yarn add` `yarn remove`
 4. 
@@ -39,7 +39,7 @@
 3. 
 
 ## 新增需求 todo (功能完成后使用 ==> 标注并将解决过程说明在后面)
-1. gzip --> vue3 + vite 默认开启
+1. gzip ==> vue3 + vite 默认开启
 2. token失效跳转登录
 3. 加载进度条
 4. 雪碧图

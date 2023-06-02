@@ -10,7 +10,7 @@
 </script>
 
 <template>
-	<!-- 注释: 仓鼠loding -->
+	<!-- 注释: 仓鼠loading -->
 	<div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
 		<div class="wheel"></div>
 		<div class="hamster">

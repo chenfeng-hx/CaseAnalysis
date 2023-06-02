@@ -14,7 +14,7 @@ import '@vue-office/docx/lib/index.css';
 import {ElMessage} from "element-plus";
 import {getClaimGeneration, getSameCaseForm, upJudgment, getCaseInfo} from "@/api/analysisDocx.js";
 import MapKnowledge from "@/components/MapKnowledge.vue";
-import MouseLoding from "@/components/MouseLoding.vue";
+import MouseLoading from "@/components/MouseLoading.vue";
 
 /**
  * 左侧步骤条区域逻辑
@@ -44,17 +44,27 @@ let preview_file = ref('');
 // 因为对于"起诉状"和"判决书"有不同的操作接口, 所以得先进行判断是哪种文件类型
 const handlerFileInfo = () => {
 	let fileReader = new FileReader();
+	// 判断文件类型
+	// let fileExtension  = '';
 	// 通过 fileType 的值判断应该在哪个里面取值
 	if (!fileType.value) {
 		// 起诉状(注释放里面, 耶, 小猪盖被~~~)
+		// 可以在此处使用 || 将拖拽文件加进去变成一个独立函数
+		// fileReader.readAsArrayBuffer(file_load_pleadings.value.files[0] || drag_file.value.files[0]);
 		fileReader.readAsArrayBuffer(file_load_pleadings.value.files[0]);
 		// 改变文件内容(因为刚好在判断, 所以就直接把操作放在 if-else 内部, 觉得不美观可以把拿出去做三元, 顺便删去这个if的大括号)
+		// fileName.value = file_load_pleadings.value.files[0].name || drag_file.value.files[0].name;
 		fileName.value = file_load_pleadings.value.files[0].name;
+		// fileExtension = fileName.value.split('.').pop();
+		// fileExtension = fileName.value.slice(fileName.value.lastIndexOf('.'));
 	} else {
 		// 判决书
 		fileReader.readAsArrayBuffer(file_load_judgment.value.files[0]);
 		fileName.value = file_load_judgment.value.files[0].name;
 	}
+	// 渲染为 pdf
+	// if (fileExtension === '.pdf' || fileExtension === '.docx') =>
+
 	// 将内容渲染到页面上
 	fileReader.onload = () => preview_file.value = fileReader.result;
 	// 改变右侧页面的文件名称(右侧等同于 event.target.files )
@@ -77,7 +87,6 @@ const handlerFileDrop = event => {
 	fileName.value = drag_file.value.name;
 	// 改变步骤条的状态
 	active_step.value = 1;
-	tabIndex.value = 1;
 	// 同样的操作预览文件内容
 	let fileReader = new FileReader();
 	fileReader.readAsArrayBuffer(drag_file.value);
@@ -365,7 +374,7 @@ const changeTabIndex = value => {
 					<MapKnowledge :map-knowledge-info="mapKnowledgeInfo" :case-info="caseInfo" />
 				</div>
 				<div class="sameCase" v-show="tabIndex === 3">
-					<MouseLoding />
+					<MouseLoading />
 				</div>
 			</div>
 		</div>

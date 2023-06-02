@@ -7,6 +7,7 @@
 <script setup>
 import * as echarts from 'echarts';
 import {watch} from "vue-demi";
+import {isReactive, toRefs} from "vue";
 
 /* 左侧绘画"知识图谱"相关 */
 // 接收 canvas 的绘画参数信息和提取出的案件信息
@@ -14,6 +15,18 @@ const props = defineProps({
 	mapKnowledgeInfo: Object,
 	caseInfo: Object,
 })
+
+//bug 不知道为啥加了这行代码就可以重画canvas了
+// 问了gpt的答案：因为在 Vue 3 中，添加 console.log(isReactive(‘变量名’))
+// 可以使警告消失的原因可能是由于当第一次触发 watch 时，父组件传递给子组件的 reactive 对象还未完成初始化，
+// 导致其是非响应式的 Object 类型，而不是 reactive Proxy 对象。此时使用 isReactive() 函数判断其是否为响应式对象，
+// 可以确保当 reactive 对象完成初始化后，watcher 正确监听到 reactive 对象的变化
+// 但是实际生产不建议这样做
+console.log(isReactive(props.mapKnowledgeInfo))
+
+// 改用 toRefs 做
+// const mapDatas = toRefs(props.mapKnowledgeInfo);
+
 // 进行绘画
 const echartsInit = () => {
 	// canvas 容器
@@ -129,7 +142,7 @@ const echartsInit = () => {
 	mapCharts.setOption(option);
 }
 
-// 当 props 变化时重新刷新图表
+// 当 props 变化时重新刷新图表(监听不到)
 watch(props.mapKnowledgeInfo, () => {
 	echartsInit();
 })
