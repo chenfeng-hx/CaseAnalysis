@@ -26,6 +26,8 @@ console.log(isReactive(props.mapKnowledgeInfo))
 
 // 改用 toRefs 做
 // const mapDatas = toRefs(props.mapKnowledgeInfo);
+// 将 caseInfo 案件信息中的内容解构出来
+const { title, court, court_area, typeForJudgment, case_number, plaintiff, defendant, law, time } = toRefs(props.caseInfo);
 
 // 进行绘画
 const echartsInit = () => {
@@ -154,12 +156,60 @@ watch(props.mapKnowledgeInfo, () => {
 	<div class="container">
 		<!-- 左侧的知识图谱 -->
 		<div class="left-map-knowledge">
+			<!-- 上面的标题 -->
+			<div class="mapTitle">
+				<img src="@/assets/svg/关系图谱.svg" alt="知识图谱">
+				<span>关系图谱</span>
+			</div>
 			<!-- canvas 容器 -->
 			<div id="mapping"></div>
 		</div>
 		<!-- 右侧的案件要素 -->
 		<div class="right-infoBox">
-
+			<!-- 上面的标题 -->
+			<div class="mapTitle">
+				<img src="@/assets/svg/基本信息.svg" alt="知识图谱">
+				<span>案件信息</span>
+			</div>
+			<!-- 下方的信息卡片 -->
+			<div class="cards">
+				<div class="card red" v-if="title && title.length">
+					<div class="tip">案件名称</div>
+					<div class="second-text">{{ title }}</div>
+				</div>
+				<div class="card blue" v-if="court && court.length">
+					<div class="tip">法院级别</div>
+					<div class="second-text">{{ court }}</div>
+				</div>
+				<div class="card green" v-if="court_area && court_area.length">
+					<div class="tip">法院地区</div>
+					<div class="second-text">{{ court_area }}</div>
+				</div>
+				<div class="card red" v-if="typeForJudgment && typeForJudgment.length">
+					<div class="tip">案件类型</div>
+					<div class="second-text">{{ typeForJudgment }}</div>
+				</div>
+				<div class="card blue" v-if="case_number && case_number.length">
+					<div class="tip">案件编号</div>
+					<div class="second-text">{{ case_number }}</div>
+				</div>
+				<div class="card green" v-if="plaintiff && plaintiff.length">
+					<div class="tip">原告</div>
+					<div class="second-text" v-for="item in plaintiff" :key="item">{{ item }}</div>
+				</div>
+				<div class="card green" v-if="defendant && defendant.length">
+					<div class="tip">被告</div>
+					<div class="second-text" v-for="item in defendant" :key="item">{{ item }}</div>
+				</div>
+				<div class="card red" v-if="law && law.length">
+					<div class="tip">应用法条</div>
+					<div class="second-text">{{ law }}</div>
+				</div>
+				<div class="card blue" v-if="time && time.length">
+					<div class="tip">案件时间</div>
+					<div class="second-text">{{ time }}</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -167,24 +217,98 @@ watch(props.mapKnowledgeInfo, () => {
 <style scoped lang="scss">
 /* 最外侧的容器 */
 .container {
+	display: flex;
+	justify-content: center;
+	margin: 20px 5px 0 11px;
+
+	/* 公共样式 */
+	/* 上面的标题 */
+	.mapTitle {
+		display: flex;
+		align-items: center;
+
+		img {
+			width: 35px;
+			height: 35px;
+		}
+		span {
+			font-size: 1.5em;
+			margin-left: 5px;
+		}
+	}
 
 	/* 左侧的知识图谱 */
 	.left-map-knowledge {
+		margin-right: 30px;
 
 		/* 放 canvas 的容器 */
 		#mapping {
 			width: 800px;
 			height: 800px;
-			margin: 20px auto;
-			border: 1px solid #999999;
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			border: 2px solid #999999;
+			margin-top: 5px;
 
 			.canvas {
 				width: 100%;
 				height: 100%;
 			}
+		}
+	}
+
+	/* 右侧的案件要素 */
+	.right-infoBox {
+
+		/* 下方的要素卡片 */
+		.cards {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+			margin-top: 5px;
+		}
+
+		.cards .red {
+			background-color: #f43f5e;
+		}
+
+		.cards .blue {
+			background-color: #3b82f6;
+		}
+
+		.cards .green {
+			background-color: #22c55e;
+		}
+
+		.cards .card {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			text-align: center;
+			height: 100px;
+			width: 250px;
+			border-radius: 10px;
+			color: white;
+			cursor: pointer;
+			transition: 400ms;
+		}
+
+		.cards .card .tip {
+			font-size: 1em;
+			font-weight: 700;
+		}
+
+		.cards .card .second-text {
+			font-size: .7em;
+			margin-top: 1px;
+		}
+
+		.cards .card:hover {
+			transform: scale(1.1, 1.1);
+		}
+
+		.cards:hover > .card:not(:hover) {
+			filter: blur(10px);
+			transform: scale(0.9, 0.9);
 		}
 	}
 }

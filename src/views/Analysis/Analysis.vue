@@ -15,6 +15,7 @@ import {ElMessage} from "element-plus";
 import {getClaimGeneration, getSameCaseForm, upJudgment, getCaseInfo} from "@/api/analysisDocx.js";
 import MapKnowledge from "@/components/MapKnowledge.vue";
 import MouseLoading from "@/components/MouseLoading.vue";
+import SameCases from "@/components/SameCases.vue";
 
 /**
  * 左侧步骤条区域逻辑
@@ -43,6 +44,12 @@ let preview_file = ref('');
 // 通过按钮上传文件后的操作(作用于 input 的 change 事件)
 // 因为对于"起诉状"和"判决书"有不同的操作接口, 所以得先进行判断是哪种文件类型
 const handlerFileInfo = () => {
+	// 当重新上传文件(此时可以理解为没有点击重置按钮且已经有过分析文件的举动后手动帮助用户重置状态)
+	// 初始化请求后的各种返回信息
+	Object.assign(caseInfo, {});
+	Object.assign(mapKnowledgeInfo, {});
+	sameCases.value = [];
+
 	let fileReader = new FileReader();
 	// 判断文件类型
 	// let fileExtension  = '';
@@ -105,8 +112,8 @@ const reSetStatus = () => {
 	// 初始化右侧顶部按钮状态
 	tabIndex.value = 0;
 	// 初始化请求后的各种返回信息
-	caseInfo.value = '';
-	mapKnowledgeInfo.value = '';
+	Object.assign(caseInfo, {});
+	Object.assign(mapKnowledgeInfo, {});
 	sameCases.value = [];
 	// 初始化 input 框中收到的以前的文件信息
 	file_load_judgment.value = '';
@@ -252,6 +259,7 @@ const searchSameCases = () => {
 	// 发送请求
 	getSameCaseForm(searchSameCasesFormData)
 		.then(res => {
+			console.log(res);
 			const data = res.data.res_list;
 			if (data.length !== 0) {
 				// 有同案智推数据
@@ -374,7 +382,8 @@ const changeTabIndex = value => {
 					<MapKnowledge :map-knowledge-info="mapKnowledgeInfo" :case-info="caseInfo" />
 				</div>
 				<div class="sameCase" v-show="tabIndex === 3">
-					<MouseLoading />
+					<!--<MouseLoading />-->
+					<same-cases :same-cases="sameCases" />
 				</div>
 			</div>
 		</div>
