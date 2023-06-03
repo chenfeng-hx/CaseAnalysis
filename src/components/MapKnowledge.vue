@@ -6,7 +6,7 @@
 */
 <script setup>
 import * as echarts from 'echarts';
-import {watch} from "vue-demi";
+import {watch, watchEffect} from "vue-demi";
 import {isReactive, toRefs} from "vue";
 
 /* 左侧绘画"知识图谱"相关 */
@@ -22,12 +22,17 @@ const props = defineProps({
 // 导致其是非响应式的 Object 类型，而不是 reactive Proxy 对象。此时使用 isReactive() 函数判断其是否为响应式对象，
 // 可以确保当 reactive 对象完成初始化后，watcher 正确监听到 reactive 对象的变化
 // 但是实际生产不建议这样做
-console.log(isReactive(props.mapKnowledgeInfo))
+isReactive(props.mapKnowledgeInfo)
+isReactive(props.caseInfo)
 
 // 改用 toRefs 做
 // const mapDatas = toRefs(props.mapKnowledgeInfo);
 // 将 caseInfo 案件信息中的内容解构出来
-const { title, court, court_area, typeForJudgment, case_number, plaintiff, defendant, law, time } = toRefs(props.caseInfo);
+// const { title, court, court_area, typeForJudgment, case_number, plaintiff, defendant, law, time } = toRefs(props.caseInfo);
+
+// 为什么加这行代码: 因为下面的和title一样的这些值都是 undefined
+// 解决原因：gpt:打印 title 值的同时 Vue 响应该变量的变化，从而将其变成响应式数据，触发依赖并使其有值
+// console.table(title.value)
 
 // 进行绘画
 const echartsInit = () => {
@@ -154,60 +159,113 @@ watch(props.mapKnowledgeInfo, () => {
 <template>
 	<!-- 注释： 知识图谱组件: 分为两个部分, 知识图谱 canvas 和 提取出来的案件要素 -->
 	<div class="container">
-		<!-- 左侧的知识图谱 -->
-		<div class="left-map-knowledge">
-			<!-- 上面的标题 -->
-			<div class="mapTitle">
-				<img src="@/assets/svg/关系图谱.svg" alt="知识图谱">
-				<span>关系图谱</span>
-			</div>
-			<!-- canvas 容器 -->
-			<div id="mapping"></div>
+		<div class="not-map" v-show="!(caseInfo.title && caseInfo.title.length)">
+			<img src="@/assets/svg/网络信号差.svg" alt="暂无信息">
 		</div>
-		<!-- 右侧的案件要素 -->
-		<div class="right-infoBox">
-			<!-- 上面的标题 -->
-			<div class="mapTitle">
-				<img src="@/assets/svg/基本信息.svg" alt="知识图谱">
-				<span>案件信息</span>
+		<div class="has-map" v-show="caseInfo.title && caseInfo.title.length">
+			<!-- 左侧的知识图谱 -->
+			<div class="left-map-knowledge">
+				<!-- 上面的标题 -->
+				<div class="mapTitle">
+					<img src="@/assets/svg/关系图谱.svg" alt="知识图谱">
+					<span>关系图谱</span>
+				</div>
+				<!-- canvas 容器 -->
+				<div id="mapping"></div>
 			</div>
-			<!-- 下方的信息卡片 -->
-			<div class="cards">
-				<div class="card red" v-if="title && title.length">
-					<div class="tip">案件名称</div>
-					<div class="second-text">{{ title }}</div>
+			<!--region-->
+			<!-- 右侧的案件要素 -->
+			<!--<div class="right-infoBox" v-show="caseInfo.title && caseInfo.title.length">-->
+			<!--	&lt;!&ndash; 上面的标题 &ndash;&gt;-->
+			<!--	<div class="mapTitle">-->
+			<!--		<img src="@/assets/svg/基本信息.svg" alt="知识图谱">-->
+			<!--		<span>案件信息</span>-->
+			<!--	</div>-->
+			<!--	&lt;!&ndash; 下方的信息卡片 &ndash;&gt;-->
+			<!--	<div class="cards">-->
+			<!--		<div class="card red" v-if="title && title.length">-->
+			<!--			<div class="tip">案件名称</div>-->
+			<!--			<div class="second-text">{{ title }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card blue" v-if="court && court.length">-->
+			<!--			<div class="tip">法院级别</div>-->
+			<!--			<div class="second-text">{{ court }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card green" v-if="court_area && court_area.length">-->
+			<!--			<div class="tip">法院地区</div>-->
+			<!--			<div class="second-text">{{ court_area }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card red" v-if="typeForJudgment && typeForJudgment.length">-->
+			<!--			<div class="tip">案件类型</div>-->
+			<!--			<div class="second-text">{{ typeForJudgment }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card blue" v-if="case_number && case_number.length">-->
+			<!--			<div class="tip">案件编号</div>-->
+			<!--			<div class="second-text">{{ case_number }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card green" v-if="plaintiff && plaintiff.length">-->
+			<!--			<div class="tip">原告</div>-->
+			<!--			<div class="second-text" v-for="item in plaintiff" :key="item">{{ item }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card green" v-if="defendant && defendant.length">-->
+			<!--			<div class="tip">被告</div>-->
+			<!--			<div class="second-text" v-for="item in defendant" :key="item">{{ item }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card red" v-if="law && law.length">-->
+			<!--			<div class="tip">应用法条</div>-->
+			<!--			<div class="second-text">{{ law }}</div>-->
+			<!--		</div>-->
+			<!--		<div class="card blue" v-if="time && time.length">-->
+			<!--			<div class="tip">案件时间</div>-->
+			<!--			<div class="second-text">{{ time }}</div>-->
+			<!--		</div>-->
+			<!--	</div>-->
+			<!--</div>-->
+			<!--endregion-->
+			<div class="right-infoBox" v-show="props.caseInfo.title && props.caseInfo.title.length">
+				<!-- 上面的标题 -->
+				<div class="mapTitle">
+					<img src="@/assets/svg/基本信息.svg" alt="知识图谱">
+					<span>案件信息</span>
 				</div>
-				<div class="card blue" v-if="court && court.length">
-					<div class="tip">法院级别</div>
-					<div class="second-text">{{ court }}</div>
-				</div>
-				<div class="card green" v-if="court_area && court_area.length">
-					<div class="tip">法院地区</div>
-					<div class="second-text">{{ court_area }}</div>
-				</div>
-				<div class="card red" v-if="typeForJudgment && typeForJudgment.length">
-					<div class="tip">案件类型</div>
-					<div class="second-text">{{ typeForJudgment }}</div>
-				</div>
-				<div class="card blue" v-if="case_number && case_number.length">
-					<div class="tip">案件编号</div>
-					<div class="second-text">{{ case_number }}</div>
-				</div>
-				<div class="card green" v-if="plaintiff && plaintiff.length">
-					<div class="tip">原告</div>
-					<div class="second-text" v-for="item in plaintiff" :key="item">{{ item }}</div>
-				</div>
-				<div class="card green" v-if="defendant && defendant.length">
-					<div class="tip">被告</div>
-					<div class="second-text" v-for="item in defendant" :key="item">{{ item }}</div>
-				</div>
-				<div class="card red" v-if="law && law.length">
-					<div class="tip">应用法条</div>
-					<div class="second-text">{{ law }}</div>
-				</div>
-				<div class="card blue" v-if="time && time.length">
-					<div class="tip">案件时间</div>
-					<div class="second-text">{{ time }}</div>
+				<!-- 下方的信息卡片 -->
+				<div class="cards">
+					<div class="card red" v-if="props.caseInfo.title && props.caseInfo.title.length">
+						<div class="tip">案件名称</div>
+						<div class="second-text">{{ props.caseInfo.title }}</div>
+					</div>
+					<div class="card blue" v-if="props.caseInfo.court && props.caseInfo.court.length">
+						<div class="tip">法院级别</div>
+						<div class="second-text">{{ props.caseInfo.court }}</div>
+					</div>
+					<div class="card green" v-if="props.caseInfo.court_area && props.caseInfo.court_area.length">
+						<div class="tip">法院地区</div>
+						<div class="second-text">{{ props.caseInfo.court_area }}</div>
+					</div>
+					<div class="card red" v-if="props.caseInfo.typeForJudgment && props.caseInfo.typeForJudgment.length">
+						<div class="tip">案件类型</div>
+						<div class="second-text">{{ props.caseInfo.typeForJudgment }}</div>
+					</div>
+					<div class="card blue" v-if="props.caseInfo.case_number && props.caseInfo.case_number.length">
+						<div class="tip">案件编号</div>
+						<div class="second-text">{{ props.caseInfo.case_number }}</div>
+					</div>
+					<div class="card green" v-if="props.caseInfo.plaintiff && props.caseInfo.plaintiff.length">
+						<div class="tip">原告</div>
+						<div class="second-text" v-for="item in props.caseInfo.plaintiff" :key="item">{{ item }}</div>
+					</div>
+					<div class="card green" v-if="props.caseInfo.defendant && props.caseInfo.defendant.length">
+						<div class="tip">被告</div>
+						<div class="second-text" v-for="item in props.caseInfo.defendant" :key="item">{{ item }}</div>
+					</div>
+					<div class="card red" v-if="props.caseInfo.law && props.caseInfo.law.length">
+						<div class="tip">应用法条</div>
+						<div class="second-text">{{ props.caseInfo.law }}</div>
+					</div>
+					<div class="card blue" v-if="props.caseInfo.time && props.caseInfo.time.length">
+						<div class="tip">案件时间</div>
+						<div class="second-text">{{ props.caseInfo.time }}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -220,6 +278,22 @@ watch(props.mapKnowledgeInfo, () => {
 	display: flex;
 	justify-content: center;
 	margin: 20px 5px 0 11px;
+
+	.not-map {
+		height: 700px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		img {
+			width: 500px;
+		}
+	}
+
+	.has-map {
+		display: flex;
+		justify-content: center;
+		margin: 20px 5px 0 11px;
+	}
 
 	/* 公共样式 */
 	/* 上面的标题 */

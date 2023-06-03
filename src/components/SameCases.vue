@@ -28,21 +28,30 @@ const jumpToDetail = caseNumber => {
 
 <template>
 	<!-- 注释: 同案智推模块 -->
-	<div>
-		<div class="title">检索共有{{ sameCases.length }}条相似案件:</div>
-		<ul>
-			<li v-for="(item, index) in sameCases" :key="index" @click="jumpToDetail(item.case_number)">
-				<div class="smallBox">
-					<img src="@/assets/svg/标签.svg" class="logoImg" alt="" />
-					<span class="numLogo">{{ index+1 }}.</span> {{ item.title }}
-				</div>
-				<div class="numBox">相似度:{{ item.similarityValue }}</div>
-			</li>
-		</ul>
+	<div class="case-container">
+		<div class="not-case" v-show="!sameCases.length">
+			<img src="@/assets/svg/无信息.svg" alt="暂无信息">
+		</div>
+		<div v-show="sameCases.length">
+			<div class="title">检索共有{{ sameCases.length }}条相似案件:</div>
+			<ul>
+				<li v-for="(item, index) in sameCases" :key="index" @click="jumpToDetail(item.case_number)">
+					<div class="smallBox">
+						<img src="@/assets/svg/标签.svg" class="logoImg" alt="" />
+						<span class="numLogo">{{ index+1 }}.</span> {{ item.title }}
+					</div>
+					<div class="numBox">相似度:{{ item.similarityValue }}</div>
+				</li>
+			</ul>
+		</div>
 	</div>
 </template>
 
 <style scoped lang="scss">
+.case-container {
+	margin: 40px 0 0 30px;
+}
+
 .numLogo {
 	margin-left: 10px;
 	margin-right: 10px;
@@ -54,6 +63,14 @@ const jumpToDetail = caseNumber => {
 	color: rgb(26, 160, 52);
 	font-size: 1.4rem;
 
+}
+
+.not-case {
+	display: flex;
+	justify-content: center;
+	img {
+		width: 500px;
+	}
 }
 
 ul {

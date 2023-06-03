@@ -174,6 +174,7 @@ const analysisFile = () => {
 								center: true,
 							});
 						} else {
+							console.log(sameCases.value.length)
 							active_step.value = 4;
 							ElMessage({
 								type: 'warning',
@@ -239,7 +240,56 @@ const analysisFile = () => {
 			.then(res => {
 				if (res.data !== 'token校验失败') {
 					active_step.value = 3;
-
+					// 获取案例号
+					let case_number = res.data.replace('"', "");
+					// 获取案件基本信息
+					getCaseInfo(case_number)
+						.then(res => {
+							// 保存案件信息
+							Object.assign(caseInfo, res.data);
+						})
+						.catch(() => {
+							ElMessage({
+								type: 'success',
+								message: '基本信息分析失败, 请重新上传文件',
+								duration: 1000,
+							})
+						})
+					getJudgementGeneration(case_number)
+						.then(res => {
+							if (res.data.judgment_kg_list !== []) {
+								Object.assign(mapKnowledgeInfo, res.data.judgment_kg);
+								active_step.value = 4;
+								ElMessage({
+									type: 'success',
+									message: '分析完成',
+									duration: 1000,
+								})
+							} else {
+								ElMessage({
+									type: 'warning',
+									message: '知识图谱分析失败, 请重新上传文件',
+									duration: 1000,
+								})
+							}
+						})
+						.catch(() => {
+							active_step.value = 1;
+							ElMessage({
+								type: 'error',
+								message: '文件上传失败',
+								duration: 1000,
+							})
+						})
+				} else {
+					active_step.value = 1;
+					// 身份认证失败
+					ElMessage({
+						message: "未登录或者登录过期，请重新登录",
+						type: "warning",
+						center: true,
+						duration: 1000,
+					});
 				}
 			})
 	}
@@ -377,13 +427,21 @@ const changeTabIndex = value => {
 			<!-- 右下的展示盒子: 文件内容、知识图谱或是同案智推 -->
 			<div class="box">
 				<!-- 文件预览盒子 -->
-				<vue-office-docx :src="preview_file"  v-show="tabIndex === 1" />
-				<div class="mapKnowledge" v-show="tabIndex === 2">
-					<MapKnowledge :map-knowledge-info="mapKnowledgeInfo" :case-info="caseInfo" />
+				<div class="preview" v-show="tabIndex === 1">
+					<!-- 没有点击按钮时显示 -->
+					<div class="not-file" v-show="fileName === '<<< 请参照左侧的步骤提示进行操作呦！' && tabIndex === 1">
+						<img src="@/assets/svg/请先上传文件.svg" alt="请先上传文件">
+						<!--<span>请先上传文件@.@</span>-->
+					</div>
+					<vue-office-docx :src="preview_file"  v-show="tabIndex === 1" />
 				</div>
-				<div class="sameCase" v-show="tabIndex === 3">
-					<!--<MouseLoading />-->
-					<same-cases :same-cases="sameCases" />
+				<!-- 知识图谱盒子 -->
+				<div class="map-show">
+					<MapKnowledge :map-knowledge-info="mapKnowledgeInfo" :case-info="caseInfo" v-show="tabIndex === 2" />
+				</div>
+				<!-- 同案智推盒子 -->
+				<div class="same-cases">
+					<same-cases :same-cases="sameCases" v-show="tabIndex === 3" />
 				</div>
 			</div>
 		</div>
@@ -566,10 +624,40 @@ const changeTabIndex = value => {
 			width: 1100px;
 			min-height: 700px;
 
+			/* 没有文件时 */
+			.not-file {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 800px;
+			}
+
 			/* 文件预览盒子 */
-			:deep(.docx-wrapper) {
-				background: none;
-				padding: 15px;
+			.preview {
+				height: 700px;
+				//position: relative;
+				//background-color: pink;
+				span {
+					position: absolute;
+					color: #febc2b;
+					font-weight: 120;
+					font-size: 20px;
+					top: 365px;
+					right: 324px;
+				}
+
+				:deep(.vue-office-docx) {
+					overflow-y: visible;
+				}
+
+				:deep(.docx-wrapper) {
+					background: none;
+					padding: 15px;
+				}
+			}
+
+			img {
+				width: 500px;
 			}
 		}
 	}

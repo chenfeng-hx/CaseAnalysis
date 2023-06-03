@@ -29,11 +29,11 @@ export function getSameCaseNum(formdata){
 }
 
 // 上传判决书
-export function upJudgment(formdata){
+export function upJudgment(formData){
 	return request({
 		method:"post",
 		url:"/api/upload_case_jud",
-		data:formdata
+		data:formData
 	})
 }
 
