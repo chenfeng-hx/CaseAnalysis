@@ -55,4 +55,5 @@
 2. 滚动条在鼠标不经过的时候不显示的问题
 3. 回车登录记得改一下发送请求的函数m, 节流函数, 避免发送大量的请求
 4. 路由和 store 内部的 appTab 不匹配的问题, 比如刷新后路由在 recommendation, 但是 AppBar 的高亮在 home, store 中的 apptab 也在 home
-5. 
+5. 文书分析左侧步骤条区域有时会出现浮动现象, 及投标, 会让右侧内容垫在下面(左移), 建议去掉固定组件重新设计fixed ==> 已修改,使用左侧fixed, 右侧margin-left
+6. mapKnowledge组件的props传值过去, 非响应式问题, 解构问题, 

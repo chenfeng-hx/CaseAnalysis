@@ -346,7 +346,7 @@ const changeTabIndex = value => {
 	<!-- 注释: 文书分析 -->
 	<div class="container">
 		<!-- 固钉 -->
-		<el-affix position="top" :offset="70">
+		<div class="fix">
 			<!-- 可隐藏的步骤条 -->
 			<div class="step">
 				<!-- 上传文件按钮下拉菜单 -->
@@ -414,7 +414,7 @@ const changeTabIndex = value => {
 					<el-button type="success" plain @click="analysisFile">进行分析</el-button>
 				</div>
 			</div>
-		</el-affix>
+		</div>
 		<!-- 三个展示区域 -->
 		<div class="views">
 			<!-- 右上面的展示标签 -->
@@ -453,88 +453,94 @@ const changeTabIndex = value => {
 .container {
 	display: flex;
 
-	/* 步骤条 */
-	.step {
-		width: 250px;
-		height: 700px;
-		//background-color: pink;
-		margin: 15px 10px 0 10px;
-		padding: 5px;
-		border-radius: 10px;
-		box-shadow:
-			2px 2px 2px 1px rgba(0, 0, 0, .2),   	/* 右下角 */
-			-2px -2px 2px 1px rgba(0, 0, 0, .2),  	/* 左上角 */
-			-2px 2px 2px 1px rgba(0, 0, 0, .2),     /* 左下角 */
-			2px -2px 2px 1px rgba(0, 0, 0, .2);  	/* 右上角 */
+	.fix {
+		position: relative;
 
-		/* 上传文件按钮 */
-		.top {
-			position: relative;
-			height: 100px;
+		/* 步骤条 */
+		.step {
+			position: fixed;
+			top: 70px;
+			width: 250px;
+			height: 700px;
+			//background-color: pink;
+			margin: 15px 10px 0 10px;
+			padding: 5px;
+			border-radius: 10px;
+			box-shadow:
+				2px 2px 2px 1px rgba(0, 0, 0, .2),   	/* 右下角 */
+				-2px -2px 2px 1px rgba(0, 0, 0, .2),  	/* 左上角 */
+				-2px 2px 2px 1px rgba(0, 0, 0, .2),     /* 左下角 */
+				2px -2px 2px 1px rgba(0, 0, 0, .2);  	/* 右上角 */
 
-			.upLoad {
-				display: inline-block;
-				width: 110px;
-				height: 32px;
+			/* 上传文件按钮 */
+			.top {
 				position: relative;
-				top: 10px;
-				/* mark:如果取消调整el-button宽高的话就调整为 140px */
-				left: 150px;
+				height: 100px;
+
+				.upLoad {
+					display: inline-block;
+					width: 110px;
+					height: 32px;
+					position: relative;
+					top: 10px;
+					/* mark:如果取消调整el-button宽高的话就调整为 140px */
+					left: 150px;
+
+					.el-button {
+						width: 90px;
+						height: 28px;
+						--el-button-bg-color: #ee3f4d;
+						--el-button-hover-bg-color: #ee4f4d;
+						--el-button-active-bg-color: #ee4f4d;
+						--el-button-border-color: none;
+						--el-button-active-color: none;
+						--el-button-outline-color: none;
+						--el-button-hover-border-color: none;
+						--el-button-active-border-color: none;
+
+
+						&:hover {
+							background-color: #ee3f4d;
+						}
+
+						&:active {
+							background-color: #ee3f4d;
+						}
+					}
+
+					.text-center {
+						justify-content: center;
+					}
+				}
+			}
+
+			/* 步骤条区域 */
+			.stepShow {
+			}
+
+			/* 重置按钮和下一步按钮 */
+			.funcBtn {
+				display: flex;
+				justify-content: center;
+				position: relative;
+				bottom: -55px;
 
 				.el-button {
-					width: 90px;
-					height: 28px;
-					--el-button-bg-color: #ee3f4d;
-					--el-button-hover-bg-color: #ee4f4d;
-					--el-button-active-bg-color: #ee4f4d;
-					--el-button-border-color: none;
-					--el-button-active-color: none;
-					--el-button-outline-color: none;
-					--el-button-hover-border-color: none;
-					--el-button-active-border-color: none;
+					height: 40px;
 
-
-					&:hover {
-						background-color: #ee3f4d;
-					}
-
-					&:active {
-						background-color: #ee3f4d;
+					&:last-of-type {
+						width: 150px;
 					}
 				}
 
-				.text-center {
-					justify-content: center;
-				}
 			}
-		}
-
-		/* 步骤条区域 */
-		.stepShow {
-		}
-
-		/* 重置按钮和下一步按钮 */
-		.funcBtn {
-			display: flex;
-			justify-content: center;
-			position: relative;
-			bottom: -55px;
-
-			.el-button {
-				height: 40px;
-
-				&:last-of-type {
-					width: 150px;
-				}
-			}
-
 		}
 	}
 
 
-
 	/* 右侧的展示区 */
 	.views {
+		margin-left: 275px;
 
 		/* 上面的展示标签和文件名 */
 		.tabs {
