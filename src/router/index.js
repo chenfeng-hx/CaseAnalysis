@@ -13,6 +13,7 @@ const routes = [
 	{ path: '/recommendation', component: () => import('@/views/Recommendation/Recommendation.vue') },
 	{ path: '/analysis', component: () => import('@/views/Analysis/Analysis.vue') },
 	{ path: '/case', component: () => import('@/views/Case/Case.vue') },
+	{ path: '/display', component: () => import('@/views/Display/Display.vue') },
 ]
 
 // 创建路由实例

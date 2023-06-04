@@ -5,9 +5,23 @@
 *    祝你食用愉快！！！
 */
 <script setup>
-import * as echarts from 'echarts';
-import {watch, watchEffect} from "vue-demi";
-import {isReactive, toRefs} from "vue";
+// import * as echarts from 'echarts';
+// 按需引入 echarts
+import * as echarts from 'echarts/core';
+import { TooltipComponent, LegendComponent, ToolboxComponent } from 'echarts/components';
+import { GraphChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+
+import {watch} from "vue-demi";
+import {isReactive} from "vue";
+
+echarts.use([
+	ToolboxComponent,
+	TooltipComponent,
+	LegendComponent,
+	GraphChart,
+	CanvasRenderer
+]);
 
 /* 左侧绘画"知识图谱"相关 */
 // 接收 canvas 的绘画参数信息和提取出的案件信息
