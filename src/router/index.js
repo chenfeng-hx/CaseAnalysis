@@ -6,17 +6,22 @@
  */
 import { createRouter, createWebHashHistory } from "vue-router";
 
+// 路由规则
 const routes = [
 	{ path: '/', redirect: '/home' },
 	{ path: '/home', component: () => import('@/views/Home/Home.vue') },
 	{ path: '/recommendation', component: () => import('@/views/Recommendation/Recommendation.vue') },
 	{ path: '/analysis', component: () => import('@/views/Analysis/Analysis.vue') },
 	{ path: '/relevant', component: () => import('@/views/Relevant/Relevant.vue') },
+	{ path: '/case', component: () => import('@/views/Case/Case.vue') },
+	{ path: '/display', component: () => import('@/views/Display/Display.vue') },
 ]
 
+// 创建路由实例
 const router = new createRouter({
 	routes,
 	history: createWebHashHistory(),
 })
 
+// 导出路由
 export default router

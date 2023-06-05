@@ -26,5 +26,7 @@
 	line-height: 40px;
 	color: #1989fa;
 	border-radius: 5px;
+	/* 在预览文档时会出现 display 为 none 的情况, 强制让它显示 */
+	display: block !important;
 }
 </style>

@@ -56,6 +56,16 @@ body {
 	border-radius: 32px;
 }
 
+/*!* scorll *!*/
+/*::-webkit-scrollbar {*/
+/*	width: 7px;*/
+/*}*/
+
+/*::-webkit-scrollbar-thumb {*/
+/*	background-color: #121212;*/
+/*}*/
+
+
 .el-header {
 	padding: 0;
 }

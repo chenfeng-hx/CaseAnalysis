@@ -5,7 +5,7 @@
 *    祝你食用愉快！！！
 */
 <script setup lang="ts">
-import {reactive, ref} from 'vue';
+import {onMounted, reactive, ref, nextTick} from 'vue';
 import {ElMessage, FormInstance} from "element-plus";
 // 登录接口
 import { loginFunc, sendCodeFunc, registerFunc, sendNewPwdFunc } from '../api/loginORNot.js';
@@ -203,7 +203,7 @@ const sendRegisterForm = () => {
 						duration: 2000,
 					})
 				} else{
-					// 应该将其他如 ”该用户已存在“ 之类的信息返回给用户，会出现安全问题
+					// 不应该将其他如 ”该用户已存在“ 之类的信息返回给用户，会出现安全问题
 					ElMessage({
 						type: "error",
 						message: "注册失败,请保证信息的完整度和准确度哦",
@@ -287,11 +287,24 @@ const sendChangePwdForm = () => {
 	});
 }
 
+// 判断是提交"注册"信息还是提交"忘记密码"信息(用于回车注册或回车修改密码)
+const chooseFunc = () => {
+	// 判断用户进入的是哪一个页面, 以此来确定调用什么函数
+	changePass.value ? sendRegisterForm() : sendChangePwdForm();
+}
+
+
+// onMounted(() => {
+// 	// 挂载上时给登录用的 input 框加上焦点
+// 	nextTick(() => {
+// 		document.getElementById('loginName').focus();
+// 	})
+// })
 
 </script>
 
 <template>
-	<!-- 注释 -->
+	<!-- 登录模块 -->
 	<div class="contain">
 		<div class="big-box" :class="{ active: isLogin }">
 			<!-- 登录 -->
@@ -300,15 +313,15 @@ const sendChangePwdForm = () => {
 				<div class="login">
 					<div class="loginName">
 						<span class="left"><label for="loginName">用户名</label></span>
-						<el-input id="loginName" v-model.trim="username" clearable></el-input>
+						<el-input id="loginName" v-model.trim="username" @keyup.enter="login" clearable></el-input>
 					</div>
 					<div class="loginPwd">
 						<span class="left"><label for="loginPwd">密码</label></span>
-						<el-input id="loginPwd" v-model="password" show-password></el-input>
+						<el-input id="loginPwd" v-model="password" @keyup.enter="login" show-password></el-input>
 					</div>
 					<div class="forgetPwd" @click="forgetBtn">忘记密码？邮箱找回</div>
 				</div>
-				<button class="subBtn" @click="login" @keyup.enter="login">登录</button>
+				<button class="subBtn" @click="login">登录</button>
 			</div>
 			<!-- 注册账号 / 修改密码 -->
 			<div class="big-contain" v-if="!isLogin">
@@ -319,7 +332,7 @@ const sendChangePwdForm = () => {
 					<el-form ref="registerOrChangePwdForm" :model="form" :rules="rules" label-width="82px" status-icon scroll-to-error>
 						<!-- 不论是注册账号还是修改密码都会展示 -->
 						<el-form-item label="用户名">
-							<el-input v-model="form.username"></el-input>
+							<el-input v-model="form.username" @keyup.enter="chooseFunc"></el-input>
 						</el-form-item>
 						<span class="userTip">只能包含数字、字母、下划线，并且第一个字母为大写</span>
 
@@ -331,6 +344,7 @@ const sendChangePwdForm = () => {
 								autocomplete="off"
 								placeholder="请输入8~16位的密码"
 								show-password
+								@keyup.enter="chooseFunc"
 							></el-input>
 						</el-form-item>
 
@@ -341,22 +355,23 @@ const sendChangePwdForm = () => {
 								v-model="form.checkPass"
 								autocomplete="off"
 								show-password
+								@keyup.enter="chooseFunc"
 							></el-input>
 						</el-form-item>
 
 						<el-form-item prop="email" :label="changePass ? '邮箱' : '以前的邮箱'">
-							<el-input v-model="form.email"></el-input>
+							<el-input v-model="form.email" @keyup.enter="chooseFunc"></el-input>
 						</el-form-item>
 
 						<!-- 只有注册账号展示的内容 -->
 						<el-form-item class="shut" v-show="changePass">
-							<el-input v-model="registerCode" class="emailBox" placeholder="输入验证码"></el-input>
+							<el-input v-model="registerCode" class="emailBox" placeholder="输入验证码" @keyup.enter="chooseFunc"></el-input>
 							<el-button class="remove" @click="sendCode" :class="{ active1: isSendCodeSuccess }">{{ text }}</el-button>
 						</el-form-item>
 
 						<!-- 只有修改密码展示的内容 -->
 						<el-form-item class="shut" v-show="!changePass">
-							<el-input v-model="changePwdCode" class="emailBox" placeholder="输入验证码"></el-input>
+							<el-input v-model="changePwdCode" class="emailBox" placeholder="输入验证码" @keyup.enter="chooseFunc"></el-input>
 							<el-button class="remove" @click="sendCode" :class="{ active1: isSendCodeSuccess }">{{ text }}</el-button>
 						</el-form-item>
 					</el-form>
@@ -555,7 +570,7 @@ const sendChangePwdForm = () => {
 		width: 150px;
 		margin-top: 20px;
 		/* 调整 el-input 的宽高，验证码的 width 应该小一些 */
-		&:deep .el-input__inner {
+		&:deep(.el-input__inner) {
 			width: 135px;
 		}
 	}
@@ -573,7 +588,7 @@ const sendChangePwdForm = () => {
 }
 
 /* 调整 el-input 的宽高 */
-:deep .el-input__inner {
+:deep(.el-input__inner) {
 	width: 200px;
 	--el-input-inner-height: 32px;
 }

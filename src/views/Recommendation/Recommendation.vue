@@ -157,7 +157,7 @@ const changeLawContent = newLawIndex => {
 		<div class="offset-lg-2 col-lg-8 text-center">
 			<div class="section-title">
 				<h2>高频引用排行</h2>
-				<h8>数据来自“两高公报”历年行政类司法案例数据统计分析报告 （1985-2021年）</h8>
+				<span class="h8">数据来自“两高公报”历年行政类司法案例数据统计分析报告 （1985-2021年）</span>
 			</div>
 		</div>
 	</div>

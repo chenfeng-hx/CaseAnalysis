@@ -5,9 +5,12 @@
  *    祝你食用愉快！！！
  */
 import {request}  from "./request"
+import axios from "axios";
+
+let cancel;
 
 //同案检索 上传文件
-export function getSamecaseForm(formdata){
+export function getSameCaseForm(formdata){
 	return request({
 		method:"post",
 		url:"/api/get_sim_exa_from_file",
@@ -15,8 +18,9 @@ export function getSamecaseForm(formdata){
 	})
 }
 
+
 //同案检索 上传索引号
-export function getSamecaseNum(formdata){
+export function getSameCaseNum(formdata){
 	return request({
 		method:"post",
 		url:"/api/get_sim_exa_from_case",
@@ -25,11 +29,11 @@ export function getSamecaseNum(formdata){
 }
 
 // 上传判决书
-export function upJugment(formdata){
+export function upJudgment(formData){
 	return request({
 		method:"post",
 		url:"/api/upload_case_jud",
-		data:formdata
+		data:formData
 	})
 }
 
@@ -43,7 +47,7 @@ export function upClaim(formdata){
 }
 
 //根据判决书获取知识图谱
-export function getJugementGeneration(id){
+export function getJudgementGeneration(id){
 	return request({
 		method:"get",
 		url:"/api/kg_generation",
@@ -54,13 +58,30 @@ export function getJugementGeneration(id){
 }
 
 //根据起诉状获取知识图谱
-export function getClaimGeneration(formdata){
+// export function getClaimGeneration(formdata){
+// 	return request({
+// 		method:"POST",
+// 		url:"/api/kg_claim",
+// 		data:formdata
+// 	})
+// }
+
+// 修改以可以在变量发生改变时取消请求
+export const getClaimGeneration = (formData, fileType) => {
+	if (cancel && fileType !== 0) {
+		console.log('取消上次请求');
+		cancel('取消上次请求');
+	}
 	return request({
 		method:"POST",
 		url:"/api/kg_claim",
-		data:formdata
+		data:formData,
+		cancelToken: new axios.CancelToken(function executor(c) {
+			cancel = c;
+		}),
 	})
 }
+
 
 
 //获取案件基本信息

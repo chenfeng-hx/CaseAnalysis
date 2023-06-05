@@ -1,0 +1,34 @@
+/* 当前代码编辑信息:
+        由用户 尘封 使用 WebStorm 在 “CaseAnalysis” 中
+        于 2023-05-27 09:48:22 编写而成！
+        祝你食用愉快！！！ */
+/* 清除浮动 */
+@mixin clearfix() {
+	&::after {
+		content: '';
+		clear: both;
+		display: block;
+	}
+}
+
+/* 调整每个 el-button 的内置颜色 */
+$color1: #ee3f4d;
+@mixin el-button-colors($color) {
+	--el-button-bg-color: $color1;
+	--el-button-hover-bg-color: $color;
+	--el-button-active-bg-color: $color;
+	--el-button-border-color: none;
+	--el-button-active-color: none;
+	--el-button-outline-color: none;
+	--el-button-hover-border-color: none;
+	--el-button-active-border-color: none;
+
+
+	&:hover {
+		background-color: $color;
+	}
+
+	&:active {
+		background-color: $color;
+	}
+}
