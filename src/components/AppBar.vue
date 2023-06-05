@@ -5,12 +5,12 @@
 *    祝你食用愉快！！！
 */
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 import { ElMessage } from 'element-plus'
 import { getUser } from "@/api/search.js";
 import { useTokenStore } from "@/store/index.js";
 import UserLogin from "@/components/UserLogin.vue";
-import {storeToRefs} from "pinia";
+import { storeToRefs } from "pinia";
 
 
 // 因为 setup 本就代替了 created，beforeCreate 钩子，所以本来在这两个钩子中执行的函数可以直接在 setup 中执行
@@ -22,21 +22,21 @@ import {storeToRefs} from "pinia";
  * 		并显示相对应的用户名称(返回值详情查看接口文档)
  */
 getUser().then((res) => {
-		if(res.data !== "token校验失败"){
-			// 说明登录过，应该是后端比对 token，返回用户信息
-			isLogin.value = false;
-			username.value = res.data.username;
-		} else{
-			// 发送提示信息
-			ElMessage({
-				message: "未登录或者登录过期，请重新登录",
-				type: "warning",
-				center: true,
-				duration: 1000,
-			});
-		}
+	if (res.data !== "token校验失败") {
+		// 说明登录过，应该是后端比对 token，返回用户信息
+		isLogin.value = false;
+		username.value = res.data.username;
+	} else {
+		// 发送提示信息
+		ElMessage({
+			message: "未登录或者登录过期，请重新登录",
+			type: "warning",
+			center: true,
+			duration: 1000,
+		});
 	}
-).catch(() => ElMessage.warning("出错啦") );
+}
+).catch(() => ElMessage.warning("出错啦"));
 
 // 控制展示登录按钮还是登录用户的信息
 let isLogin = ref(true);
@@ -99,12 +99,16 @@ const { changeTabName } = store;
 			<!--中间导航区-->
 			<div class="tab">
 				<!--选中的导航块加上选中样式，并同时切换路由-->
-				<div class="text" :class="{ 'tabs-active': appTab === 'home'}" @click="changeTabName('home');" >首页</div>
-				<div class="text" :class="{ 'tabs-active': appTab === 'analysis'}" @click="changeTabName('analysis');">文书分析</div>
-				<div class="text" :class="{ 'tabs-active': appTab === 'case'}" @click="changeTabName('case')">案例库</div>
-				<div class="text" :class="{ 'tabs-active': appTab === 'relevant'}" @click="changeTabName('relevant')">相关科普</div>
-				<div class="text" :class="{ 'tabs-active': appTab === 'display'}" @click="changeTabName('display')">数据展示</div>
-				<div class="text" :class="{ 'tabs-active': appTab === 'recommendation'}" @click="changeTabName('recommendation')">法条推荐</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'home' }" @click="changeTabName('home');">首页</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'analysis' }" @click="changeTabName('analysis')">文书分析
+				</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'case' }" @click="changeTabName('case')">案例库</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'relevant' }" @click="changeTabName('relevant')">相关科普
+				</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'display' }" @click="changeTabName('display')">数据展示
+				</div>
+				<div class="text" :class="{ 'tabs-active': appTab === 'recommendation' }"
+					@click="changeTabName('recommendation')">法条推荐</div>
 			</div>
 			<!--登录/注册-->
 			<div class="signBtn">
@@ -114,7 +118,7 @@ const { changeTabName } = store;
 				<!-- mark: 可以在此处修改 trigger 的触发方式 click/ hover -->
 				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link">
-						 <span v-if="!isLogin">你好！ {{ username }} </span>
+						<span v-if="!isLogin">你好！ {{ username }} </span>
 					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
@@ -126,13 +130,7 @@ const { changeTabName } = store;
 				</el-dropdown>
 			</div>
 			<!--弹出登录/注册模态框-->
-			<el-dialog
-				v-model="dialogVisible"
-				width="0%"
-				center
-				:append-to-body = true
-				:show-close="false"
-			>
+			<el-dialog v-model="dialogVisible" width="0%" center :append-to-body=true :show-close="false">
 				<!--使用 <UserLogin> 组件-->
 				<UserLogin @loginMsg="loginMsg" @nameSend="nameSend"></UserLogin>
 			</el-dialog>
@@ -161,6 +159,7 @@ const { changeTabName } = store;
 		justify-content: space-between;
 		/* 调整元素在纵轴的位置 */
 		align-items: center;
+
 		/* 左侧 logo */
 		.logoImg {
 			width: 10%;
@@ -169,7 +168,7 @@ const { changeTabName } = store;
 			align-items: center;
 			justify-content: center;
 			color: #ffffff;
-			font-size: 22px;
+			font-size: 1rem;
 			padding-left: 20px;
 			cursor: pointer;
 
@@ -181,26 +180,29 @@ const { changeTabName } = store;
 				}
 			}
 		}
+
 		/* 中间导航区 */
 		.tab {
 			width: 60%;
 			display: flex;
-			padding: 0 20px;
+			padding: 0 1.2em;
 			white-space: nowrap;
 			justify-content: center;
 			color: #ffffff;
-			font-size: 18px;
+			font-size: 0.9rem;
+			line-height: 0.9rem;
 
 			.text {
 				text-align: center;
 				/* 基于元素内容自动调整宽度 */
 				width: fit-content;
-				margin: 0 20px;
+				margin: 0 1.5em;
 				cursor: pointer;
 			}
 
 			.tabs-active {
 				color: #f1f165;
+				// color: rgb(69, 158, 255)
 			}
 		}
 

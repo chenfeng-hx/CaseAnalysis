@@ -40,33 +40,61 @@ body {
 	background-color: #7b848a;
 	/* 关键代码 */
 	background-image: -webkit-linear-gradient(45deg,
-	rgba(255, 255, 255, 0.4) 25%,
-	transparent 25%,
-	transparent 50%,
-	rgba(255, 255, 255, 0.4) 50%,
-	rgba(255, 255, 255, 0.4) 75%,
-	transparent 75%,
-	transparent);
+			rgba(255, 255, 255, 0.4) 25%,
+			transparent 25%,
+			transparent 50%,
+			rgba(255, 255, 255, 0.4) 50%,
+			rgba(255, 255, 255, 0.4) 75%,
+			transparent 75%,
+			transparent);
 	border-radius: 32px;
 }
 
 /* 滚动条轨道 */
 ::-webkit-scrollbar-track {
-   background-color: #dbeffd;
-   border-radius: 32px;
+	background-color: #dbeffd;
+	border-radius: 32px;
 }
 
-.el-header{
+.el-header {
 	padding: 0;
 }
-li{
+
+li {
 	list-style: none;
 }
-*{
+
+* {
 	margin: 0;
 	padding: 0;
 }
 
 a {
 	text-decoration: none;
+}
+
+:root {
+	font-size: calc(0.2em + 1vw);
+}
+
+/* w文书展示页面 */
+.docx-wrapper {
+
+
+	background-color: white !important;
+	padding: 0 !important;
+
+
+}
+
+.docx {
+
+	width: 60vw !important;
+}
+
+
+
+.docx p span {
+	line-height: 2;
+
 }

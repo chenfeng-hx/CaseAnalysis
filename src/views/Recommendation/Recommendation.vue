@@ -6,7 +6,7 @@
 */
 <script setup>
 
-import {reactive, ref} from "vue";
+import { reactive, ref } from "vue";
 
 /**
  * 选择法律词条 :
@@ -93,7 +93,8 @@ const changeLawContent = newLawIndex => {
 			</div>
 			<div class="row">
 				<div class="col-lg-45 col-md-6 col-sm-12 animate__pulse">
-					<a href="https://www.pkulaw.com/chl/7c7e81f43957c58bbdfb.html?keyword=%E5%AE%AA%E6%B3%95" target="_blank">
+					<a href="https://www.pkulaw.com/chl/7c7e81f43957c58bbdfb.html?keyword=%E5%AE%AA%E6%B3%95"
+						target="_blank">
 						<div class="single-service-area blue-bg mb-50">
 							<div class="service-icon">
 								<i class="flaticon-international-business"></i>
@@ -103,7 +104,8 @@ const changeLawContent = newLawIndex => {
 					</a>
 				</div>
 				<div class="col-lg-45 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".6s">
-					<a href="https://www.pkulaw.com/chl/aa00daaeb5a4fe4ebdfb.html?keyword=%E6%B0%91%E6%B3%95" target="_blank">
+					<a href="https://www.pkulaw.com/chl/aa00daaeb5a4fe4ebdfb.html?keyword=%E6%B0%91%E6%B3%95"
+						target="_blank">
 						<div class="single-service-area service-2 mb-50">
 							<div class="service-icon">
 								<i class="flaticon-family"></i>
@@ -113,7 +115,8 @@ const changeLawContent = newLawIndex => {
 					</a>
 				</div>
 				<div class="col-lg-45 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".4s">
-					<a href="https://www.pkulaw.com/chl/39c1b78830b970eabdfb.html?keyword=%E5%88%91%E6%B3%95" target="_blank">
+					<a href="https://www.pkulaw.com/chl/39c1b78830b970eabdfb.html?keyword=%E5%88%91%E6%B3%95"
+						target="_blank">
 						<div class="single-service-area blue-bg service-3 mb-50">
 							<div class="service-icon">
 								<i class="flaticon-balance"></i>
@@ -124,7 +127,8 @@ const changeLawContent = newLawIndex => {
 				</div>
 
 				<div class="col-lg-45 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".2s">
-					<a href="https://www.pkulaw.com/chl/7ab5e7d605f859e6bdfb.html?keyword=%E5%90%88%E5%90%8C" target="_blank">
+					<a href="https://www.pkulaw.com/chl/7ab5e7d605f859e6bdfb.html?keyword=%E5%90%88%E5%90%8C"
+						target="_blank">
 						<div class="single-service-area service-4 mb-70">
 							<div class="service-icon">
 								<i class="flaticon-contract"></i>
@@ -134,7 +138,8 @@ const changeLawContent = newLawIndex => {
 					</a>
 				</div>
 				<div class="col-lg-45 col-md-6 col-sm-12 wow fadeInLeft" data-wow-delay=".4s">
-					<a href="https://www.pkulaw.com/chl/6393f2e43412bddbbdfb.html?keyword=%E5%8A%B3%E5%8A%A8%E6%B3%95" target="_blank">
+					<a href="https://www.pkulaw.com/chl/6393f2e43412bddbbdfb.html?keyword=%E5%8A%B3%E5%8A%A8%E6%B3%95"
+						target="_blank">
 						<div class="single-service-area blue-bg service-5 mb-50">
 							<div class="service-icon">
 								<i class="flaticon-certificate"></i>
@@ -175,7 +180,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=76c54b08f88ee7efbdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">1：中华人民共和国行政诉讼法</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=76c54b08f88ee7efbdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">1：中华人民共和国行政诉讼法</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用236次</p>
@@ -190,7 +196,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-2">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=e3fef157898345b5bdfb&keyword=%e6%9c%80%e9%ab%98%e4%ba%ba%e6%b0%91%e6%b3%95%e9%99%a2%e5%85%b3%e4%ba%8e%e6%89%a7%e8%a1%8c%e3%80%8a%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">2：最高人民法院关于执行《中华人民共和国行政诉讼法》若干问题的解释[失效]</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=e3fef157898345b5bdfb&keyword=%e6%9c%80%e9%ab%98%e4%ba%ba%e6%b0%91%e6%b3%95%e9%99%a2%e5%85%b3%e4%ba%8e%e6%89%a7%e8%a1%8c%e3%80%8a%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">2：最高人民法院关于执行《中华人民共和国行政诉讼法》若干问题的解释[失效]</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用87次</p>
@@ -205,7 +212,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-3">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=16d30cb264c54080bdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e5%95%86%e6%a0%87%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">3：中华人民共和国商标法(2001修正)</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=16d30cb264c54080bdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e5%95%86%e6%a0%87%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">3：中华人民共和国商标法(2001修正)</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用64次</p>
@@ -220,7 +228,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-4">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=bf1a8ad9bb819918bdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">4：中华人民共和国行政诉讼法(2014修正)</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=bf1a8ad9bb819918bdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">4：中华人民共和国行政诉讼法(2014修正)</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用41次</p>
@@ -237,7 +246,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-5">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=76c54b08f88ee7efbdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">5：中华人民共和国行政诉讼法(2017修正)</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=76c54b08f88ee7efbdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">5：中华人民共和国行政诉讼法(2017修正)</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用24次</p>
@@ -252,7 +262,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-6">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=1f3ccf5f58fce56dbdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e5%9b%bd%e5%ae%b6%e8%b5%94%e5%81%bf%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">6：中华人民共和国国家赔偿法</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=1f3ccf5f58fce56dbdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e5%9b%bd%e5%ae%b6%e8%b5%94%e5%81%bf%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">6：中华人民共和国国家赔偿法</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用23次</p>
@@ -267,7 +278,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-7">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=0f9b03417b83498abdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e5%a4%84%e7%bd%9a%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">7：中华人民共和国行政处罚法</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=0f9b03417b83498abdfb&keyword=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd%e8%a1%8c%e6%94%bf%e5%a4%84%e7%bd%9a%e6%b3%95&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">7：中华人民共和国行政处罚法</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用20次</p>
@@ -282,7 +294,8 @@ const changeLawContent = newLawIndex => {
 						<div class="team-member-bg team-bg-8">
 							<div class="team-content">
 								<div class="team-title">
-									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=c03be4ebd2c15959bdfb&keyword=%e6%9c%80%e9%ab%98%e4%ba%ba%e6%b0%91%e6%b3%95%e9%99%a2%e5%85%b3%e4%ba%8e%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e8%af%81%e6%8d%ae%e8%8b%a5%e5%b9%b2%e9%97%ae%e9%a2%98%e7%9a%84&EncodingName=&Search_Mode=accurate&Search_IsTitle=0" target="_blank">8：最高人民法院关于行政诉讼证据若干问题的规定</a>
+									<a href="http://www.pkulaw.cn/fulltext_form.aspx?Db=chl&Gid=c03be4ebd2c15959bdfb&keyword=%e6%9c%80%e9%ab%98%e4%ba%ba%e6%b0%91%e6%b3%95%e9%99%a2%e5%85%b3%e4%ba%8e%e8%a1%8c%e6%94%bf%e8%af%89%e8%ae%bc%e8%af%81%e6%8d%ae%e8%8b%a5%e5%b9%b2%e9%97%ae%e9%a2%98%e7%9a%84&EncodingName=&Search_Mode=accurate&Search_IsTitle=0"
+										target="_blank">8：最高人民法院关于行政诉讼证据若干问题的规定</a>
 								</div>
 								<div class="team-subtitle">
 									<p>引用20次</p>
@@ -302,10 +315,14 @@ const changeLawContent = newLawIndex => {
 				<div class="col-lg-4">
 					<div class="service-list">
 						<h5 style="font-weight: bold">二、法律条文引用排行</h5>
-						<a id="one2" :class="{ 'active' : choseLaw === 1 }" @click="changeLawContent(1)">中华人民共和国行政诉讼法第五十四条（90）</a>
-						<a id="two2" :class="{ 'active' : choseLaw === 2 }"  @click="changeLawContent(2)">中华人民共和国行政诉讼法第六十一条（74）</a>
-						<a id="three2" :class="{ 'active' : choseLaw === 3 }"  @click="changeLawContent(3)">中华人民共和国行政诉讼法(2014修正) 第八十九条（11）</a>
-						<a id="four2" :class="{ 'active' : choseLaw === 4 }"  @click="changeLawContent(4)">中华人民共和国商标法(2001修正) 第十条（10）</a>
+						<a id="one2" :class="{ 'active': choseLaw === 1 }"
+							@click="changeLawContent(1)">中华人民共和国行政诉讼法第五十四条（90）</a>
+						<a id="two2" :class="{ 'active': choseLaw === 2 }"
+							@click="changeLawContent(2)">中华人民共和国行政诉讼法第六十一条（74）</a>
+						<a id="three2" :class="{ 'active': choseLaw === 3 }"
+							@click="changeLawContent(3)">中华人民共和国行政诉讼法(2014修正) 第八十九条（11）</a>
+						<a id="four2" :class="{ 'active': choseLaw === 4 }" @click="changeLawContent(4)">中华人民共和国商标法(2001修正)
+							第十条（10）</a>
 					</div>
 				</div>
 
@@ -414,14 +431,16 @@ const changeLawContent = newLawIndex => {
 
 
 }
+
 a {
 	text-decoration: none;
 	cursor: pointer;
 }
+// 解决下划线问题，奇怪的是，之前从没遇到需要这样设置的
+a:hover {
+	text-decoration: none;
+}
 
 body {
 	background-color: #F7F7F7;
-}
-
-
-</style>
+}</style>
