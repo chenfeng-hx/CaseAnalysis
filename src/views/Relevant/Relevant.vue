@@ -118,58 +118,65 @@ function changeContent(item) {
         align-self: start;
         max-height: 75vh;
         width: 18%;
-
-        ul li {
-            padding: 1em;
-
-
-        }
-
-        li:hover {
-            color: rgb(70, 156, 255);
-            background-color: rgba(70, 156, 255, 0.1);
-        }
-    }
-
-
-    .my-component {
-
-        margin-bottom: 1.2em;
-        overflow: auto;
-        background-color: white;
-
-    }
-
-    .down {
-
-        margin-left: 2em;
-        float: right;
-        font-size: 0.9rem;
-        height: 4em;
-        width: 3.5em;
-        border-radius: 0.5em;
-        background-color: rgba(70, 156, 255, 0.2);
-        ;
-
-        .center-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            img {
-                padding-top: 0.2em
-            }
-
-            div {
-                color: rgba(70, 156, 255);
-                ;
-            }
-        }
-
-
-
+        border-radius: 5px;
+        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.5), 0px -4px 5px rgba(0, 0, 0, 0.3), 4px 0px 5px rgba(0, 0, 0, 0.3), -4px 0px 5px rgba(0, 0, 0, 0.3);
     }
 }
+
+ul li {
+    padding: 1em;
+
+
+}
+
+li:hover {
+    color: rgb(70, 156, 255);
+    background-color: rgba(70, 156, 255, 0.1);
+}
+
+
+
+.my-component {
+
+    margin-bottom: 1.2em;
+    overflow: auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3), 0px -4px 5px rgba(0, 0, 0, 0.3), 4px 0px 5px rgba(0, 0, 0, 0.3), -4px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.down {
+
+    margin-left: 2em;
+    float: right;
+    font-size: 0.9rem;
+    height: 4em;
+    width: 3.5em;
+    border-radius: 0.5em;
+    background-color: rgba(70, 156, 255, 0.2);
+    ;
+
+    .center-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            padding-top: 0.2em
+        }
+
+        div {
+            color: rgba(70, 156, 255);
+            ;
+        }
+    }
+
+
+
+}
+
 
 
 
