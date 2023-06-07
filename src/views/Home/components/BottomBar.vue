@@ -52,7 +52,7 @@ const { changeTabName } = store;
 					<li><img src="@/assets/svg/联系.svg" alt=""></li>
 					<li><img src="@/assets/svg/联系客服.svg" alt=""></li>
 					<li><img src="@/assets/svg/邮箱.svg" alt=""></li>
-					<li><img src="@/assets/svg/详细地址.svg" alt=""><span>地址：重庆|南岸</span></li>
+					<li><img src="@/assets/svg/详细地址.svg" alt=""><span>地址：重庆 | 南岸</span></li>
 				</ul>
 			</div>
 		</div>

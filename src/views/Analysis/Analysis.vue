@@ -205,6 +205,7 @@ const analysisFile = () => {
 					}
 				} else {
 					// 身份认证失败
+					active_step.value = 1;
 					ElMessage({
 						message: "未登录或者登录过期，请重新登录",
 						type: "warning",

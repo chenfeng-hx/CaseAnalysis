@@ -15,6 +15,7 @@ const routes = [
 	{ path: '/relevant', component: () => import('@/views/Relevant/Relevant.vue') },
 	{ path: '/case', component: () => import('@/views/Case/Case.vue') },
 	{ path: '/display', component: () => import('@/views/Display/Display.vue') },
+	{ path: '/specialInfo', component: () => import('@/views/SpecialInfo/SpecialInfo.vue') }
 ]
 
 // 创建路由实例
