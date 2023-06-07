@@ -14,6 +14,7 @@ const routes = [
 	{ path: '/analysis', component: () => import('@/views/Analysis/Analysis.vue') },
 	{ path: '/case', component: () => import('@/views/Case/Case.vue') },
 	{ path: '/display', component: () => import('@/views/Display/Display.vue') },
+	{ path: '/specialInfo', component: () => import('@/views/SpecialInfo/SpecialInfo.vue') }
 ]
 
 // 创建路由实例

@@ -2,6 +2,15 @@
 import AppBar from "@/components/AppBar.vue";
 import BackToTop from "@/components/BackToTop.vue";
 import {useBackTopStore} from "@/store/index.js";
+import { useRoute, useRouter } from "vue-router";
+
+/* 保证每次用户打开浏览器(退出时保存标签页)或网页都进入的是首页 */
+const route = new useRoute();
+const router = new useRouter();
+if (route.path !== '/home') {
+	router.replace('/home');
+}
+
 </script>
 
 <template>
@@ -10,7 +19,7 @@ import {useBackTopStore} from "@/store/index.js";
 		<el-header><AppBar/></el-header>
 		<!--页面切换，路由出口-->
 		<router-view v-slot="{ Component }">
-			<keep-alive exclude="specialInfo,searchInfo">
+			<keep-alive exclude="SpecialInfo,searchInfo">
 				<component :is="Component" />
 			</keep-alive>
 		</router-view>

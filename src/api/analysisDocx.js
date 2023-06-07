@@ -10,21 +10,21 @@ import axios from "axios";
 let cancel;
 
 //同案检索 上传文件
-export function getSameCaseForm(formdata){
+export function getSameCaseForm(formData){
 	return request({
 		method:"post",
 		url:"/api/get_sim_exa_from_file",
-		data:formdata
+		data:formData
 	})
 }
 
 
 //同案检索 上传索引号
-export function getSameCaseNum(formdata){
+export function getSameCaseNum(formData){
 	return request({
 		method:"post",
 		url:"/api/get_sim_exa_from_case",
-		data:formdata
+		data:formData
 	})
 }
 
@@ -38,11 +38,11 @@ export function upJudgment(formData){
 }
 
 // 上传起诉状
-export function upClaim(formdata){
+export function upClaim(formData){
 	return request({
 		method:"post",
 		url:"/api/upload_case_cla",
-		data:formdata
+		data:formData
 	})
 }
 
@@ -58,11 +58,11 @@ export function getJudgementGeneration(id){
 }
 
 //根据起诉状获取知识图谱
-// export function getClaimGeneration(formdata){
+// export function getClaimGeneration(formData){
 // 	return request({
 // 		method:"POST",
 // 		url:"/api/kg_claim",
-// 		data:formdata
+// 		data:formData
 // 	})
 // }
 

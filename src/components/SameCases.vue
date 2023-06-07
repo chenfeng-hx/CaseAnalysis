@@ -18,7 +18,7 @@ const jumpToDetail = caseNumber => {
 	router.push({
 		path: '/specialInfo',
 		query: {
-			index: caseNumber,
+			caseNumber: caseNumber,
 			currentIndex: 0
 		}
 	})
@@ -50,6 +50,7 @@ const jumpToDetail = caseNumber => {
 <style scoped lang="scss">
 .case-container {
 	margin: 40px 0 0 30px;
+	width: 100%;
 }
 
 .numLogo {

@@ -5,13 +5,13 @@
 *    祝你食用愉快！！！
 */
 <script setup>
-import MapKnowledge from "@/components/MapKnowledge.vue";
 
+import SpecialInfo from "@/views/SpecialInfo/SpecialInfo.vue";
 </script>
 
 <template>
 	<!-- 注释: 案例库 -->
-	<map-knowledge />
+	<SpecialInfo />
 </template>
 
 <style scoped lang="scss">
