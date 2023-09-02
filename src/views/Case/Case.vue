@@ -5,18 +5,27 @@
 *    祝你食用愉快！！！
 */
 <script setup>
-import {reactive, ref} from 'vue';
+import {nextTick, reactive, ref} from 'vue';
 import SpecialInfo from "@/views/SpecialInfo/SpecialInfo.vue";
 import MouseLoading from "@/components/MouseLoading.vue";
+import SearchInfo from "@/views/Case/components/SearchInfo.vue";
 /* 接口 */
 import { getCaseNumber, getUser, getCase } from "@/api/search.js";
+import { getSameCaseForm, getSameCaseNum } from "@/api/analysisDocx.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 import tab from "bootstrap/js/src/tab.js";
+import axios from "axios";
+// 导入路由函数
+import { useRouter } from "vue-router";
+// 创建路由对象
+const router = useRouter();
 
 // 控制全局遮罩层
 let global_loading = ref(false);
 // 判断是初始化的搜索框还是已经有所有内容列表展示后的搜索框（true 为前者）
 let isShow9 = ref(true);
+// 在后续的操作控制中快速判断用户是否已经登录
+let isLogin = ref(false);
 
 
 
@@ -53,6 +62,7 @@ const Case = reactive({
 	//存储的搜索关键字后的案例数据
 	caseArr2: [],
 	caseName: [],
+	caseNumber: 10,
 	//侧边栏的数据
 	courtArr: {},
 	timeArr: {},
@@ -60,29 +70,174 @@ const Case = reactive({
 	courtArr1: {},
 	timeArr1: {},
 	areaArr1: {},
+	//相似案例
+	sameCase: [],
+	sameCaseLength: 0,
+
 })
 
 
 /* 搜索框功能相关 */
 // 用户在搜索框中的输入
 let user_input = ref("")
+// 请求销毁函数
+let cancelFunc = ref(null);
 
 // 按回车键隐藏推荐
 const changeStyle = (status, className) => {
 	let dom = document.querySelectorAll(className);
 	dom[0].style.display = status;
 }
-// 搜索内容
+// 加在搜索上的遮罩层判断
 const changeIsSearch = () => {
+	sameShow2.value = false;
+	changeStyle("none", ".el-autocomplete-suggestion");
+	if (user_input.value !== "" && isLogin.value) {
+		iscase.value = false;
+		issearch.value = true;
+		isShow9.value = false;
+		setTimeout(() => {
+			let timer = setInterval(() => {
+				if (flag2.value) {
+					if (Case.caseArr.length === 0) {
+						isShow4.value = true;
+						issearch.value = false;
+						isShow.value = false;
+						iscase.value = false;
+					} else {
+						isShow4.value = false;
+						issearch.value = false;
+						isShow.value = true;
+						iscase.value = true;
+					}
+					clearInterval(timer);
+				}
+			}, 400);
+		}, 1500);
+	}
+	if (!isLogin.value && user_input.value !== "") {
+		// 并没有成功返回数据
+		ElMessage({
+			message: "未登录或者登录过期，请重新登录",
+			type: "warning",
+			center: true,
+			duration: 1000,
+		});
+	}
+}
 
+
+
+// 点击第一个按钮
+const searchHigh = () => {
+	// 关闭“同案搜索”相关的内容
+	dialogVisible.value = false;
+	sameShow2.value = false;
+	// 改变搜索框的形态
+	isShow9.value = true;
+	tabIndex.value = 0;
+}
+// 监视输入框的内容，进行模糊检索
+const querySearch = (queryString, callback) => {
+	sameShow2.value = false;
+	if (typeof cancelFunc.value === "function") {
+		cancelFunc();
+	}
+	if (user_input.value === "") {
+		changeStyle("none", ".el-autocomplete-suggestion");
+	} else {
+		const searchKey = queryString;
+		isShow4.value = false;
+		flag2.value = false;
+		// 模糊搜索
+		axios({
+			url: '/api/case_like_search',
+			method: "post",
+			headers: {
+				token: localStorage.getItem("token"),
+			},
+			data: {
+				key: queryString,
+				court_level: "",
+				court_area: "",
+				time: "",
+				page: 1
+			},
+			cancelToken: new axios.CancelToken((c) => {
+				cancelFunc.value = c;
+			})
+		}).then(res => {
+			if (res.data === "token校验失败") {
+				ElMessage({
+					message: "未登录或者登录过期，请重新登录",
+					type: "warning",
+					center: true,
+					duration: 1000,
+				});
+				isLogin.value = false;
+			} else {
+				isLogin.value = true;
+				// 能够搜索出来数据
+				if (res.data.res.length !== 0) {
+					Case.caseArr = res.data.res;
+					Case.allLike1 = res.data.like_info;
+					Case.allLike2 = res.data.like_info;
+					Case.caseArr2 = res.data.res;
+					Case.courtArr = res.data.like_info.court_level;
+					Case.areaArr = res.data.like_info.court_area;
+					Case.timeArr = res.data.like_info.time;
+					// 获取模糊检索的列表
+					Case.caseName = [];
+					for (let i = 0; i < res.data.res.length; i++) {
+						Case.caseName.push({
+							value: res.data.res[i].title,
+							ID: res.data.res[i].case_number,
+						})
+					}
+					callback(Case.caseName);
+				} else {
+					iscase.value = false;
+					isShow4.value = true;
+					changeStyle("none", ".el-autocomplete-suggestion");
+				}
+				flag2.value = true;
+			}
+		}).catch(err => {
+			Case.caseArr = [];
+			issearch.value = false;
+			flag2.value = true;
+			iscase.value = false;
+			isShow4.value = true;
+		})
+	}
+}
+// 跳转到要点击的案件页面
+const handleSelect = (item) => {
+	const caseId = item.ID;
+	iscase.value = false;
+	issearch.value = true;
+
+	setTimeout(() => {
+		issearch.value = false;
+		router.push({
+			path: "/specialInfo",
+			query: {
+				caseNumber: caseId,
+				currentIndex: 0
+			}
+		})
+	}, 1500);
 }
 
 
 /* 功能按钮相关 */
 // 功能按钮的编号
 let tabIndex = ref(0);
-// 控制按钮，在用户未登录前不希望用户可以使用该按钮
+// 控制按钮，在用户未登录前不希望用户可以使用该按钮（刚开始时没有控制的，用于让用户点击一次按钮进行身份验证）
 let lock = ref(false);
+
+
+/* 全部案件相关 */
 // 搜索所有案例
 const allCaseStart = () => {
 	getCase("案", "", "", "").then(res => {
@@ -98,13 +253,7 @@ const allCaseStart = () => {
 				Case.timeArr1 = res.data.like_info.time;
 				Case.allLike = res.data.like_info;
 			} else {
-				// 并没有成功返回数据
-				ElMessage({
-					message: "未登录或者登录过期，请重新登录",
-					type: "warning",
-					center: true,
-					duration: 1000,
-				});
+
 				// 不可能进入这
 			}
 		}
@@ -126,6 +275,7 @@ const allCaseSearch = () => {
 			dialogVisible.value = false;
 			//
 			sameShow2.value = false;
+			// 说明之间的 Created 阶段查询到了所有的案件信息
 			if (Case.allCase.length !== 0) {
 				// 侧边栏数据赋值
 				Case.allLike1 = Case.allLike;
@@ -138,26 +288,95 @@ const allCaseSearch = () => {
 				isShow9.value = false;
 				Case.caseArr = Case.allCase;
 				Case.caseArr2 = Case.allCase;
+				// 保存侧边栏数据
+				Case.courtArr = Case.courtArr1;
+				Case.areaArr = Case.areaArr1;
+				Case.timeArr = Case.timeArr1;
 				//
-				Case.courtArr = "";
-
+				isShow4.value = false;
+				issearch.value = false;
+				iscase.value = true;
+				isShow.value = true;
+			} else {
+				// 说明在进入 案例库 路由时没有通过身份认证，需要再次调用接口查询
+				// 开启全局 loading 动画
+				global_loading.value = true;
+				allCaseStart();
+				let timer = setInterval(() => {
+					if (Case.allCase.length !== 0) {
+						Case.allLike1 = Case.allLike;
+						Case.allLike2 = Case.allLike;
+						user_input.value = "";
+						tabIndex.value = 1;
+						isShow9.value = false;
+						Case.caseArr = Case.allCase;
+						Case.caseArr2 = Case.allCase;
+						Case.courtArr = Case.courtArr1;
+						Case.areaArr = Case.areaArr1;
+						Case.timeArr = Case.timeArr1;
+						isShow4.value = false;
+						issearch.value = false;
+						iscase.value = true;
+						isShow.value = true;
+						// 关闭全局 loading
+						global_loading.value = false;
+						clearInterval(timer);
+					}
+				}, 1500);
 			}
+		} else {
+			// 并没有成功返回数据
+			ElMessage({
+				message: "未登录或者登录过期，请重新登录",
+				type: "warning",
+				center: true,
+				duration: 1000,
+			});
 		}
 	}).catch(err => {
-
+		console.log(err.message);
 	})
+	setTimeout(() => {
+		lock.value = false;
+	}, 2000);
 }
+
+
 
 /* 同案检索相关 */
 // 是否开启弹窗
-let dialogVisible = ref(true);
+let dialogVisible = ref(false);
+// 上传的文件
+let file = ref();
+// 案例号输入
+let sameInput = ref("");
 // 弹窗的 loading 动画
 let same_case_search_loading = ref(false);
 // 没有找到案例显示
 let notFoundSameCase = ref(false);
+// 是否展示搜索后的结果
+let sameShow2 = ref(false);
+// 当前所处的页面
+let currentPage = ref(1);
+// 分页数量
+let pageSize = ref(10);
+// 选中的小标签
+let selectCourt = ref("");
+let selectTime = ref("");
+let selectArea = ref("");
+// 点击“同案检索”按钮
+const sameSearchBtn = () => {
+	// 打开弹窗
+	dialogVisible.value = true;
+	// 切换 tab
+	tabIndex.value = 2;
+}
 // 关闭弹窗之前询问用户
-const handleClose = (done) => {
-	ElMessageBox.confirm('确认关闭吗？')
+const handleClose = done => {
+	ElMessageBox.confirm('确认关闭吗？', {
+		confirmButtonText: '是的',
+		cancelButtonText: '不'
+	})
 		.then(() => {
 			dialogVisible.value = false;
 			done();
@@ -166,10 +385,161 @@ const handleClose = (done) => {
 			// catch error
 		})
 }
+// 同案检索
+const sameCaseSearch = () => {
+	currentPage.value = 1;
+	sameShow2.value = false;
+	notFoundSameCase.value = false;
+	// 判断是以文件方式还是案例号
+	// 文件方式
+	if (file.value.files.length !== 0) {
+		Case.sameCase = [];
+		let formData = new FormData();
+		formData.append("submit_file", file.value.files[0]);
+		getSameCaseForm(formData).then(res => {
+			same_case_search_loading.value = false;
+			if (res.data === "token校验失败") {
+				// 并没有成功返回数据
+				ElMessage({
+					message: "未登录或者登录过期，请重新登录",
+					type: "warning",
+					center: true,
+					duration: 1000,
+				});
+			} else {
+				same_case_search_loading.value = true;
+				setTimeout(() => {
+					const data = res.data.res_list;
+					const id = res.data.case_info.title;
+					sameChange(data, id, 0);
+				}, 1000);
+			}
+		}).catch(err => {
+			notFoundSameCase.value = true;
+			same_case_search_loading.value = false;
+		})
+	} else if (sameInput.value !== "") {
+		// 通过案件号的方式查询相似案例
+		const caseId = sameInput.value.replace('"', "");
+		let formData = new FormData();
+		formData.append("case_number", caseId);
+		// 同案检索
+		getSameCaseNum(formData).then(res => {
+			same_case_search_loading.value = true;
+			setTimeout(() => {
+				const data = res.data.sameChange;
+				const id = sameInput.value;
+				sameChange(data, id, 1);
+			}, 1000);
+		}).catch(err => {
+			if (err.response.status === 401) {
+				// 并没有成功返回数据
+				ElMessage({
+					message: "未登录或者登录过期，请重新登录",
+					type: "warning",
+					center: true,
+					duration: 1000,
+				});
+			} else {
+				notFoundSameCase.value = true;
+			}
+			same_case_search_loading.value = false;
+		})
+	} else {
+		ElMessage({
+			type: "warning",
+			message: "请上传起诉状或者输入案件号",
+			center: true,
+			duration: 1500,
+		})
+	}
+}
+// 同案检索成功后的操作
+const sameChange = (data, id, status) => {
+	same_case_search_loading.value = false;
+	Case.sameCase = [];
+	Case.sameCaseLength = data.length;
+	if (status === 0) {
+		const len = id.length;
+		const len2 = parseInt(0.7 * len);
+		for (let i = 0; i < data.length; i++) {
+			const vote = {};
+			vote.title = data[i][1];
+			vote.case_number = data[i][0];
+			vote.sameNum = parseFloat(data[i][3] * 100).toFixed(2) + "%";
+			Case.sameCase.push(vote);
+			if (data[i][1].substr(0, len2) === id.substr(0, len2)) {
+				vote.sameNum = "100.00%";
+				Case.sameCase.pop()
+				Case.sameCase.unshift(vote)
+			}
+		}
+	} else {
+		for (let i = 0; i < data.length; i++) {
+			const vote = {};
+			vote.title = data[i][1];
+			vote.case_number = data[i][0];
+			vote.sameNum = parseFloat(data[i][3] * 100).toFixed(2) + "%";
+			Case.sameCase.push(vote);
+			if (data[i][0] === id) {
+				vote.sameNum = "100.00%";
+				Case.sameCase.pop()
+				Case.sameCase.unshift(vote)
+			}
+		}
+	}
+
+	// 找不到搜索内容消失
+	isShow4.value = false;
+	// 搜索出来的内容消失
+	iscase.value = false;
+	isShow9.value = false;
+	dialogVisible.value = false;
+	same_case_search_loading.value = false;
+	// 展示相似案例
+	dialogVisible.value = false;
+	sameShow2.value = true;
+}
+// 分页功能
+const handleSizeChange = (val) => {
+	pageSize.value = val;
+}
+// 分页时销毁组件
+const handleCurrentChange = val => {
+	currentPage.value = val;
+	getCase(user_input.value, selectCourt.value, selectArea.value, selectTime.value, val).then(res => {
+		for (let i = val * 10 - 10, j = 0; j < 10;  i++, j++) {
+			Case.caseArr[i] = res.data.res[j];
+		}
+	}).catch(err => {
+
+	})
+	setTimeout(() => {
+		hackReset2.value = false;
+		nextTick(() => {
+			hackReset2.value = true;
+		})
+	}, 250);
+}
+
+
+/* 图表相关 */
+// 切换图表
+const changeEcharts = val => {
+	hackReset2.value = val;
+}
 
 
 /* 未知变量 */
-let sameShow2 = ref(false);
+let isShow4 = ref(false);
+let issearch = ref(false);
+let iscase = ref(false);
+let isShow = ref(false);
+let flag2 = ref(false);   // 加在搜索框上的loading的判断
+let hackReset = ref(true)  // 可能和图表相关
+let hackReset2 = ref(true)  // 可能和图表相关
+let first = ref(false)
+let second= ref(true)
 
 </script>
 
@@ -199,8 +569,9 @@ let sameShow2 = ref(false);
 					@select="handleSelect"
 					placeholder="请输入搜索案例关键词"
 					@input="changeStyle('block', '.el-autocomplete-suggestion')"
-					@keyup="changeStyle('none', '.el-autocomplete-suggestion')"
+					@keyup="changeStyle('block', '.el-autocomplete-suggestion')"
 					@keyup.enter.native="changeIsSearch"
+					placement="bottom"
 				></el-autocomplete>
 				<el-button
 					type="primary"
@@ -224,7 +595,7 @@ let sameShow2 = ref(false);
 		<!-- 同案检索 -->
 		<!-- 同案检索弹出框 -->
 		<el-dialog
-			:visible.sync="dialogVisible"
+			v-model="dialogVisible"
 			width="70%"
 			class="sameBox"
 			:modal="false"
@@ -256,9 +627,7 @@ let sameShow2 = ref(false);
 			<div class="right">
 				<div class="rightTitle">
 					<!--fixme：去掉this-->
-					<div class="text" @click="changeEcharts(true)">
-						相似案例（{{ this.sameCase.length }}）
-					</div>
+					<div class="text" @click="changeEcharts(true)">相似案例（{{ Case.sameCase.length }}）</div>
 					<!--fixme：批量下载功能未实现-->
 					<div class="sort">
 						<div class="sortText">
@@ -270,16 +639,10 @@ let sameShow2 = ref(false);
 
 				<!-- 右下内容 -->
 				<div class="caseContainer">
-					<div
-						v-for="(item, index) in sameCase.slice(
-                (currentPage - 1) * pagesize,
-                currentPage * pagesize
-              )"
-						:key="index"
-					>
+					<div v-for="(item, index) in Case.sameCase.slice((currentPage - 1) * pageSize, currentPage * pageSize)" :key="index">
 						<search-info
 							v-if="hackReset"
-							:currentPage2="(currentPage - 1) * pagesize + 1 + index"
+							:currentPage2="(currentPage - 1) * pageSize + 1 + index"
 							:caseArr2="item"
 							:special="first"
 						></search-info>
@@ -293,9 +656,9 @@ let sameShow2 = ref(false);
 							@current-change="handleCurrentChange"
 							:current-page="currentPage"
 							:page-sizes="[2, 4, 6, 8, 10]"
-							:page-size="pagesize"
+							:page-size="pageSize"
 							layout="total, sizes, prev, pager, next, jumper"
-							:total="this.sameCase.length"
+							:total="Case.sameCase.length"
 						>
 						</el-pagination>
 					</div>
@@ -322,6 +685,9 @@ let sameShow2 = ref(false);
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 /* 搜索框 */
@@ -345,9 +711,66 @@ let sameShow2 = ref(false);
 			font-size: 1.3rem;
 		}
 	}
+
+	/* 初始标题样式 */
+	.initSearchTitle {
+		display: flex;
+		justify-content: center;
+		margin: 20px 0;
+		color: black;
+
+		.titleText {
+			font-size: 38px;
+		}
+
+		.wait {
+			margin-right: 20px;
+		}
+
+		.textMiddle {
+			color: rgb(107, 156, 242);
+			margin-left: 15px;
+		}
+	}
+
+	/* 初始搜索框样式 */
+	.search {
+		display: flex;
+		align-items: center; /*垂直居中*/
+		justify-content: center;
+		margin-top: 32px;
+
+		.searchBtn {
+			width: 10%;
+			height: 40px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			img {
+				width: 20px;
+				height: 20px;
+			}
+		}
+		.el-autocomplete {
+			width: 70%;
+			display: table;
+			padding-right: 5px;
+			position: relative;
+			z-index: 0;
+		}
+		.el-button {
+			width: 10%;
+			margin-left: 5px;
+		}
+
+		:deep(.el-input__inner) {
+			height: 40px;
+			width: 500px;
+		}
+	}
 }
 
-/* 初始标题样式 */
+/* 后续标题样式 */
 .initSearchTitle {
 	display: flex;
 	justify-content: center;
@@ -368,12 +791,12 @@ let sameShow2 = ref(false);
 	}
 }
 
-/* 初始搜索框样式 */
+/* 后续搜索框样式 */
 .search {
 	display: flex;
 	align-items: center; /*垂直居中*/
 	justify-content: center;
-	margin-top: 32px;
+	margin-top: 15px;
 
 	.searchBtn {
 		width: 10%;
@@ -400,7 +823,7 @@ let sameShow2 = ref(false);
 
 	:deep(.el-input__inner) {
 		height: 40px;
-		width: 500px;
+		width: 815px;
 	}
 }
 
@@ -502,6 +925,20 @@ let sameShow2 = ref(false);
 
 }
 
+/* 后续按钮样式 */
+.putActive3 {
+	position: relative;
+	margin-top: 0;
+	top: -100px;
+	left: calc(100% - 180px);
+	width: 180px;
+	display: flex;
+	flex-wrap: wrap;
+	.searchCard {
+		margin-bottom: 20px;
+	}
+}
+
 /* 同案搜索 */
 .sameBox {
 	h1 {
@@ -515,7 +952,7 @@ let sameShow2 = ref(false);
 	.tip {
 		margin-top: 40px;
 		color: rgb(136, 160, 52);
-		font-size: 1.25rem;
+		font-size: 1.05rem;
 	}
 	.first,
 	.second {
@@ -523,8 +960,14 @@ let sameShow2 = ref(false);
 		margin-bottom: 40px;
 		display: flex;
 		align-items: center;
+		font-size: 1.05rem;
 		input {
 			margin-left: 30px;
+		}
+	}
+	.second {
+		:deep(.el-input__inner) {
+			height: 40px;
 		}
 	}
 	.caseInput {
@@ -559,6 +1002,97 @@ let sameShow2 = ref(false);
 				height: 1.25em;
 				margin: 0;
 			}
+		}
+	}
+}
+
+/* 同案检索内容 */
+.caseText {
+	display: flex;
+	// width: 80%;
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 5px;
+	margin-bottom: 100px;
+	// align-items: center;/*垂直居中*/
+
+	justify-content: center; /*水平居中*/
+	transition: 0.3s all;
+}
+.container2 {
+	margin-top: -220px;
+}
+.caseText2 {
+	margin-top: -200px;
+
+	.right {
+		width: 75%;
+	}
+}
+
+.right {
+	width: 62%;
+	margin-left: 10px;
+
+	.rightTitle {
+		background: rgb(245, 245, 245);
+		display: flex;
+		.text {
+			flex: 0 0 200px;
+			background: #0b71b4;
+			color: #fff;
+			font-size: 14px;
+			font-weight: 600;
+			height: 30px;
+			line-height: 30px;
+			width: 215px;
+		}
+
+		.sort {
+			width: 100%;
+			display: flex;
+			text-align: end;
+			align-items: center; /*垂直居中*/
+			justify-content: end;
+			.sortText {
+				padding-right: 10px;
+				margin-right: 10px;
+				font-size: 15px;
+				height: 30px;
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+				color: #0b71b4;
+
+				img {
+					margin: 0 2px;
+				}
+			}
+		}
+	}
+
+	.caseContainer {
+		background: rgb(245, 245, 245);
+		align-items: center; /*垂直居中*/
+		justify-content: center;
+		padding-bottom: 28px;
+		padding-top: 1px;
+	}
+
+	.pagination {
+		.caseContainer {
+			background: rgb(245, 245, 245);
+			align-items: center; /*垂直居中*/
+			justify-content: center;
+			padding-bottom: 28px;
+			padding-top: 1px;
+		}
+		.echarts {
+			background: rgb(245, 245, 245);
+		}
+
+		.pagination {
+			margin-top: 10px;
 		}
 	}
 }
