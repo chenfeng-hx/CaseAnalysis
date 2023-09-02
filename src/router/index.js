@@ -8,14 +8,14 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 // 路由规则
 const routes = [
-	{ path: '/', redirect: '/home' },
-	{ path: '/home', component: () => import('@/views/Home/Home.vue') },
-	{ path: '/recommendation', component: () => import('@/views/Recommendation/Recommendation.vue') },
-	{ path: '/analysis', component: () => import('@/views/Analysis/Analysis.vue') },
-	{ path: '/relevant', component: () => import('@/views/Relevant/Relevant.vue') },
-	{ path: '/case', component: () => import('@/views/Case/Case.vue') },
-	{ path: '/display', component: () => import('@/views/Display/Display.vue') },
-	{ path: '/specialInfo', component: () => import('@/views/SpecialInfo/SpecialInfo.vue') }
+	{ path: '/', name: 'home', redirect: '/home' },
+	{ path: '/home', name: '首页', component: () => import('@/views/Home/Home.vue') },
+	{ path: '/recommendation', name: '法条推荐', component: () => import('@/views/Recommendation/Recommendation.vue') },
+	{ path: '/analysis', name: '文书分析', component: () => import('@/views/Analysis/Analysis.vue') },
+	{ path: '/relevant', name: '相关科普', component: () => import('@/views/Relevant/Relevant.vue') },
+	{ path: '/case', name: '案例库', component: () => import('@/views/Case/Case.vue') },
+	{ path: '/display', name: '数据展示', component: () => import('@/views/Display/Display.vue') },
+	{ path: '/specialInfo', name: '案件详情页', component: () => import('@/views/SpecialInfo/SpecialInfo.vue') }
 ]
 
 // 创建路由实例

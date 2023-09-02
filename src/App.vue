@@ -7,9 +7,9 @@ import { useRoute, useRouter } from "vue-router";
 /* 保证每次用户打开浏览器(退出时保存标签页)或网页都进入的是首页 */
 const route = new useRoute();
 const router = new useRouter();
-if (route.path !== '/home') {
-	router.replace('/home');
-}
+// if (route.path !== '/home') {
+// 	router.replace('/home');
+// }
 
 </script>
 

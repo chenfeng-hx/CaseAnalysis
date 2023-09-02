@@ -464,7 +464,8 @@ const changeTabIndex = value => {
 			width: 250px;
 			height: 700px;
 			//background-color: pink;
-			margin: 15px 10px 0 10px;
+			//margin: 15px 10px 0 10px;
+			margin: 15px 10px 0 2%;
 			padding: 5px;
 			border-radius: 10px;
 			box-shadow:
@@ -541,7 +542,8 @@ const changeTabIndex = value => {
 
 	/* 右侧的展示区 */
 	.views {
-		margin-left: 275px;
+		//margin-left: 275px;
+		margin-left: 20%;
 
 		/* 上面的展示标签和文件名 */
 		.tabs {

@@ -7,7 +7,7 @@
 import {request}  from "./request"
 
 //搜索用户信息
-export function getUser(formdata){
+export function getUser(){
 	return request({
 		url:"/api/get_user_info",
 		method: "get",
@@ -32,5 +32,13 @@ export function getCase(key,court_level,court_area,time,page){
 			// 所求的页码数
 			page
 		},
+	})
+}
+
+// 获取全部案件的数量
+export const getCaseNumber = () => {
+	return request({
+		url: '/api/get_count',
+		method: 'get',
 	})
 }
