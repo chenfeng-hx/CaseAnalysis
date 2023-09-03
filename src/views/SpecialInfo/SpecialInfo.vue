@@ -6,7 +6,7 @@
 */
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import {onMounted, reactive, ref} from 'vue';
+import {nextTick, onMounted, reactive, ref} from 'vue';
 import {getCaseInfo, getJudgementGeneration, getSameCaseNum} from "@/api/analysisDocx.js";
 import MapKnowledge from "@/components/MapKnowledge2.vue";
 import SameCases from "@/components/SameCases.vue";
@@ -41,19 +41,24 @@ const CaseDetails = reactive({
 })
 
 // 获取当前的展示信息
-const getCaseInfoData = () => {
+const getCaseInfoData = (caseNumber=null) => {
+	CaseDetails.caseInfo = {};
+	CaseDetails.pendingMap = {};
+	CaseDetails.judgmentMap = {};
+	CaseDetails.sameCases = [];
 	// 接收传递过来的参数
-	let caseId = route.query.caseNumber;
+	let caseId = caseNumber ? caseNumber : route.query.caseNumber;
 	// 获取案件信息
 	getCaseInfo(caseId)
 		.then(res => {
 			if (res.data !== 'token校验失败') {
+				// console.log(res.data);
 				// 保存案件信息
 				CaseDetails.caseInfo = res.data;
 				// 查询知识图谱
 				getJudgementGeneration(caseId)
 					.then(res => {
-						console.log("nihO",res);
+						// console.log("nihO",res.data);
 						if (res.data.judgement_kg.node_list !== []) {
 							// 保存知识图谱
 							CaseDetails.pendingMap = res.data.claim_kg;
@@ -134,6 +139,14 @@ onMounted(() => {
 	getCaseInfoData();
 })
 
+// 触发事件（如果是在 SpecialInfo 组件中点击 SameCases 跳转，则只更新数据）
+const updateData = ({ caseNumber }) => {
+	getCaseInfoData(caseNumber);
+	nextTick(() => {
+		navIndex.value = 1;
+	})
+}
+
 </script>
 
 <template>
@@ -194,7 +207,7 @@ onMounted(() => {
 				</div>
 				<!-- 同案智推 -->
 				<div class="cases" v-show="navIndex === 5">
-					<same-cases :same-cases="CaseDetails.sameCases"  />
+					<same-cases :same-cases="CaseDetails.sameCases" @updateData="updateData"  />
 				</div>
 			</div>
 		</div>

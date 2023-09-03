@@ -6,13 +6,15 @@
 */
 <script setup>
 // 导入路由函数
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 // 接收参数
 const props = defineProps({
 	sameCases: Array
 })
+const emit = defineEmits(['updateData'])
 // 创建路由对象
 const router = useRouter();
+const route = useRoute();
 // 点击文章标题跳转至文章的详情页
 const jumpToDetail = caseNumber => {
 	router.push({
@@ -22,6 +24,9 @@ const jumpToDetail = caseNumber => {
 			currentIndex: 0
 		}
 	})
+	if (route.path === '/specialInfo') {
+		emit('updateData', { caseNumber: caseNumber });
+	}
 }
 
 </script>

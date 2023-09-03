@@ -156,8 +156,8 @@ const querySearch = (queryString, callback) => {
 		flag2.value = false;
 		// 模糊搜索
 		axios({
-			url: 'http://123.249.87.210:8002/case_like_search',
-			// url: '/api/case_like_search',
+			// url: 'http://123.249.87.210:8002/case_like_search',
+			url: '/api/case_like_search',
 			method: "post",
 			headers: {
 				token: localStorage.getItem("token"),
