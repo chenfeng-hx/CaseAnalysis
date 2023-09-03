@@ -31,6 +31,8 @@ const props = defineProps({
 
 let mapping = ref();
 
+let loading = ref(true);
+
 const mapData = reactive({
 	data: [],
 	links: [],
@@ -49,6 +51,7 @@ watch(props.mapKnowledgeInfo, (newValue) => {
 // 进行绘画
 const echartsInit = () => {
 	console.log('画了')
+	loading.value = true;
 	// canvas 容器
 	// let mapContainer = document.getElementById('mapping');
 	// 准备数据
@@ -148,6 +151,7 @@ const echartsInit = () => {
 			categories: categories,
 		}],
 	};
+	loading.value = false;
 	// 设置配置项并刷新图表
 	mapCharts.setOption(option);
 }
@@ -176,7 +180,7 @@ onMounted(() => {
 					<span>关系图谱</span>
 				</div>
 				<!-- canvas 容器 -->
-				<div id="mapping" ref="mapping"></div>
+				<div id="mapping" ref="mapping" v-loading="loading"></div>
 			</div>
 			<!--region-->
 			<!-- 右侧的案件要素 -->

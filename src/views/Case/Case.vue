@@ -32,7 +32,7 @@ let isLogin = ref(false);
 
 /* 获取案件数量相关 */
 // 总的案件的数目（通过接口获得）
-let caseNum = ref(2888);
+let caseNum = ref();
 // 案件总数处的 loading，因为接口可能会有较大的时延，所以先用 loading 动画替代
 let totalNum_loading = ref(true);
 // 获取所有的案件数量（在 created 阶段执行）
@@ -156,7 +156,8 @@ const querySearch = (queryString, callback) => {
 		flag2.value = false;
 		// 模糊搜索
 		axios({
-			url: '/api/case_like_search',
+			url: 'http://123.249.87.210:8002/case_like_search',
+			// url: '/api/case_like_search',
 			method: "post",
 			headers: {
 				token: localStorage.getItem("token"),
@@ -351,8 +352,7 @@ const allCaseSearch = () => {
 
 // 是否展示用户选中的小标签
 const isShowTag = () => {
-	if (Case.courthierarchy.length === 0 && Case.area.length === 0 && Case.year.length === 0) return false;
-	else return true;
+	return !(Case.courthierarchy.length === 0 && Case.area.length === 0 && Case.year.length === 0);
 }
 // 选择标签
 const chooseCourt = (id, value) => {
@@ -792,7 +792,7 @@ let loading= ref(false)
 		<!-- 全部案件 -->
 		<el-main class="container2" v-show="!isShow9">
 			<div v-if="iscase">
-				<div class="labelsTag" v-if="isShowTag">
+				<div class="labelsTag" v-if="isShowTag()">
 					<div style="margin-left: 37px;color: #2d405e;display: inline-block;font-size: 14px;">已选条件：</div>
 					<el-tag
 						v-for="(tag1, index4) in Case.courthierarchy"
@@ -1486,5 +1486,11 @@ ul {
 	margin-top: 2px;
 }
 
+
+/* 分页器 */
+.block {
+	display: inline-flex;
+	margin-top: 10px;
+}
 
 </style>

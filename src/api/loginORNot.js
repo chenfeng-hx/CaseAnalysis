@@ -7,10 +7,47 @@
 import axios from 'axios'
 
 // 用户登录验证
+// export function loginFunc(formData) {
+// 	return axios({
+// 		method: 'post',
+// 		url: "/api/login",
+// 		data: formData
+// 	})
+// }
+//
+// // 向用户输入的邮箱中发送验证码
+// export function sendCodeFunc(param) {
+// 	return axios({
+// 		method: 'get',
+// 		url: '/api/send_verify_code',
+// 		params: param
+// 	})
+// }
+//
+// // 用户注册验证
+// export function registerFunc(formData) {
+// 	return axios ({
+// 		method: 'post',
+// 		url: '/api/register',
+// 		data: formData
+// 	})
+// }
+//
+// // 用户修改密码
+// export function sendNewPwdFunc(formData) {
+// 	return axios({
+// 		url: '/api/forget_pwd',
+// 		method: 'post',
+// 		data: formData
+// 	})
+// }
+
+/*---------------------------------------------------*/
+
 export function loginFunc(formData) {
 	return axios({
 		method: 'post',
-		url: "/api/login",
+		url: "http://123.249.87.210:8002/login",
 		data: formData
 	})
 }
@@ -19,7 +56,7 @@ export function loginFunc(formData) {
 export function sendCodeFunc(param) {
 	return axios({
 		method: 'get',
-		url: '/api/send_verify_code',
+		url: 'http://123.249.87.210:8002/send_verify_code',
 		params: param
 	})
 }
@@ -28,7 +65,7 @@ export function sendCodeFunc(param) {
 export function registerFunc(formData) {
 	return axios ({
 		method: 'post',
-		url: '/api/register',
+		url: 'http://123.249.87.210:8002/register',
 		data: formData
 	})
 }
@@ -36,7 +73,7 @@ export function registerFunc(formData) {
 // 用户修改密码
 export function sendNewPwdFunc(formData) {
 	return axios({
-		url: '/api/forget_pwd',
+		url: 'http://123.249.87.210:8002/forget_pwd',
 		method: 'post',
 		data: formData
 	})

@@ -33,12 +33,12 @@ export default defineConfig({
 	},
 	// 配置代理
 	server: {
-		proxy: {
-			'/api': {
-				target: 'http://123.249.87.210:8002',
-				changeOrigin: true,
-				rewrite: path => path.replace(/^\/api/, '')
-			}
-		},
+		// proxy: {
+		// 	'/api': {
+		// 		target: 'http://123.249.87.210:8002',
+		// 		changeOrigin: true,
+		// 		rewrite: path => path.replace(/^\/api/, '')
+		// 	}
+		// },
 	},
 })

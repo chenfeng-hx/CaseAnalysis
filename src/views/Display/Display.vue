@@ -56,6 +56,7 @@ const choseEchartPage = val => {
 		myChart.setOption({
 			title: {
 				text: "2012-2019结案数量统计图",
+
 			},
 			legend: {
 				top: "bottom",
@@ -370,6 +371,8 @@ const updateYear = (year, option) => {
 	return option;
 }
 
+
+
 </script>
 
 <template>
@@ -525,5 +528,9 @@ const updateYear = (year, option) => {
 
 	/* max-width: 1200px; */
 
+}
+
+h5 {
+	font-family: "Microsoft YaHei";
 }
 </style>
