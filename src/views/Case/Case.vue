@@ -17,6 +17,7 @@ import tab from "bootstrap/js/src/tab.js";
 import axios from "axios";
 // 导入路由函数
 import { useRouter } from "vue-router";
+import Charts from "@/views/Case/components/Charts.vue";
 // 创建路由对象
 const router = useRouter();
 
@@ -73,6 +74,10 @@ const Case = reactive({
 	//相似案例
 	sameCase: [],
 	sameCaseLength: 0,
+	// 选中的小标签
+	courthierarchy: [],
+	area: [],
+	year: [],
 
 })
 
@@ -94,19 +99,19 @@ const changeIsSearch = () => {
 	changeStyle("none", ".el-autocomplete-suggestion");
 	if (user_input.value !== "" && isLogin.value) {
 		iscase.value = false;
-		issearch.value = true;
+		global_loading.value = true;
 		isShow9.value = false;
 		setTimeout(() => {
 			let timer = setInterval(() => {
 				if (flag2.value) {
 					if (Case.caseArr.length === 0) {
 						isShow4.value = true;
-						issearch.value = false;
+						global_loading.value = false;
 						isShow.value = false;
 						iscase.value = false;
 					} else {
 						isShow4.value = false;
-						issearch.value = false;
+						global_loading.value = false;
 						isShow.value = true;
 						iscase.value = true;
 					}
@@ -215,10 +220,10 @@ const querySearch = (queryString, callback) => {
 const handleSelect = (item) => {
 	const caseId = item.ID;
 	iscase.value = false;
-	issearch.value = true;
+	global_loading.value = true;
 
 	setTimeout(() => {
-		issearch.value = false;
+		global_loading.value = false;
 		router.push({
 			path: "/specialInfo",
 			query: {
@@ -241,13 +246,14 @@ let lock = ref(false);
 // 搜索所有案例
 const allCaseStart = () => {
 	getCase("案", "", "", "").then(res => {
+		console.log(res);
 		if (res.data !== "token校验失败") {
 			// 成功返回了第一页的数据
 			if (res.data.res.length !== 0) {
 				// 保存所有的案件信息
 				Case.allCase = res.data.res;
 				// 保存没有加标签时的信息
-				Case.caseArr2 = red.data.res;
+				Case.caseArr2 = res.data.res;
 				Case.courtArr1 = res.data.like_info.court_level;
 				Case.areaArr1 = res.data.like_info.court_area;
 				Case.timeArr1 = res.data.like_info.time;
@@ -343,6 +349,120 @@ const allCaseSearch = () => {
 
 
 
+// 是否展示用户选中的小标签
+const isShowTag = () => {
+	if (Case.courthierarchy.length === 0 && Case.area.length === 0 && Case.year.length === 0) return false;
+	else return true;
+}
+// 选择标签
+const chooseCourt = (id, value) => {
+	flag.value = false;
+	currentPage.value = 1;
+	if (value === selectCourt.value || value === selectArea.value || value === selectTime.value) {
+		flag.value = true;
+	}
+	if (flag.value === false) {
+		if (id === 1) {
+			selectCourt.value = value;
+			if (Case.courthierarchy.length === 0) {
+				Case.courthierarchy.push(value);
+			} else {
+				Case.courthierarchy.splice(0, 1, value);
+			}
+		}
+		if (id === 2) {
+			selectArea.value = value;
+			if (Case.area.length === 0) {
+				Case.area.push(value);
+			} else {
+				Case.area.splice(0, 1, value);
+			}
+		}
+		if (id === 3) {
+			selectTime.value = value;
+			if (Case.year.length === 0) {
+				Case.year.push(value);
+			} else {
+				Case.year.splice(0, 1, value);
+			}
+		}
+		loading.value = true;
+		getCase(user_input.value, selectCourt.value, selectArea.value, selectTime.value, 1).then(res => {
+			if (res.data !== "token校验失败") {
+				Case.caseNumber = res.data.res.length;
+				Case.caseArr = res.data.res;
+				Case.allLike1 = res.data.like_info;
+				// 判断是否能搜索出来
+				if (res.data.res.length !== 0) {
+					// 获取模糊检索的列表
+					Case.caseName = [];
+					for (let i = 0; i < res.data.res.length; i++) {
+						Case.caseName.push({
+							value: res.data.res[i].title,
+							ID: res.data.res[i].case_number,
+						})
+					}
+				}
+				hackReset2.value = false;
+				nextTick(() => {
+					hackReset2.value = true;
+				})
+			} else {
+				// 并没有成功返回数据
+				ElMessage({
+					message: "未登录或者登录过期，请重新登录",
+					type: "warning",
+					center: true,
+					duration: 1000,
+				});
+			}
+			loading.value = false;
+		}).catch(err => {})
+	}
+}
+// 关闭选中的小标签
+const handleClose = (id, tag) => {
+	currentPage.value = 1;
+	// indexOf() 方法可返回某个指定的字符串在大串中首次出现的位置
+	if (id === 1) {
+		Case.courthierarchy.splice(Case.courthierarchy.indexOf(tag), 1);
+		selectCourt.value = "";
+	}
+	if (id === 2) {
+		Case.area.splice(Case.area.indexOf(tag), 1);
+		selectArea.value = "";
+	}
+	if (id === 3) {
+		Case.year.splice(Case.year.indexOf(tag), 1);
+		selectTime.value = "";
+	}
+	if (selectCourt.value === "" && selectArea.value === "" && selectTime.value === "") {
+		Case.caseArr = Case.caseArr2;
+		Case.allLike1 = Case.allLike2;
+	} else {
+		getCase(user_input.value, selectCourt.value, selectArea.value, selectTime.value, 1).then(res => {
+			Case.allLike1 = res.data.like_info;
+			Case.caseArr = res.data.res;
+			if (res.data.res.length !== 0) {
+				// 获取模糊检索的列表
+				Case.caseName = [];
+				for (let i = 0; i < res.data.res.length; i++) {
+					Case.caseName.push({
+						value: res.data.res[i].title,
+						ID: res.data.res[i].case_number,
+					})
+				}
+			}
+		}).catch(err => {})
+	}
+	hackReset2.value = false;
+	nextTick(() => {
+		hackReset2.value = true;
+	})
+}
+
+
+
 /* 同案检索相关 */
 // 是否开启弹窗
 let dialogVisible = ref(false);
@@ -372,7 +492,7 @@ const sameSearchBtn = () => {
 	tabIndex.value = 2;
 }
 // 关闭弹窗之前询问用户
-const handleClose = done => {
+const handleClose2 = done => {
 	ElMessageBox.confirm('确认关闭吗？', {
 		confirmButtonText: '是的',
 		cancelButtonText: '不'
@@ -535,11 +655,13 @@ let isShow4 = ref(false);
 let issearch = ref(false);
 let iscase = ref(false);
 let isShow = ref(false);
+let flag = ref(false);
 let flag2 = ref(false);   // 加在搜索框上的loading的判断
 let hackReset = ref(true)  // 可能和图表相关
 let hackReset2 = ref(true)  // 可能和图表相关
 let first = ref(false)
 let second= ref(true)
+let loading= ref(false)
 
 </script>
 
@@ -585,11 +707,11 @@ let second= ref(true)
 			<!-- 三个功能按钮 -->
 			<div class="cardBox" :class="{ putActive3: !isShow9 }">
 				<!--案例搜索-->
-				<div class="searchCard" @click="searchHigh()" :class="{ searchCardSpecial: tabIndex === 0 }">案例搜索</div>
+				<div class="searchCard" @click="searchHigh" :class="{ searchCardSpecial: tabIndex === 0 }">案例搜索</div>
 				<!--所有案件-->
-				<div class="searchCard" @click="allCaseSearch()" :class="{ searchCardSpecial: tabIndex === 1, active1: lock }">所有案件</div>
+				<div class="searchCard" @click="allCaseSearch" :class="{ searchCardSpecial: tabIndex === 1, active1: lock }">所有案件</div>
 				<!--同案检索-->
-				<div class="searchCard" @click="sameSearchBtn()" :class="{ searchCardSpecial: tabIndex === 2 }">同案检索</div>
+				<div class="searchCard" @click="sameSearchBtn" :class="{ searchCardSpecial: tabIndex === 2 }">同案检索</div>
 			</div>
 		</div>
 		<!-- 同案检索 -->
@@ -599,7 +721,7 @@ let second= ref(true)
 			width="70%"
 			class="sameBox"
 			:modal="false"
-			:before-close="handleClose"
+			:before-close="handleClose2"
 			v-loading="same_case_search_loading"
 			element-loading-background="rgba(0, 0, 0, 0)"
 			element-loading-text="拼命加载中"
@@ -667,6 +789,154 @@ let second= ref(true)
 			<!-- :total="this.sameCase.length" -->
 			<!-- 找不到你搜索的内容 -->
 		</div>
+		<!-- 全部案件 -->
+		<el-main class="container2" v-show="!isShow9">
+			<div v-if="iscase">
+				<div class="labelsTag" v-if="isShowTag">
+					<div style="margin-left: 37px;color: #2d405e;display: inline-block;font-size: 14px;">已选条件：</div>
+					<el-tag
+						v-for="(tag1, index4) in Case.courthierarchy"
+						:key="index4 + 'd'"
+						closable
+						:disable-transitions="false"
+						@close="handleClose(1, tag1)"
+						style="margin: 0 8px"
+					>
+						{{ tag1 }}
+					</el-tag>
+					<el-tag
+						v-for="(tag2, index5) in Case.area"
+						:key="index5 + 'f'"
+						closable
+						:disable-transitions="false"
+						@close="handleClose(2, tag2)"
+						style="margin: 0 8px"
+					>
+						{{ tag2 }}
+					</el-tag>
+					<el-tag
+						v-for="(tag3, index6) in Case.year"
+						:key="index6 + 'x'"
+						closable
+						:disable-transitions="false"
+						@close="handleClose(3, tag3)"
+						style="margin: 0 8px"
+					>
+						{{ tag3 }}
+					</el-tag>
+				</div>
+			</div>
+
+			<div v-if="!iscase" class="blank">
+				<div class="special" v-if="isShow4">
+					<img src="@/assets/svg/页面为空.svg" alt="" />
+					<div>找不到您搜索的内容<img src="@/assets/svg/哭泣.svg" alt="" /></div>
+				</div>
+			</div>
+
+			<div
+				class="caseText"
+				v-if="iscase"
+				v-loading="loading"
+				element-loading-background="rgba(0, 0, 0, 0)"
+				element-loading-text="拼命加载中"
+			>
+				<!-- 左边内容 -->
+				<div class="left">
+					<div class="list">
+						<div class="title">
+							<img src="@/assets/svg/court.svg" alt="" width="25" />
+							<h3>法院层级</h3>
+						</div>
+						<ul v-for="(val, key, index1) in Case.courtArr" :key="index1 + 'a'">
+							<li @click="chooseCourt(1, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+						</ul>
+					</div>
+					<el-divider></el-divider>
+
+					<div class="list">
+						<div class="title">
+							<img src="@/assets/svg/area.svg" alt="" width="25" />
+							<h3>地域</h3>
+						</div>
+						<ul v-for="(val, key, index2) in Case.areaArr" :key="index2 + 'b'">
+							<li @click="chooseCourt(2, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+						</ul>
+					</div>
+					<el-divider></el-divider>
+
+					<div class="list">
+						<div class="title">
+							<img src="@/assets/svg/data.svg" alt="" width="25" />
+							<h3>判决年份</h3>
+						</div>
+						<ul v-for="(val, key, index3) in Case.timeArr" :key="index3 + 'c'">
+							<li @click="chooseCourt(3, key)" v-if="key!==''">{{ key }} ({{ val }})</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- 搜索关键词展示内容 -->
+				<div class="right" v-if="isShow">
+					<div class="rightTitle">
+						<div class="text" @click="changeEcharts(true)">
+							检索案例（{{ Case.allLike1.total }}）
+						</div>
+						<div
+							class="text"
+							style="margin-left: 5px"
+							@click="changeEcharts(false)"
+						>
+							可视化
+						</div>
+						<div class="sort">
+							<div class="sortText">
+								<img src="@/assets/svg/download.svg" alt="" width="27" />
+								<!-- <div>批量下载</div> -->
+							</div>
+						</div>
+					</div>
+
+					<!-- 右下内容 -->
+					<div class="caseContainer" v-if="hackReset2">
+						<div v-for="(item, index) in Case.caseArr.slice((currentPage - 1) * pageSize,currentPage * pageSize)" :key="index">
+							<search-info
+								v-if="hackReset2"
+								:currentPage2="(currentPage - 1) * pageSize + 1 + index"
+								:caseArr2="item"
+								:special="second"
+							></search-info>
+						</div>
+					</div>
+
+					<!-- 地图部分(可视化部分) -->
+					<div class="echarts" v-if="!hackReset2">
+						<Charts
+							style="width: 100%"
+							:caseArr="Case.caseArr"
+							:allLike1="Case.allLike1"
+						></Charts>
+					</div>
+					<div class="pagination" v-if="hackReset2">
+						<!--todo：在这增加翻页回到顶部-->
+						<div class="block">
+							<el-pagination
+								@size-change="handleSizeChange"
+								@current-change="handleCurrentChange"
+								:current-page="currentPage"
+								:page-sizes="[10]"
+								:page-size="pageSize"
+								layout="total, sizes, prev, pager, next, jumper"
+								:total="Case.allLike1.total"
+							>
+							</el-pagination>
+						</div>
+					</div>
+				</div>
+
+				<!-- 找不到你搜索的内容 -->
+			</div>
+		</el-main>
 	</div>
 </template>
 
@@ -720,7 +990,7 @@ let second= ref(true)
 		color: black;
 
 		.titleText {
-			font-size: 38px;
+			//font-size: 38px;
 		}
 
 		.wait {
@@ -1096,5 +1366,125 @@ let second= ref(true)
 		}
 	}
 }
+
+/* 全部案件 */
+.caseContainer {
+	background: rgb(245, 245, 245);
+	align-items: center; /*垂直居中*/
+	justify-content: center;
+	padding-bottom: 28px;
+	padding-top: 1px;
+}
+.labelsTag {
+	background: rgb(245, 245, 245);
+	width: 80%;
+	align-items: center; /*垂直居中*/
+
+	// justify-content: center;/*水平居中*/
+	margin: 0 auto;
+	display: flex;
+	border-radius: 3px;
+	height: 40px;
+	margin-top: 10px;
+	transition: 0.3s all;
+}
+.blank {
+	height: 800px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	.special {
+		margin-top: 50px;
+		height: 600px;
+		img {
+			width: 250px;
+			height: 250px;
+			margin-top: 80px;
+		}
+		div {
+			margin: 5px auto;
+			display: flex;
+			justify-content: center;
+			color: rgb(84, 112, 198);
+			font-size: 1.25em;
+			img {
+				width: 1.25em;
+				height: 1.25em;
+				margin: 0;
+			}
+		}
+	}
+}
+
+.left {
+	width: 18%;
+	float: left;
+	text-align: left;
+	box-sizing: border-box;
+	background: rgb(245, 245, 245);
+	border-radius: 3px;
+	// height: 700px;
+	.list {
+		margin-left: 5px;
+		.title {
+			justify-content: start;
+			margin: 8px;
+			display: flex;
+		}
+		li:hover {
+			.list {
+				margin-left: 5px;
+				.title {
+					justify-content: start;
+					margin: 8px;
+				}
+				li:hover {
+					background-color: #d7e5f9;
+					color: #165ac6;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
+h3 {
+	letter-spacing: 2px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #2d405e;
+	margin: 0;
+	padding: 4px 2px;
+}
+
+.el-divider--vertical {
+	height: 1.25em;
+	margin-top: 2px;
+}
+.el-footer {
+	padding: 0;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	li {
+		padding: 6px 0;
+		font-size: 14px;
+		display: block;
+		font-weight: 400;
+		color: rgb(45, 64, 94);
+		padding-left: 40px;
+	}
+	li:hover {
+		background-color: #d7e5f9;
+		color: #165ac6;
+	}
+}
+.el-divider--vertical {
+	height: 1.25em;
+	margin-top: 2px;
+}
+
 
 </style>

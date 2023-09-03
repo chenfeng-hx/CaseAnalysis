@@ -12,8 +12,8 @@ import VueOfficeDocx from "@vue-office/docx";
 // 引入相关样式
 import '@vue-office/docx/lib/index.css';
 import {ElMessage} from "element-plus";
-import {getClaimGeneration, getSameCaseForm, upJudgment, getCaseInfo} from "@/api/analysisDocx.js";
-import MapKnowledge from "@/components/MapKnowledge.vue";
+import {getClaimGeneration, getJudgementGeneration, getSameCaseForm, upJudgment, getCaseInfo} from "@/api/analysisDocx.js";
+import MapKnowledge from "@/components/MapKnowledge2.vue";
 import MouseLoading from "@/components/MouseLoading.vue";
 import SameCases from "@/components/SameCases.vue";
 
@@ -46,9 +46,9 @@ let preview_file = ref('');
 const handlerFileInfo = () => {
 	// 当重新上传文件(此时可以理解为没有点击重置按钮且已经有过分析文件的举动后手动帮助用户重置状态)
 	// 初始化请求后的各种返回信息
-	Object.assign(caseInfo, {});
-	Object.assign(mapKnowledgeInfo, {});
-	sameCases.value = [];
+	Case.caseInfo = {};
+	Case.mapKnowledgeInfo = {};
+	Case.sameCases = [];
 
 	let fileReader = new FileReader();
 	// 判断文件类型
@@ -112,9 +112,9 @@ const reSetStatus = () => {
 	// 初始化右侧顶部按钮状态
 	tabIndex.value = 0;
 	// 初始化请求后的各种返回信息
-	Object.assign(caseInfo, {});
-	Object.assign(mapKnowledgeInfo, {});
-	sameCases.value = [];
+	Case.caseInfo = {};
+	Case.mapKnowledgeInfo = {};
+	Case.sameCases = [];
 	// 初始化 input 框中收到的以前的文件信息
 	file_load_judgment.value = '';
 	file_load_pleadings.value = '';
@@ -122,10 +122,15 @@ const reSetStatus = () => {
 }
 
 /* 上传文件逻辑 */
-// 保存返回的分析出来的案件信息(传递给子组件)
-const caseInfo = reactive({});
-// 保存返回的"知识图谱"的绘画信息(传递给子组件)
-const mapKnowledgeInfo = reactive({});
+// // 保存返回的分析出来的案件信息(传递给子组件)
+// const caseInfo = reactive({});
+// // 保存返回的"知识图谱"的绘画信息(传递给子组件)
+// const mapKnowledgeInfo = reactive({});
+const Case = reactive({
+	caseInfo: {},
+	mapKnowledgeInfo: {},
+	sameCases: [],
+})
 // 上传文件并进行分析(在不同的发送请求的过程中对步骤条的状态进行改变)
 const analysisFile = () => {
 	// 先判断上传的文件类型
@@ -161,11 +166,11 @@ const analysisFile = () => {
 					// 请求"知识图谱"成功
 					if (res.data.claim_kg.node_list.length !== 0) {
 						// 保存"原告""被告""案件题目"等信息
-						Object.assign(caseInfo, res.data.claim_info);
+						Case.caseInfo = res.data.claim_info;
 						// 保存绘画"知识图谱"的数据信息
-						Object.assign(mapKnowledgeInfo, res.data.claim_kg);
+						Case.mapKnowledgeInfo = res.data.claim_kg;
 						// 开始判断发送"同案智推"和当前的请求是否都成功并发送用户提示消息
-						if (sameCases.value.length !== 0) {
+						if (Case.sameCases.length !== 0) {
 							active_step.value = 4;
 							ElMessage({
 								type: 'success',
@@ -174,7 +179,7 @@ const analysisFile = () => {
 								center: true,
 							});
 						} else {
-							console.log(sameCases.value.length)
+							console.log(Case.sameCases.length)
 							active_step.value = 4;
 							ElMessage({
 								type: 'warning',
@@ -185,7 +190,7 @@ const analysisFile = () => {
 						}
 						// 请求"知识图谱"失败
 					} else {
-						if (sameCases.value.length !== 0) {
+						if (Case.sameCases.length !== 0) {
 							active_step.value = 4;
 							ElMessage({
 								type: 'warning',
@@ -247,7 +252,7 @@ const analysisFile = () => {
 					getCaseInfo(case_number)
 						.then(res => {
 							// 保存案件信息
-							Object.assign(caseInfo, res.data);
+							Case.caseInfo = res.data;
 						})
 						.catch(() => {
 							ElMessage({
@@ -258,8 +263,9 @@ const analysisFile = () => {
 						})
 					getJudgementGeneration(case_number)
 						.then(res => {
+							console.log(res);
 							if (res.data.judgment_kg_list !== []) {
-								Object.assign(mapKnowledgeInfo, res.data.judgment_kg);
+								Case.mapKnowledgeInfo = res.data.judgement_kg;
 								active_step.value = 4;
 								ElMessage({
 									type: 'success',
@@ -297,7 +303,7 @@ const analysisFile = () => {
 }
 
 // 存储返回的相同案件信息
-const sameCases = ref([]);
+// const sameCases = ref([]);
 // "同案智推"请求
 const searchSameCases = () => {
 	let searchSameCasesFormData = new FormData();
@@ -321,7 +327,7 @@ const searchSameCases = () => {
 					// 案例名称
 					item.title = data[i][1];
 					item.similarityValue = (data[i][3] * 100).toFixed(2) + "%";
-					sameCases.value.push(item);
+					Case.sameCases.push(item);
 				}
 			}
 		})
@@ -438,11 +444,11 @@ const changeTabIndex = value => {
 				</div>
 				<!-- 知识图谱盒子 -->
 				<div class="map-show">
-					<MapKnowledge :map-knowledge-info="mapKnowledgeInfo" :case-info="caseInfo" v-show="tabIndex === 2" />
+					<MapKnowledge :map-knowledge-info="Case.mapKnowledgeInfo" :case-info="Case.caseInfo" v-if="tabIndex === 2" />
 				</div>
 				<!-- 同案智推盒子 -->
 				<div class="same-cases">
-					<same-cases :same-cases="sameCases" v-show="tabIndex === 3" />
+					<same-cases :same-cases="Case.sameCases" v-show="tabIndex === 3" />
 				</div>
 			</div>
 		</div>

@@ -8,7 +8,7 @@
 import { useRouter, useRoute } from "vue-router";
 import {onMounted, reactive, ref} from 'vue';
 import {getCaseInfo, getJudgementGeneration, getSameCaseNum} from "@/api/analysisDocx.js";
-import MapKnowledge from "@/components/MapKnowledge.vue";
+import MapKnowledge from "@/components/MapKnowledge2.vue";
 import SameCases from "@/components/SameCases.vue";
 import {ElMessage} from "element-plus";
 
@@ -29,14 +29,17 @@ const changeNavIndex = newNavIndex => {
 	navIndex.value = newNavIndex;
 }
 /* 右侧页面所展示的案件信息 */
-// 保存案件信息
-const caseInfo = reactive({});
-// 保存起诉状的知识图谱
-const pendingMap = reactive({});
-// 保存判决书的知识图谱
-const judgmentMap = reactive({});
-// 保存同案智推信息
-const sameCases = ref([]);
+const CaseDetails = reactive({
+	// 保存案件信息
+	caseInfo: {},
+	// 保存起诉状的知识图谱
+	pendingMap: {},
+	// 保存判决书的知识图谱
+	judgmentMap: {},
+	// 保存同案智推信息
+	sameCases: []
+})
+
 // 获取当前的展示信息
 const getCaseInfoData = () => {
 	// 接收传递过来的参数
@@ -46,15 +49,15 @@ const getCaseInfoData = () => {
 		.then(res => {
 			if (res.data !== 'token校验失败') {
 				// 保存案件信息
-				Object.assign(caseInfo, res.data);
+				CaseDetails.caseInfo = res.data;
 				// 查询知识图谱
 				getJudgementGeneration(caseId)
 					.then(res => {
 						console.log("nihO",res);
 						if (res.data.judgement_kg.node_list !== []) {
 							// 保存知识图谱
-							Object.assign(pendingMap, res.data.claim_kg);
-							Object.assign(judgmentMap, res.data.judgment_kg);
+							CaseDetails.pendingMap = res.data.claim_kg;
+							CaseDetails.judgmentMap = res.data.judgement_kg;
 						}
 					})
 					.catch(() => {
@@ -98,7 +101,7 @@ const getCaseInfoData = () => {
 					// 案例名称
 					item.title = data[i][1];
 					item.similarityValue = (data[i][3] * 100).toFixed(2) + "%";
-					sameCases.value.push(item);
+					CaseDetails.sameCases.push(item);
 				}
 			} else {
 				ElMessage({
@@ -171,27 +174,27 @@ onMounted(() => {
 		<!-- 文章详情 -->
 		<div class="detail">
 			<!-- 文章标题 -->
-			<div class="fileName" v-show="navIndex !== 3 && navIndex !== 4">{{ caseInfo.title }}</div>
+			<div class="fileName" v-show="navIndex !== 3 && navIndex !== 4">{{ CaseDetails.caseInfo.title }}</div>
 			<!-- 文章内容 -->
 			<div class="fileContent">
 				<!-- 起诉状 -->
 				<div class="pleading" v-show="navIndex === 1">
-					<pre>{{ caseInfo.claim }}</pre>
+					<pre>{{ CaseDetails.caseInfo.claim }}</pre>
 				</div>
 				<!-- 判决书 -->
 				<div class="judgment" v-show="navIndex === 2">
-					<pre>{{ caseInfo.judgment }}</pre>
+					<pre>{{ CaseDetails.caseInfo.judgment }}</pre>
 				</div>
 				<!-- 要素提取 -->
 				<div class="map" v-show="navIndex === 3">
-					<map-knowledge v-show="navIndex === 3" :map-knowledge-info="pendingMap"/>
+					<map-knowledge v-if="navIndex === 3" :map-knowledge-info="CaseDetails.pendingMap" :case-info="CaseDetails.caseInfo"/>
 				</div>
 				<div class="map" v-show="navIndex === 4">
-					<map-knowledge v-show="navIndex === 4" :map-knowledge-info="judgmentMap" :case-info="caseInfo" />
+					<map-knowledge v-if="navIndex === 4" :map-knowledge-info="CaseDetails.judgmentMap" :case-info="CaseDetails.caseInfo" />
 				</div>
 				<!-- 同案智推 -->
 				<div class="cases" v-show="navIndex === 5">
-					<same-cases :same-cases="sameCases"  />
+					<same-cases :same-cases="CaseDetails.sameCases"  />
 				</div>
 			</div>
 		</div>

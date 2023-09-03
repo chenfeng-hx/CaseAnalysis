@@ -12,8 +12,7 @@ import { TooltipComponent, LegendComponent, ToolboxComponent } from 'echarts/com
 import { GraphChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 
-import {watch} from "vue-demi";
-import {isReactive} from "vue";
+import {watch, ref, onMounted, reactive} from "vue";
 
 echarts.use([
 	ToolboxComponent,
@@ -30,58 +29,49 @@ const props = defineProps({
 	caseInfo: Object,
 })
 
-//bug 不知道为啥加了这行代码就可以重画canvas了
-// 问了gpt的答案：因为在 Vue 3 中，添加 console.log(isReactive(‘变量名’))
-// 可以使警告消失的原因可能是由于当第一次触发 watch 时，父组件传递给子组件的 reactive 对象还未完成初始化，
-// 导致其是非响应式的 Object 类型，而不是 reactive Proxy 对象。此时使用 isReactive() 函数判断其是否为响应式对象，
-// 可以确保当 reactive 对象完成初始化后，watcher 正确监听到 reactive 对象的变化
-// 但是实际生产不建议这样做
-isReactive(props.mapKnowledgeInfo)
-isReactive(props.caseInfo)
+let mapping = ref();
 
-// 改用 toRefs 做
-// const mapDatas = toRefs(props.mapKnowledgeInfo);
-// 将 caseInfo 案件信息中的内容解构出来
-// const { title, court, court_area, typeForJudgment, case_number, plaintiff, defendant, law, time } = toRefs(props.caseInfo);
+const mapData = reactive({
+	data: [],
+	links: [],
+	categories2: [{
+		name: ''
+	}]
+})
 
-// 为什么加这行代码: 因为下面的和title一样的这些值都是 undefined
-// 解决原因：gpt:打印 title 值的同时 Vue 响应该变量的变化，从而将其变成响应式数据，触发依赖并使其有值
-// console.table(title.value)
+watch(props.mapKnowledgeInfo, (newValue) => {
+	mapData.data = newValue.node_list;
+	mapData.links = newValue.relation_list;
+	echartsInit();
+}, { deep: true })
+
 
 // 进行绘画
 const echartsInit = () => {
+	console.log('画了')
 	// canvas 容器
-	let mapContainer = document.getElementById('mapping');
-	// 创建一个 echarts 实例
-	let mapCharts = echarts.init(mapContainer);
-	// 准备数据(fixme:还有问题,待排查)
-	// const categories = props.mapKnowledgeInfo.node_list.reduce((ret, item) => {
-	// 	ret.push({name: item.category})     // 居然被 gpt 改出了错误
-	// }, []);
-	const categories = [];
-	for (let i = 0; i < props.mapKnowledgeInfo.node_list.length; i++) {
+	// let mapContainer = document.getElementById('mapping');
+	// 准备数据
+	const arr = [];
+	for (let i = 0; i < mapData.data.length; i++) {
 		let item = {};
-		item.name = props.mapKnowledgeInfo.node_list[i].category;
-		categories.push(item);
+		item.name = mapData.data[i].category;
+		arr.push(item);
 	}
+	// 创建一个 echarts 实例
+	let mapCharts = echarts.init(mapping.value);
+	let categories = arr;
 	// 配置项
 	const option = {
-		// canvas 的标题(先不放, 图比较大的时候不好看)
-		// title: {
-		// 	text: '知识图谱',
-		// 	textStyle: {
-		// 		color: '#333333',
-		// 		fontStyle: 'normal',
-		// 	},
-		// 	top: 'top',
-		// 	left: 'center',
-		// },
 		// 提示框组件
 		tooltip: {
 			// 是否展示
 			show: true,
 			// 触发方式(鼠标经过触发)
 			trigger: 'item',
+			formatter: function (x) {
+				return x.data.des;
+			},
 		},
 		// 工具箱组件
 		toolbox: {
@@ -153,21 +143,22 @@ const echartsInit = () => {
 				show: true,  // 显示文本标签
 			},
 			// 展示的数据
-			data: props.mapKnowledgeInfo.node_list,
-			links: props.mapKnowledgeInfo.relation_list,
+			data: mapData.data,
+			links: mapData.links,
 			categories: categories,
 		}],
-
 	};
 	// 设置配置项并刷新图表
 	mapCharts.setOption(option);
 }
 
-// 当 props 变化时重新刷新图表(监听不到)
-watch(props.mapKnowledgeInfo, () => {
-	echartsInit();
+onMounted(() => {
+	if (props.mapKnowledgeInfo.node_list !== undefined) {
+		mapData.data = props.mapKnowledgeInfo.node_list;
+		mapData.links = props.mapKnowledgeInfo.relation_list;
+		echartsInit();
+	}
 })
-
 </script>
 
 <template>
@@ -185,7 +176,7 @@ watch(props.mapKnowledgeInfo, () => {
 					<span>关系图谱</span>
 				</div>
 				<!-- canvas 容器 -->
-				<div id="mapping"></div>
+				<div id="mapping" ref="mapping"></div>
 			</div>
 			<!--region-->
 			<!-- 右侧的案件要素 -->
