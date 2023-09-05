@@ -13,8 +13,7 @@ let echartsPage = ref("casesClosed");
 let updateFrequency = ref(2000);
 const month = reactive([]);
 let startIndex = ref(0);
-let startName = ref("");
-let startCut = ref("");
+let echart = ref();
 const option = reactive({});
 const newArr = reactive([
 	{
@@ -44,13 +43,16 @@ const newArr = reactive([
 	},
 ]);
 
+
+
 onMounted(() => {
 	choseEchartPage("casesClosed");
 })
 
+
 const choseEchartPage = val => {
 	echartsPage.value = val;
-	let myChart = echarts.init(document.getElementById("echart"));
+	let myChart = echarts.init(echart.value);
 	if (val === "casesClosed") {
 		myChart.clear();
 		myChart.setOption({
@@ -176,96 +178,92 @@ const choseEchartPage = val => {
 				},
 				legend: {},
 				tooltip: {
-					trigger: "axis",
-					showContent: false,
+					trigger: 'axis',
+					showContent: false
 				},
 				dataset: {
 					source: [
-						["product", "2017", "2018", "2019"],
-						["危害公共安全罪", 264055, 333536, 412419],
-						["破坏社会主义市场经济秩序罪", 95643, 113463, 112927],
-						["侵犯公民人身权利民主权利罪", 177341, 183352, 197833],
-						["侵犯财产罪", 344139, 374195, 399827],
-						["妨害社会管理秩序罪", 356981, 398093, 516702],
-					],
+							["product", "2017", "2018", "2019"],
+							["危害公共安全罪", 264055, 333536, 412419],
+							["破坏社会主义市场经济秩序罪", 95643, 113463, 112927],
+							["侵犯公民人身权利民主权利罪", 177341, 183352, 197833],
+							["侵犯财产罪", 344139, 374195, 399827],
+							["妨害社会管理秩序罪", 356981, 398093, 516702],
+						],
 				},
-				xAxis: { type: "category" },
+				xAxis: { type: 'category' },
 				yAxis: { gridIndex: 0 },
-				grid: { top: "55%" },
+				grid: { top: '45%', },
 				series: [
 					{
-						type: "line",
+						type: 'line',
 						smooth: true,
-						seriesLayoutBy: "row",
-						emphasis: { focus: "series" },
+						seriesLayoutBy: 'row',
+						emphasis: { focus: 'series' }
 					},
 					{
-						type: "line",
+						type: 'line',
 						smooth: true,
-						seriesLayoutBy: "row",
-						emphasis: { focus: "series" },
+						seriesLayoutBy: 'row',
+						emphasis: { focus: 'series' }
 					},
 					{
-						type: "line",
+						type: 'line',
 						smooth: true,
-						seriesLayoutBy: "row",
-						emphasis: { focus: "series" },
+						seriesLayoutBy: 'row',
+						emphasis: { focus: 'series' }
 					},
 					{
-						type: "line",
+						type: 'line',
 						smooth: true,
-						seriesLayoutBy: "row",
-						emphasis: { focus: "series" },
+						seriesLayoutBy: 'row',
+						emphasis: { focus: 'series' }
 					},
 					{
-						type: "line",
+						type: 'line',
 						smooth: true,
-						seriesLayoutBy: "row",
-						emphasis: { focus: "series" },
+						seriesLayoutBy: 'row',
+						emphasis: { focus: 'series' }
 					},
 					{
-						type: "pie",
-						id: "pie",
-						radius: "30%",
-						center: ["50%", "25%"],
+						type: 'pie',
+						id: 'pie',
+						radius: '30%',
+						center: ['50%', '25%'],
 						emphasis: {
-							focus: "self",
+							focus: 'self'
 						},
 						label: {
-							formatter: "{b}: {@2017} ({d}%)",
+							formatter: '{b}: {@2017} ({d}%)'
 						},
 						encode: {
-							itemName: "product",
-							value: "2017",
-							tooltip: "2017",
-						},
-					},
-				],
+							itemName: 'product',
+							value: '2017',
+							tooltip: '2017'
+						}
+					}
+				]
 			};
-			myChart.on("updateAxisPointer", event => {
+			myChart.on('updateAxisPointer', function (event) {
 				const xAxisInfo = event.axesInfo[0];
-				// console.log(event);
 				if (xAxisInfo) {
-					const dimension = xAxisInfo + 1;
+					const dimension = xAxisInfo.value + 1;
 					myChart.setOption({
 						series: {
-							id: "pie",
+							id: 'pie',
 							label: {
-								formatter: "{b}: {@[" + dimension + "]} ({d}%)",
+								formatter: '{b}: {@[' + dimension + ']} ({d}%)'
 							},
 							encode: {
 								value: dimension,
-								tooltip: dimension,
-							},
-						},
+								tooltip: dimension
+							}
+						}
 					});
 				}
 			});
 			myChart.setOption(option);
 		});
-		if (option && typeof option === "object") {
-			myChart.setOption(option);
-		}
 	}
 	if (val === "areaText") {
 		for (let i = 0; i < newArr.length; i++) {
@@ -276,6 +274,7 @@ const choseEchartPage = val => {
 		let startMonth = month[startIndex.value].cdate; //cdate
 		let startName = month[startIndex.value].cname.split(","); //cname
 		let startCut = month[startIndex.value].cut.split(","); //cut
+		console.log({startMonth, startName, startCut})
 		myChart.clear();
 		let option = {
 			title: {
@@ -296,13 +295,13 @@ const choseEchartPage = val => {
 					},
 				},
 			},
-			dataset: {
-				source: newArr,
-			},
+			// dataset: {
+			// 	source: newArr,
+			// },
 			yAxis: {
 				type: "category",
 				inverse: true,
-				data: startName.value,
+				data: startName,
 				axisLabel: {
 					show: true,
 					textStyle: {
@@ -331,7 +330,7 @@ const choseEchartPage = val => {
 						valueAnimation: true,
 						fontFamily: "monospace",
 					},
-					data: startCut.value,
+					data: startCut,
 				},
 			],
 			animationDuration: 0,
@@ -446,10 +445,11 @@ const updateYear = (year, option) => {
 		</div>
 
 		<div class="echartContainer">
-			<div id="echart" style="height: 100%"></div>
-			<div id="echartContainer" style="height: 100%"></div>
+			<div id="echart" ref="echart" style="height: 100%"></div>
+			<!--<div id="echartContainer" style="height: 100%"></div>-->
 		</div>
 
+		<!-- 数据来源 -->
 		<div class="gray-bg section-padding" style="padding: 10px 0">
 			<div class="container">
 				<div class="row">
