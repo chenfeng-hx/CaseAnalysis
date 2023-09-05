@@ -50,7 +50,7 @@ watch(props.mapKnowledgeInfo, (newValue) => {
 
 // 进行绘画
 const echartsInit = () => {
-	console.log('画了')
+	// console.log('画了')
 	loading.value = true;
 	// canvas 容器
 	// let mapContainer = document.getElementById('mapping');
@@ -347,6 +347,7 @@ onMounted(() => {
 			flex-direction: column;
 			gap: 15px;
 			margin-top: 5px;
+			overflow: hidden;
 		}
 
 		.cards .red {
@@ -362,7 +363,8 @@ onMounted(() => {
 		}
 
 		.cards .card {
-			display: flex;
+			//display: flex;
+			display: inline-grid;
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
@@ -390,7 +392,8 @@ onMounted(() => {
 		}
 
 		.cards:hover > .card:not(:hover) {
-			filter: blur(10px);
+			//filter: blur(10px);
+			filter: blur(1px);
 			transform: scale(0.9, 0.9);
 		}
 	}

@@ -156,13 +156,14 @@ const analysisFile = () => {
 			duration: 1000,
 		});
 		// 发送请求
+		// 蹭一下"用户认证", "同案智推"没有设置(TMD 不用蹭，可以让它直接请求，不然会出现异步代码，导致 xxx.length 始终 === 0)
+		searchSameCases();
 		getClaimGeneration(pleadingsFileFormData)
 			.then(res => {
-				console.log(res);
 				if (res.data !== 'token校验失败') {
 					active_step.value = 3;
-					// 蹭一下"用户认证", "同案智推"没有设置
-					searchSameCases();
+					// // 蹭一下"用户认证", "同案智推"没有设置
+					// searchSameCases();
 					// 请求"知识图谱"成功
 					if (res.data.claim_kg.node_list.length !== 0) {
 						// 保存"原告""被告""案件题目"等信息
@@ -219,7 +220,23 @@ const analysisFile = () => {
 					});
 				}
 			})
-			.catch(res => console.log(res))
+			.catch(err => {
+				if (err.code === 'ECONNABORTED') {
+					// 超时错误处理逻辑
+					ElMessage({
+						type: 'error',
+						message: '分析出问题了，请刷新页面尝试！',
+						duration: 4000,
+					})
+				} else {
+					// 其他错误处理逻辑
+					ElMessage({
+						type: 'error',
+						message: '出现了未知问题，请联系管理员或刷新尝试！',
+						duration: 4000,
+					})
+				}
+			})
 	} else {
 		// 判决书(和上面的步骤几乎是一样的, 但因为接口不同所以要写两遍)
 		// 先判断是否上传了文件, 没有上传文件时发送消息并结束~~(也可以把 === 0 去掉, 然后换成 || , 没试不知道 !err 不 !err)~~
@@ -263,7 +280,6 @@ const analysisFile = () => {
 						})
 					getJudgementGeneration(case_number)
 						.then(res => {
-							console.log(res);
 							if (res.data.judgment_kg_list !== []) {
 								Case.mapKnowledgeInfo = res.data.judgement_kg;
 								active_step.value = 4;
@@ -298,7 +314,26 @@ const analysisFile = () => {
 						duration: 1000,
 					});
 				}
-			})
+			}).catch(err => {
+			// 捕获错误并给出提示
+			if (err.response && err.response.status === 500) {
+					ElMessage({
+						message: "该文件不是有效的判决书文件，请重新上传",
+						type: "error",
+						center: true,
+						duration: 4000,
+					});
+					reSetStatus()
+			} else {
+				ElMessage({
+					message: "发生未知错误，请联系管理员！",
+					type: "error",
+					center: true,
+					duration: 4000,
+				});
+				reSetStatus()
+			}
+		})
 	}
 }
 
@@ -316,9 +351,9 @@ const searchSameCases = () => {
 	// 发送请求
 	getSameCaseForm(searchSameCasesFormData)
 		.then(res => {
-			console.log(res);
 			const data = res.data.res_list;
 			if (data.length !== 0) {
+				Case.sameCases = [];
 				// 有同案智推数据
 				for (let i = 0; i < data.length; i++) {
 					const item = {};
@@ -505,6 +540,7 @@ const changeTabIndex = value => {
 						--el-button-outline-color: none;
 						--el-button-hover-border-color: none;
 						--el-button-active-border-color: none;
+						font-family: "Microsoft YaHei";
 
 
 						&:hover {
@@ -535,6 +571,7 @@ const changeTabIndex = value => {
 
 				.el-button {
 					height: 40px;
+					font-family: "Microsoft YaHei";
 
 					&:last-of-type {
 						width: 150px;
@@ -591,6 +628,7 @@ const changeTabIndex = value => {
 				white-space: nowrap;
 				will-change: box-shadow,transform;
 				font-size: 18px;
+				font-family: "Microsoft YaHei";
 			}
 
 			.button-name:focus {
@@ -618,6 +656,7 @@ const changeTabIndex = value => {
 				height: 100%;
 				text-align: center;
 				line-height: 40px;
+				font-family: "Microsoft YaHei";
 				/* 限制文本在一行内显示 */
 				white-space: nowrap;
 				/* 隐藏容器内溢出的内容 */
@@ -637,6 +676,7 @@ const changeTabIndex = value => {
 		/* 右下的文件内容和知识图谱 */
 		.box {
 			width: 1100px;
+			//width: 125%;
 			min-height: 700px;
 
 			/* 没有文件时 */
@@ -668,7 +708,14 @@ const changeTabIndex = value => {
 				:deep(.docx-wrapper) {
 					background: none;
 					padding: 15px;
+					margin-top: 25px;
 				}
+			}
+
+			/* 同安智推 */
+			.same-cases {
+				//min-width: 100%;
+				width: 125%;
 			}
 
 			img {

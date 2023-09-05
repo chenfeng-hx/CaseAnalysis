@@ -159,7 +159,7 @@ const updateData = ({ caseNumber }) => {
 					<!-- 回退按钮 -->
 					<button @click="backView">
 						<img src="@/assets/svg/返回.svg" alt="">
-						<span>返回</span>
+						<span style="font-family: 'Microsoft YaHei';">返回</span>
 					</button>
 				</li>
 				<li @click="changeNavIndex(1)" :class="{active : navIndex === 1}">
@@ -240,7 +240,7 @@ const updateData = ({ caseNumber }) => {
 				padding-left: 25px;
 				font-weight: 500;
 				font-size: 20px;
-				font-family: '楷体';
+				font-family: 'Microsoft YaHei';
 
 				span {
 					margin-left: 10px;
@@ -278,13 +278,15 @@ const updateData = ({ caseNumber }) => {
 					width: 100px;
 					align-items: center;
 					justify-content: center;
-					border-radius: 3px;
+					//border-radius: 3px;
+					border-radius: 10px;
 					letter-spacing: 1px;
 					transition: all 0.2s linear;
 					cursor: pointer;
 					border: none;
 					background: #FFFFFF;
 					font-size: 15px;
+					margin-left: 15px;
 
 					img {
 						width: 25px;
@@ -324,6 +326,8 @@ const updateData = ({ caseNumber }) => {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			box-shadow: 3px 3px 1px rgba(0,0,0,.4);
+			color: rgb(84, 112, 198);
 		}
 
 		/* 文章内容 */

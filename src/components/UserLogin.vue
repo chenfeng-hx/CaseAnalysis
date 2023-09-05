@@ -8,9 +8,9 @@
 import {onMounted, reactive, ref, nextTick} from 'vue';
 import {ElMessage, FormInstance} from "element-plus";
 // 登录接口
-import { loginFunc, sendCodeFunc, registerFunc, sendNewPwdFunc } from '../api/loginORNot.js';
+import { loginFunc, sendCodeFunc, registerFunc, sendNewPwdFunc } from '@/api/loginORNot.js';
 // 导入store
-import { useTokenStore } from "../store";
+import { useTokenStore } from "@/store";
 
 
 // store 实例
@@ -312,12 +312,14 @@ const chooseFunc = () => {
 				<div class="showTitle">登录</div>
 				<div class="login">
 					<div class="loginName">
-						<span class="left"><label for="loginName">用户名</label></span>
-						<el-input id="loginName" v-model.trim="username" @keyup.enter="login" clearable></el-input>
+						<div class="left"><label for="loginName">用户名</label></div>
+						<div class="inputs"><el-input id="loginName" v-model.trim="username" @keyup.enter="login" clearable /></div>
+						<!--<div class="inputs"></div>-->
 					</div>
 					<div class="loginPwd">
-						<span class="left"><label for="loginPwd">密码</label></span>
-						<el-input id="loginPwd" v-model="password" @keyup.enter="login" show-password></el-input>
+						<div class="left"><label for="loginPwd">密码</label></div>
+						<div class="inputs"><el-input id="loginPwd" v-model="password" @keyup.enter="login" show-password /></div>
+						<!--<div class="inputs"></div>-->
 					</div>
 					<div class="forgetPwd" @click="forgetBtn">忘记密码？邮箱找回</div>
 				</div>
@@ -469,11 +471,22 @@ const chooseFunc = () => {
 		width: 80px;
 		font-size: 16px;
 		color: black;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
 
 		label {
 			cursor: pointer;
+			height: 40px;
+			line-height: 40px;
 		}
 	}
+
+	.inputs {
+		width: 265px;
+		height: 40px;
+	}
+
 }
 
 .showTitle {

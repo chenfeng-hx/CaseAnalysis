@@ -5,7 +5,7 @@
 *    祝你食用愉快！！！
 */
 <script setup>
-import {nextTick, reactive, ref} from 'vue';
+import {nextTick, reactive, ref, watch} from 'vue';
 import SpecialInfo from "@/views/SpecialInfo/SpecialInfo.vue";
 import MouseLoading from "@/components/MouseLoading.vue";
 import SearchInfo from "@/views/Case/components/SearchInfo.vue";
@@ -145,13 +145,9 @@ const searchHigh = () => {
 // 监视输入框的内容，进行模糊检索
 const querySearch = (queryString, callback) => {
 	sameShow2.value = false;
-	if (typeof cancelFunc.value === "function") {
-		cancelFunc();
-	}
 	if (user_input.value === "") {
 		changeStyle("none", ".el-autocomplete-suggestion");
 	} else {
-		const searchKey = queryString;
 		isShow4.value = false;
 		flag2.value = false;
 		// 模糊搜索
@@ -173,6 +169,7 @@ const querySearch = (queryString, callback) => {
 				cancelFunc.value = c;
 			})
 		}).then(res => {
+			console.log(res);
 			if (res.data === "token校验失败") {
 				ElMessage({
 					message: "未登录或者登录过期，请重新登录",
@@ -190,7 +187,15 @@ const querySearch = (queryString, callback) => {
 					Case.allLike2 = res.data.like_info;
 					Case.caseArr2 = res.data.res;
 					Case.courtArr = res.data.like_info.court_level;
+					if (Case.courtArr[""]) {
+						Case.courtArr["基层人民法院"] += Case.courtArr[""];
+						delete Case.courtArr[""];
+					}
 					Case.areaArr = res.data.like_info.court_area;
+					if (Case.areaArr[""]) {
+						Case.areaArr["永川区"] += Case.areaArr[""];
+						delete Case.areaArr[""];
+					}
 					Case.timeArr = res.data.like_info.time;
 					// 获取模糊检索的列表
 					Case.caseName = [];
@@ -246,7 +251,7 @@ let lock = ref(false);
 /* 全部案件相关 */
 // 搜索所有案例
 const allCaseStart = () => {
-	getCase("案", "", "", "").then(res => {
+	getCase("", "", "", "").then(res => {
 		console.log(res);
 		if (res.data !== "token校验失败") {
 			// 成功返回了第一页的数据
@@ -297,7 +302,15 @@ const allCaseSearch = () => {
 				Case.caseArr2 = Case.allCase;
 				// 保存侧边栏数据
 				Case.courtArr = Case.courtArr1;
+				if (Case.courtArr[""]) {
+					Case.courtArr["基层人民法院"] += Case.courtArr[""];
+					delete Case.courtArr[""];
+				}
 				Case.areaArr = Case.areaArr1;
+				if (Case.areaArr[""]) {
+					Case.areaArr["永川区"] += Case.areaArr[""];
+					delete Case.areaArr[""];
+				}
 				Case.timeArr = Case.timeArr1;
 				//
 				isShow4.value = false;
@@ -319,7 +332,15 @@ const allCaseSearch = () => {
 						Case.caseArr = Case.allCase;
 						Case.caseArr2 = Case.allCase;
 						Case.courtArr = Case.courtArr1;
+						if (Case.courtArr[""]) {
+							Case.courtArr["基层人民法院"] += Case.courtArr[""];
+							delete Case.courtArr[""];
+						}
 						Case.areaArr = Case.areaArr1;
+						if (Case.areaArr[""]) {
+							Case.areaArr["永川区"] += Case.areaArr[""];
+							delete Case.areaArr[""];
+						}
 						Case.timeArr = Case.timeArr1;
 						isShow4.value = false;
 						issearch.value = false;
@@ -641,6 +662,17 @@ const handleCurrentChange = val => {
 		})
 	}, 250);
 }
+
+// 修改分页器的样式
+// const changeText = () => {
+// 	document.querySelector('.el-pagination__goto').innerText = "前往"
+// }
+//
+// watch(tabIndex, (newVal) => {
+// 	if (newVal === 1 || newVal === 2) {
+// 		changeText()
+// 	}
+// })
 
 
 /* 图表相关 */
@@ -1122,6 +1154,7 @@ let loading= ref(false)
 		line-height: 55px;
 		padding: 0;
 		border: none;
+		font-family: "Microsoft YaHei";
 	}
 	.searchCardSpecial {
 		background-color: rgb(99, 151, 241);
@@ -1316,6 +1349,7 @@ let loading= ref(false)
 			height: 30px;
 			line-height: 30px;
 			width: 215px;
+			font-family: "Microsoft YaHei";
 		}
 
 		.sort {

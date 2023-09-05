@@ -342,6 +342,8 @@ onMounted(() => {
 	height: 1110px;
 	.one {
 		display: flex;
+		margin-bottom: 60px;
+		border-bottom: 1px dashed;
 	}
 	.title {
 		display: flex;
@@ -360,25 +362,34 @@ onMounted(() => {
 		color: #434343;
 	}
 }
+//.LBChart {
+//	width: 50%;
+//	height: 300px;
+//
+//}
+
 #LBChart {
 	width: 48%;
 	height: 300px;
 	padding-top: 20px;
 	border-right: 0.5px solid rgb(214, 213, 213);
-	border-bottom: 1px solid rgb(214, 213, 213);
+	//margin-right: 5px;
+	//border-bottom: 1px solid rgb(214, 213, 213);
 }
 #Piechart {
 	width: 49%;
 	height: 300px;
 	padding: 40px 0;
+	margin-left: 5px;
 	// border-left: 0.5px solid rgb(131, 130, 130);
-	border-bottom: 1px solid rgb(214, 213, 213);
+	//border-bottom: 1px solid rgb(214, 213, 213);
 }
 .bottomleft {
 	width: 48%;
 	height: 300px;
 	padding: 20px 0;
 	border-right: 0.5px solid rgb(214, 213, 213);
+
 	// border-bottom: 1px solid rgb(214, 213, 213);
 	.titlebottom {
 		text-align: left;
@@ -396,6 +407,7 @@ onMounted(() => {
 	width: 48%;
 	height: 300px;
 	padding-top: 20px;
+	margin-left: 5px;
 	// border-right: 0.5px solid rgb(214, 213, 213);
 	// border-bottom: 1px solid rgb(214, 213, 213);
 }

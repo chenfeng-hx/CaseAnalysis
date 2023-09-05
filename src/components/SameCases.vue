@@ -86,7 +86,10 @@ ul {
 		height: 50px;
 		display: flex;
 		align-items: center;
-		font-size: 1.25rem;
+		margin-bottom: 10px;
+		//font-size: 1.25rem;
+
+		font-size: 1.15rem;
 		justify-content: space-between;
 
 		img {
@@ -96,6 +99,8 @@ ul {
 		.smallBox {
 			display: flex;
 			align-items: center;
+			font-size: 1.15rem;
+
 			// width: 80%;
 			.logoImg {
 				width: 1.25em;
